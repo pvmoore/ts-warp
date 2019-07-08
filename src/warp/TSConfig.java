@@ -5,6 +5,7 @@ package warp;
  *
  */
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +18,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 final public class TSConfig {
+    private Logger log = Logger.getLogger(TSConfig.class);
     private JSONObject json;
     private JSONObject compilerOptions;
     private Path rootDir;
@@ -70,9 +72,12 @@ final public class TSConfig {
             };
             this.outDir = outDirSupplier.get();
 
+            log.debug("json: "+json);
+            log.debug("rootDir: "+rootDir);
+            log.debug("outDir: "+outDir);
+
         }catch(Exception e) {
-            System.err.println(String.format("Unable to parse json file: '{%s}'", path));
-            e.printStackTrace();
+            log.error(String.format("Unable to parse json file: '{%s}'", path), e);
         }
     }
     private String removeComments(byte[] bytes) {

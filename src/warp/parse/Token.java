@@ -2,10 +2,17 @@ package warp.parse;
 
 final public class Token {
     public enum Kind {
-        KEYWORD;
+        IDENTIFIER,
+        NUMBER,
+        STRING
+    }
+    public static Token EOF = new Token(Kind.IDENTIFIER, null, -1, -1);
 
-
-
+    public Token(Kind kind, String value, int line, int column) {
+        this.kind = kind;
+        this.value = value;
+        this.line = line;
+        this.column = column;
     }
 
     public Kind kind;

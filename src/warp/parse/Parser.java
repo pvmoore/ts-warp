@@ -4,14 +4,15 @@ import warp.TSConfig;
 
 import java.io.File;
 
-final public class AsyncParser extends Thread {
+final public class Parser implements Runnable {
     private TSConfig config;
     private File file;
 
-    public AsyncParser(TSConfig config, File file) {
+    public Parser(TSConfig config, File file) {
         this.config = config;
         this.file = file;
     }
+    @Override
     public void run() {
         System.out.println("["+file+"] run");
 
@@ -19,7 +20,7 @@ final public class AsyncParser extends Thread {
 
         var tokens = Lexer.lex(file);
 
-
+        //throw new ParseError("oops");
 
         System.out.println("["+file+"] finished");
     }
