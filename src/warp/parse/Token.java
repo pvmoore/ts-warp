@@ -4,7 +4,10 @@ final public class Token {
     public enum Kind {
         IDENTIFIER,
         NUMBER,
-        STRING
+        STRING,
+
+        COLON,      // :
+        SEMICOLON,  // ;
     }
     public static Token EOF = new Token(Kind.IDENTIFIER, null, -1, -1);
 

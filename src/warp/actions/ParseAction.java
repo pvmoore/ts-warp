@@ -1,15 +1,14 @@
 package warp.actions;
 
-import warp.event.EventLoop;
-import warp.parse.Tokens;
+import org.apache.log4j.Logger;
+import warp.State;
 
 final public class ParseAction {
+    private static Logger log = Logger.getLogger(ParseAction.class);
 
-    public ParseAction(EventLoop events) {
+    public void run(State state) throws Exception {
+        log.debug("Parsing "+state.file+" :: "+state.tokens.length()+" tokens");
 
-    }
-
-    public void run(Tokens tokens) {
 
     }
 }

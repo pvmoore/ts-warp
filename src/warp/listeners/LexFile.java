@@ -2,14 +2,14 @@ package warp.listeners;
 
 import org.apache.log4j.Logger;
 import warp.State;
+import warp.actions.LexAction;
 import warp.event.Event;
 import warp.event.EventLoop;
 import warp.event.WarpEventFactory;
-import warp.parse.Lexer;
 import warp.util.Async;
 
 final public class LexFile implements Event.Listener<State> {
-    private Logger log = Logger.getLogger(LexFile.class);
+    private static Logger log = Logger.getLogger(LexFile.class);
     private EventLoop events;
     private WarpEventFactory eventFactory;
 
@@ -21,11 +21,17 @@ final public class LexFile implements Event.Listener<State> {
     @Async
     @Override
     public void trigger(Event<State> event) {
-        log.debug("Lexing "+event.payload.file);
+        /*
+            - Run LexAction
+            - Fire PARSE_FILE event
+         */
+        try {
+            new LexAction().run(event.payload);
 
-        var tokens = Lexer.lex(event.payload.file);
-        event.payload.tokens = tokens;
+            events.fire(eventFactory.parseFile(event.payload));
 
-        events.fire(eventFactory.lexCompleted(event.payload));
+        }catch(Throwable t) {
+            events.fire(eventFactory.error(t));
+        }
     }
 }

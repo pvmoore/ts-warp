@@ -3,28 +3,29 @@ package warp.event;
 import warp.State;
 
 final public class WarpEventFactory {
+
     public enum Kind {
         ERROR,
-        PROCESS_FILE,
-        LEX_COMPLETED,
-        PARSE_COMPLETED,
-        EMIT_COMPLETED,
+        LEX_FILE,
+        PARSE_FILE,
+        RESOLVE_FILE,
+        EMIT_FILE,
         ;
     }
 
-    public Event<Error> error(Error error) {
+    public Event<Throwable> error(Throwable error) {
         return new Event<>(Kind.ERROR.ordinal(), error);
     }
-    public Event<State> processFile(State state) {
-        return new Event<>(Kind.PROCESS_FILE.ordinal(), state);
+    public Event<State> lexFile(State state) {
+        return new Event<>(Kind.LEX_FILE.ordinal(), state);
     }
-    public Event<State> lexCompleted(State state) {
-        return new Event<>(Kind.LEX_COMPLETED.ordinal(), state);
+    public Event<State> parseFile(State state) {
+        return new Event<>(Kind.PARSE_FILE.ordinal(), state);
     }
-    public Event<State> parseCompleted(State state) {
-        return new Event<>(Kind.PARSE_COMPLETED.ordinal(), state);
+    public Event<State> resolveFile(State state) {
+        return new Event<>(Kind.RESOLVE_FILE.ordinal(), state);
     }
-    public Event<State> emitCompleted(State state) {
-        return new Event<>(Kind.EMIT_COMPLETED.ordinal(), state);
+    public Event<State> emitFile(State state) {
+        return new Event<>(Kind.EMIT_FILE.ordinal(), state);
     }
 }

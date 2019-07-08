@@ -17,6 +17,11 @@ final public class ResolveFile implements Event.Listener<State> {
     @Async
     @Override
     public void trigger(Event<State> event) {
+        /*
+            - Check that all required imported files have been parsed. If not then exit
+            - Run resolve
+            - Fire EMIT_FILE event
+         */
         var state = event.payload;
         log.debug("Resolving "+state.file);
 

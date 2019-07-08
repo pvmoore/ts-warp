@@ -2,6 +2,7 @@ package warp.listeners;
 
 import org.apache.log4j.Logger;
 import warp.State;
+import warp.actions.ParseAction;
 import warp.event.Event;
 import warp.event.EventLoop;
 import warp.event.WarpEventFactory;
@@ -20,9 +21,19 @@ final public class ParseTokens implements Event.Listener<State> {
     @Async
     @Override
     public void trigger(Event<State> event) {
-        var state = event.payload;
-        log.debug("Parsing "+state.file+" :: "+state.tokens.length()+" tokens");
+        /*
+            - Parse tokens
+            - Fire LEX_FILE for all referenced imported files
+            - Fire RESOLVE_FILE
+         */
+        try {
+            new ParseAction().run(event.payload);
 
+            //events.fire(eventFactory.resolveFile(event.payload));
+
+        }catch(Throwable t) {
+            events.fire(eventFactory.error(t));
+        }
 
         // Stop here
         events.shutdown();

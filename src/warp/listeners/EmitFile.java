@@ -5,11 +5,11 @@ import warp.event.Event;
 import warp.event.EventLoop;
 import warp.util.Async;
 
-final public class EmitFiles implements Event.Listener<Object> {
-    private Logger log = Logger.getLogger(EmitFiles.class);
+final public class EmitFile implements Event.Listener<Object> {
+    private static Logger log = Logger.getLogger(EmitFile.class);
     private EventLoop events;
 
-    public EmitFiles(EventLoop events) {
+    public EmitFile(EventLoop events) {
         this.events = events;
     }
 

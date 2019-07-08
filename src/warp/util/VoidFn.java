@@ -1,6 +1,8 @@
 package warp.util;
 
 /**
+ * A function that takes no parameters and returns void.
+ *
  * VoidFn fn = ()-> {};
  */
 @FunctionalInterface

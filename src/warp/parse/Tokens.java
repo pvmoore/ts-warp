@@ -33,4 +33,10 @@ final public class Tokens {
     public void expect(Token.Kind kind) {
         if(get().kind != kind) throw new ParseError("Expecting "+kind);
     }
+
+    @Override public String toString() {
+        var buf = new StringBuilder();
+        buf.append(tokens);
+        return buf.toString();
+    }
 }

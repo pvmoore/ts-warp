@@ -4,9 +4,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import warp.event.EventLoop;
 import warp.event.WarpEventFactory;
+import warp.listeners.ErrorListener;
 import warp.listeners.LexFile;
-import warp.listeners.ResolveFile;
 import warp.listeners.ParseTokens;
+import warp.listeners.ResolveFile;
 
 import java.io.File;
 
@@ -28,14 +29,14 @@ final public class TSWarp {
         var eventFactory = new WarpEventFactory();
 
 
-        events.register(new LexFile(events, eventFactory), WarpEventFactory.Kind.PROCESS_FILE.ordinal());
-        events.register(new ParseTokens(events, eventFactory), WarpEventFactory.Kind.LEX_COMPLETED.ordinal());
-        events.register(new ResolveFile(events), WarpEventFactory.Kind.PARSE_COMPLETED.ordinal());
+        events.register(new LexFile(events, eventFactory), WarpEventFactory.Kind.LEX_FILE.ordinal());
+        events.register(new ParseTokens(events, eventFactory), WarpEventFactory.Kind.PARSE_FILE.ordinal());
+        events.register(new ResolveFile(events), WarpEventFactory.Kind.RESOLVE_FILE.ordinal());
 
-        //events.register(new ErrorListener(events), WarpEventFactory.Kind.ERROR.ordinal());
-        //        events.register(new EventLogger(events),
-//                        WarpEventFactory.Kind.PROCESS_FILE.ordinal(),
-//                        WarpEventFactory.Kind.LEX_COMPLETED.ordinal());
+        events.register(new ErrorListener(events), WarpEventFactory.Kind.ERROR.ordinal());
+        //        events.register(new Log(events),
+//                        WarpEventFactory.Kind.LEX_FILE.ordinal(),
+//                        WarpEventFactory.Kind.PARSE_FILE.ordinal());
 
 
 
@@ -46,7 +47,7 @@ final public class TSWarp {
             var state = new State();
             state.config = config;
             state.file = file;
-            events.fire(eventFactory.processFile(state));
+            events.fire(eventFactory.lexFile(state));
         }
 
         log.info("Exiting");

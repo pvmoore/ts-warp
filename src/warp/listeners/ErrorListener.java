@@ -5,8 +5,8 @@ import warp.event.Event;
 import warp.event.EventLoop;
 import warp.util.Async;
 
-final public class ErrorListener implements Event.Listener<Error> {
-    private Logger log = Logger.getLogger(ErrorListener.class);
+final public class ErrorListener implements Event.Listener<Throwable> {
+    private static Logger log = Logger.getLogger(ErrorListener.class);
     private EventLoop events;
 
     public ErrorListener(EventLoop events) {
@@ -15,8 +15,8 @@ final public class ErrorListener implements Event.Listener<Error> {
 
     @Async
     @Override
-    public void trigger(Event<Error> event) {
-        log.error("Error: "+event.payload);
+    public void trigger(Event<Throwable> event) {
+        log.error("Error: "+event.payload.getMessage(), event.payload);
 
         events.shutdown();
     }

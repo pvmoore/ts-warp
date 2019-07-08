@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 final public class EventLoop {
     private Logger log = Logger.getLogger(EventLoop.class);
@@ -62,28 +61,18 @@ final public class EventLoop {
             });
         }
     }
-    /**
-     *  Called from the main thread.
-     */
-    public void loop() {
-//        try {
-//            condition.await();
+    @Async
+    public void shutdown() {
+        log.debug("shutdown called");
+       // try{
+//            executors.shutdown();
+//
+//            if(!executors.awaitTermination(1, TimeUnit.SECONDS)) {
+                executors.shutdownNow();
+            //}
 //        }catch(InterruptedException e) {
 //            // ignore
 //        }
-    }
-    @Async
-    public void shutdown() {
-        log.debug("EventLoop shutting down");
-        try{
-            executors.shutdown();
-
-            if(!executors.awaitTermination(2, TimeUnit.SECONDS)) {
-                executors.shutdownNow();
-            }
-        }catch(InterruptedException e) {
-            // ignore
-        }
     }
     @Async
     @Override public String toString() {
