@@ -4,10 +4,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import warp.event.EventLoop;
 import warp.event.WarpEventFactory;
-import warp.listeners.ErrorListener;
-import warp.listeners.LexFile;
-import warp.listeners.ParseTokens;
-import warp.listeners.ResolveFile;
+import warp.event.listeners.ErrorListener;
+import warp.event.listeners.LexFile;
+import warp.event.listeners.ParseTokens;
+import warp.event.listeners.ResolveFile;
 
 import java.io.File;
 

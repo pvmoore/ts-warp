@@ -1,6 +1,7 @@
 package warp;
 
-import warp.parse.Tokens;
+import warp.ast.ASTRoot;
+import warp.lex.Tokens;
 
 import java.io.File;
 
@@ -9,4 +10,6 @@ final public class State {
     public File file;
     public String source;
     public Tokens tokens;
+
+    public ASTRoot root;
 }

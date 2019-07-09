@@ -1,4 +1,4 @@
-package warp.parse;
+package warp.lex;
 
 public enum Keyword {
     BREAK;

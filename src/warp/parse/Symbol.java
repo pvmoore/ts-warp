@@ -1,13 +1,11 @@
 package warp.parse;
 
+import warp.types.Type;
+
 import java.io.File;
 
-public enum Symbol {
-    NONE(null);
-
-    public File declaredInFile;
-
-    Symbol(File declaredIn) {
-        this.declaredInFile = declaredIn;
-    }
+public class Symbol {
+    public String name;
+    public File file;
+    public Type type;
 }
