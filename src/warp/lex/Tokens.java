@@ -22,8 +22,24 @@ final public class Tokens {
         if(pos>=tokens.size()) return Token.EOF;
         return tokens.get(pos);
     }
-    public boolean valueIs(String value) {
+    public String value() {
+        return get().value;
+    }
+    public Token.Kind kind() {
+        return get().kind;
+    }
+    public int line() {
+        return get().line;
+    }
+    public boolean eof() {
+        return pos >= tokens.size();
+    }
+
+    public boolean isValue(String value) {
         return get().value.equals(value);
+    }
+    public boolean isKind(Token.Kind k) {
+        return get().kind==k;
     }
     public void next() {
         pos++;

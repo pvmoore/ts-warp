@@ -2,6 +2,17 @@ package warp.types;
 
 public class Type {
 
+    public Kind kind;
+    public boolean isOptional = false;
+
+    public Type(Kind k) {
+        this.kind = k;
+    }
+    @Override public String toString() {
+        return kind.toString().toLowerCase();
+    }
+
+
     public enum Kind {
         ANY,            // any
         BOOLEAN,        // boolean
@@ -19,19 +30,11 @@ public class Type {
         FUNCTION,
         TUPLE,          // [type,type]
         ALIAS,          // type x = y
+        ENUM,           // enum
 
         UNION,          // type | type
         INTERSECTION,   // type & type
     }
 
-    public Kind kind;
-    public boolean isOptional = false;
 
-    public Type(Kind k) {
-        this.kind = k;
-    }
-
-    @Override public String toString() {
-        return "[" + kind.toString() + "]";
-    }
 }

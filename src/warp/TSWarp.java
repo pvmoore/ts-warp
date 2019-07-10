@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 import warp.event.EventLoop;
 import warp.event.WarpEventFactory;
 import warp.event.listeners.ErrorListener;
-import warp.event.listeners.LexFile;
-import warp.event.listeners.ParseTokens;
-import warp.event.listeners.ResolveFile;
+import warp.event.listeners.LexTrigger;
+import warp.event.listeners.ParseTrigger;
+import warp.event.listeners.ResolveTrigger;
 
 import java.io.File;
 
@@ -29,9 +29,9 @@ final public class TSWarp {
         var eventFactory = new WarpEventFactory();
 
 
-        events.register(new LexFile(events, eventFactory), WarpEventFactory.Kind.LEX_FILE.ordinal());
-        events.register(new ParseTokens(events, eventFactory), WarpEventFactory.Kind.PARSE_FILE.ordinal());
-        events.register(new ResolveFile(events), WarpEventFactory.Kind.RESOLVE_FILE.ordinal());
+        events.register(new LexTrigger(events, eventFactory), WarpEventFactory.Kind.LEX_FILE.ordinal());
+        events.register(new ParseTrigger(events, eventFactory), WarpEventFactory.Kind.PARSE_FILE.ordinal());
+        events.register(new ResolveTrigger(events), WarpEventFactory.Kind.RESOLVE_FILE.ordinal());
 
         events.register(new ErrorListener(events), WarpEventFactory.Kind.ERROR.ordinal());
         //        events.register(new Log(events),
@@ -44,7 +44,7 @@ final public class TSWarp {
 
         /* Begin file processing */
         for(File file : config.getFiles()) {
-            var state = new State();
+            var state = new ModuleState();
             state.config = config;
             state.file = file;
             events.fire(eventFactory.lexFile(state));

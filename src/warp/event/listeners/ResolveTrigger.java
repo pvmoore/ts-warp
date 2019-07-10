@@ -1,22 +1,22 @@
 package warp.event.listeners;
 
 import org.apache.log4j.Logger;
-import warp.State;
+import warp.ModuleState;
 import warp.event.Event;
 import warp.event.EventLoop;
-import warp.util.Async;
+import warp.misc.Async;
 
-final public class ResolveFile implements Event.Listener<State> {
-    private Logger log = Logger.getLogger(ResolveFile.class);
+final public class ResolveTrigger implements Event.Listener<ModuleState> {
+    private Logger log = Logger.getLogger(ResolveTrigger.class);
     private EventLoop events;
 
-    public ResolveFile(EventLoop events) {
+    public ResolveTrigger(EventLoop events) {
         this.events = events;
     }
 
     @Async
     @Override
-    public void trigger(Event<State> event) {
+    public void trigger(Event<ModuleState> event) {
         /*
             - Check that all required imported files have been parsed. If not then exit
             - Run resolve

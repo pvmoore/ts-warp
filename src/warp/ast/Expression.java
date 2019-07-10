@@ -1,5 +1,8 @@
 package warp.ast;
 
-public class Expression extends Statement {
+import warp.ModuleState;
+
+public abstract class Expression extends Statement {
+
 
 }

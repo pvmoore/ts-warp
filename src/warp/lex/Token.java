@@ -2,6 +2,7 @@ package warp.lex;
 
 final public class Token {
     public enum Kind {
+        EOF,
         IDENTIFIER,
         NUMBER,
         STRING,
@@ -13,7 +14,12 @@ final public class Token {
         LCURLY,         // {
         RCURLY,         // }
         LANGLE,         // <
+        LANGLE_EQ,      // <=
+        SHL_EQ,         // <<=
         RANGLE,         // >
+        RANGLE_EQ,      // >=
+        SHR_EQ,         // >>=
+        USHR_EQ,        // >>>=
         RARROW,         // =>
 
         COLON,          // :
@@ -22,26 +28,34 @@ final public class Token {
         DOT,            // .
 
         FWD_SLASH,      // /
+        FWD_SLASH_EQ,   // /=
         EQUALS,         // =
         PLUS,           // +
+        PLUS_EQ,        // +=
         MINUS,          // -
+        MINUS_EQ,       // -=
         ASTERISK,       // *
+        ASTERISK_EQ,    // *=
         PERCENT,        // %
-        EXCLAMATION,    // !
+        PERCENT_EQ,     // %=
         AMPERSAND,      // &
+        AMPERSAND_EQ,   // &=
         HAT,            // ^
+        HAT_EQ,         // ^=
         PIPE,           // |
+        PIPE_EQ,        // |=
         QUESTION,       // ?
 
-        DBL_EQUALS,     // ==
-        NOT_EQUALS,     // !=
-        TPL_EQUALS,     // ===
-        NOT_DBL_EQUALS, // !==
-        DBL_AMPERSAND,  // &&
-        DBL_PIPE,       // ||
+        DBL_EQUALS,         // ==
+        TPL_EQUALS,         // ===
+        EXCLAMATION,        // !
+        EXCLAMATION_EQ,     // !=
+        EXCLAMATION_DBL_EQ, // !==
+        DBL_AMPERSAND,      // &&
+        DBL_PIPE,           // ||
 
     }
-    public static Token EOF = new Token(Kind.IDENTIFIER, null, -1, -1);
+    public static Token EOF = new Token(Kind.EOF, "", -1, -1);
 
     public Token(Kind kind, String value, int line, int column) {
         this.kind = kind;

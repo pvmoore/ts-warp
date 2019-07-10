@@ -2,18 +2,16 @@ package warp.event;
 
 import org.apache.log4j.Logger;
 import warp.event.Event.Listener;
-import warp.util.Async;
+import warp.misc.Async;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 final public class EventLoop {
     private Logger log = Logger.getLogger(EventLoop.class);
-    private ExecutorService executors;
+    private ThreadPoolExecutor executors;
     private Map<Integer, List<Listener>> listeners = new ConcurrentHashMap<>();
 
     public EventLoop() {
@@ -22,7 +20,20 @@ final public class EventLoop {
             Set this number with a property later
         */
         var maxThreads = Runtime.getRuntime().availableProcessors();
-        this.executors = Executors.newFixedThreadPool(maxThreads);
+        log.info("Max threads = "+maxThreads);
+        this.executors = new ThreadPoolExecutor(maxThreads, maxThreads,
+                                                0L, TimeUnit.MILLISECONDS,
+                                                new LinkedBlockingQueue<>());
+        executors.setThreadFactory(r -> {
+            var t = Executors.defaultThreadFactory().newThread(r);
+            var name = ""+executors.getPoolSize();
+            t.setName("PoolThread-"+name);
+            System.out.println("----------->New thread "+name);
+            return t;
+        });
+        executors.setRejectedExecutionHandler((Runnable r, ThreadPoolExecutor executor)-> {
+            // ignore
+        });
         log.debug("EventLoop started");
     }
     @Async

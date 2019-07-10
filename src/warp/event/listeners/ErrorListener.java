@@ -3,7 +3,7 @@ package warp.event.listeners;
 import org.apache.log4j.Logger;
 import warp.event.Event;
 import warp.event.EventLoop;
-import warp.util.Async;
+import warp.misc.Async;
 
 final public class ErrorListener implements Event.Listener<Throwable> {
     private static Logger log = Logger.getLogger(ErrorListener.class);

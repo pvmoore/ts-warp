@@ -1,7 +1,7 @@
 package warp.actions;
 
 import org.apache.log4j.Logger;
-import warp.State;
+import warp.ModuleState;
 import warp.lex.Token;
 import warp.lex.Tokens;
 
@@ -13,9 +13,9 @@ final public class LexAction {
     private int line;
     private int lineStart;
     private StringBuilder buf = new StringBuilder();
-    private State state;
+    private ModuleState state;
 
-    public void run(State state) throws Exception {
+    public void run(ModuleState state) throws Exception {
         log.debug("Lexing "+state.file);
 
         this.state = state;
@@ -32,26 +32,167 @@ final public class LexAction {
                 addToken();
                 handleNewLine();
             } else switch(ch) {
+                case '+':
+                    if(peek(1) == '=') {
+                        addToken(Token.Kind.PLUS_EQ, 2);
+                        pos++;
+                    } else if(!isNumber(ch)) {
+                        addToken(Token.Kind.PLUS, 1);
+                    }
+                    break;
+                case '-':
+                    if(peek(1) == '=') {
+                        addToken(Token.Kind.MINUS_EQ, 2);
+                        pos++;
+                    } else if(!isNumber(ch)) {
+                        addToken(Token.Kind.MINUS, 1);
+                    }
+                    break;
                 case '/':
                     if(peek(1)=='/') {
                         handleLineComment();
                     } else if(peek(1)=='*') {
                         handleBlockComment();
+                    } else if(peek(1)=='=') {
+                        addToken(Token.Kind.FWD_SLASH_EQ, 2);
+                        pos++;
                     } else {
                         addToken(Token.Kind.FWD_SLASH, 1);
                     }
                     break;
-                case '\"':
-                    addToken();
+                case '*':
+                    if(peek(1)=='=') {
+                        addToken(Token.Kind.ASTERISK_EQ, 2);
+                        pos++;
+                    } else {
+                        addToken(Token.Kind.ASTERISK, 1);
+                    }
                     break;
+                case '%':
+                    if(peek(1)=='=') {
+                        addToken(Token.Kind.PERCENT_EQ, 2);
+                        pos++;
+                    } else {
+                        addToken(Token.Kind.PERCENT, 1);
+                    }
+                    break;
+                case '&':
+                    if(peek(1)=='=') {
+                        addToken(Token.Kind.AMPERSAND_EQ, 2);
+                        pos++;
+                    } else {
+                        addToken(Token.Kind.AMPERSAND, 1);
+                    }
+                    break;
+                case '|':
+                    if(peek(1)=='=') {
+                        addToken(Token.Kind.PIPE_EQ, 2);
+                        pos++;
+                    } else {
+                        addToken(Token.Kind.PIPE, 1);
+                    }
+                    break;
+                case '^':
+                    if(peek(1)=='=') {
+                        addToken(Token.Kind.HAT_EQ, 2);
+                        pos++;
+                    } else {
+                        addToken(Token.Kind.HAT, 1);
+                    }
+                    break;
+                case '<':
+                    // <    /* Keep multiple '<' as individuals for now */
+                    // <=
+                    // <<=
+                    if(peek(1)=='<' && peek(2)=='=') {
+                        addToken(Token.Kind.SHL_EQ, 3);
+                        pos+=2;
+                    } else if(peek(1)=='=') {
+                        addToken(Token.Kind.LANGLE_EQ, 2);
+                        pos++;
+                    } else {
+                        addToken(Token.Kind.LANGLE, 1);
+                    }
+                    break;
+                case '>':
+                    // >   /* Keep multiple '<' as individuals for now */
+                    // >=
+                    // >>=
+                    // >>>=
+                    if(peek(1)=='>' && peek(2)=='>' && peek(3)=='=') {
+                        addToken(Token.Kind.USHR_EQ, 4);
+                        pos+=3;
+                    } else if(peek(1)=='>' && peek(2)=='=') {
+                        addToken(Token.Kind.SHR_EQ, 3);
+                        pos += 2;
+                    } else if(peek(1)=='=') {
+                        addToken(Token.Kind.RANGLE_EQ, 2);
+                        pos++;
+                    } else {
+                        addToken(Token.Kind.RANGLE, 1);
+                    }
+                    break;
+
+                //                case '\"':
+//                case '\'':
+//                case '`':
+//                    handleString();
+//                    break;
                 case ':':
                     addToken(Token.Kind.COLON, 1);
                     break;
                 case ';':
                     addToken(Token.Kind.SEMICOLON, 1);
                     break;
+                case '.':
+                    if(buf.length()>0 && isNumber(buf.charAt(0))) {
+                        // this is part of a number
+                    } else {
+                        addToken(Token.Kind.DOT, 1);
+                    }
+                    break;
                 case '=':
-                    addToken(Token.Kind.EQUALS, 1);
+                    if(peek(1)=='=' && peek(2)=='=') {
+                        addToken(Token.Kind.TPL_EQUALS, 3);
+                        pos+=2;
+                    } else if(peek(1)=='=') {
+                        addToken(Token.Kind.DBL_EQUALS, 2);
+                        pos++;
+                    } else {
+                        addToken(Token.Kind.EQUALS, 1);
+                    }
+                    break;
+                case '!':
+                    if(peek(1)=='=' && peek(2)=='=') {
+                        addToken(Token.Kind.EXCLAMATION_DBL_EQ, 1);
+                        pos += 2;
+                    } else if(peek(1)=='=') {
+                        addToken(Token.Kind.EXCLAMATION_EQ, 1);
+                        pos++;
+                    } else {
+                        addToken(Token.Kind.EXCLAMATION, 1);
+                    }
+                    break;
+                case ',':
+                    addToken(Token.Kind.COMMA, 1);
+                    break;
+                case '(':
+                    addToken(Token.Kind.LBR, 1);
+                    break;
+                case ')':
+                    addToken(Token.Kind.RBR, 1);
+                    break;
+                case '[':
+                    addToken(Token.Kind.LSQBR, 1);
+                    break;
+                case ']':
+                    addToken(Token.Kind.RSQBR, 1);
+                    break;
+                case '{':
+                    addToken(Token.Kind.LCURLY, 1);
+                    break;
+                case '}':
+                    addToken(Token.Kind.RCURLY, 1);
                     break;
                 default:
                     buf.append(ch);
@@ -116,11 +257,34 @@ final public class LexAction {
             pos++;
         }
     }
+//    private void handleString() {
+//        addToken();
+//
+//        var q = peek(0);
+//        buf.append(q);
+//        pos++;
+//
+//        while(pos<state.source.length()) {
+//            var ch = peek(0);
+//            buf.append(ch);
+//
+//            if(ch==q && peek(-1)!='\\') {
+//                addToken();
+//                return;
+//            }
+//            handleNewLine();
+//            pos++;
+//        }
+//        addToken();
+//    }
+    private boolean isNumber(char ch) {
+        return (ch>='0' && ch<='9') || ch=='-';
+    }
     private Token.Kind determineTokenKind(String value) {
         assert(value.length()>0);
 
         var ch = value.charAt(0);
-        if(ch>='0' && ch<='9') {
+        if(isNumber(ch)) {
             return Token.Kind.NUMBER;
         }
         if(ch=='\"' || ch=='\'' || ch=='`') {

@@ -1,26 +1,26 @@
 package warp.event.listeners;
 
 import org.apache.log4j.Logger;
-import warp.State;
+import warp.ModuleState;
 import warp.actions.LexAction;
 import warp.event.Event;
 import warp.event.EventLoop;
 import warp.event.WarpEventFactory;
-import warp.util.Async;
+import warp.misc.Async;
 
-final public class LexFile implements Event.Listener<State> {
-    private static Logger log = Logger.getLogger(LexFile.class);
+final public class LexTrigger implements Event.Listener<ModuleState> {
+    private static Logger log = Logger.getLogger(LexTrigger.class);
     private EventLoop events;
     private WarpEventFactory eventFactory;
 
-    public LexFile(EventLoop events, WarpEventFactory eventFactory) {
+    public LexTrigger(EventLoop events, WarpEventFactory eventFactory) {
         this.events = events;
         this.eventFactory = eventFactory;
     }
 
     @Async
     @Override
-    public void trigger(Event<State> event) {
+    public void trigger(Event<ModuleState> event) {
         /*
             - Run LexAction
             - Fire PARSE_FILE event

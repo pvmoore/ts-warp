@@ -1,6 +1,6 @@
 # Useful Links
 
-## Language Spec
+## Language Specification
 
 https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md
 
@@ -26,4 +26,7 @@ https://github.com/microsoft/TypeScript/tree/master/lib
 
 http://www.typescriptlang.org/docs/handbook/tsconfig-json.html
 
+## Typescript Playground
+
+https://www.typescriptlang.org/play/index.html
 

@@ -1,4 +1,4 @@
-package warp.util;
+package warp.misc;
 
 /**
  * A function that takes one parameter and returns void.

@@ -3,13 +3,13 @@ package warp.event.listeners;
 import org.apache.log4j.Logger;
 import warp.event.Event;
 import warp.event.EventLoop;
-import warp.util.Async;
+import warp.misc.Async;
 
-final public class EmitFile implements Event.Listener<Object> {
-    private static Logger log = Logger.getLogger(EmitFile.class);
+final public class EmitTrigger implements Event.Listener<Object> {
+    private static Logger log = Logger.getLogger(EmitTrigger.class);
     private EventLoop events;
 
-    public EmitFile(EventLoop events) {
+    public EmitTrigger(EventLoop events) {
         this.events = events;
     }
 
