@@ -25,5 +25,8 @@ const str3: string = `hello`;
 
 let u0:undefined;
 
+let nl:null = null;
+
+
 
 

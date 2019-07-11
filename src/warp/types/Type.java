@@ -1,8 +1,7 @@
 package warp.types;
 
 public class Type {
-
-    public Kind kind;
+    final public Kind kind;
     public boolean isOptional = false;
 
     public Type(Kind k) {

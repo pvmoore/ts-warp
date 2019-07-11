@@ -6,21 +6,17 @@ public class Event<T> {
         void trigger(Event<T> event);
     }
 
-//    public static abstract class Action<T> {
-//        protected EventLoop events;
-//
-//        public Action(EventLoop events) {
-//            this.events = events;
-//        }
-//
-//        abstract public void run(T payload);
-//    }
-
-    public Event(int key, T payload) {
+    public Event(int key, String name, T payload) {
         this.key = key;
+        this.name = name;
         this.payload = payload;
     }
 
     final public int key;
+    final String name;
     final public T payload;
+
+    @Override public String toString() {
+        return name;
+    }
 }

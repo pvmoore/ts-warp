@@ -5,11 +5,12 @@ import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.ast.Expression;
 import warp.ast.expr.BooleanExpr;
+import warp.ast.expr.NullExpr;
 import warp.ast.expr.NumberExpr;
 import warp.ast.expr.StringExpr;
 
 final public class ParseExpression {
-    private static Logger log = Logger.getLogger(ParseExpression.class);
+    final private static Logger log = Logger.getLogger(ParseExpression.class);
 
     public static Expression parse(ModuleState state, ASTNode parent) {
         log.trace("parse "+state.tokens.get());
@@ -28,6 +29,8 @@ final public class ParseExpression {
             case "true":
             case "false":
                 return new BooleanExpr().parse(state, parent);
+            case "null":
+                return new NullExpr().parse(state, parent);
         }
 
         throw new ParseError("Parse failed in file ["+state.file+"] @ "+tokens.get());

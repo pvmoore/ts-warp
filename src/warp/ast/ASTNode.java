@@ -28,10 +28,10 @@ public abstract class ASTNode {
         node.parent = this;
     }
 
-    public void writeToLog(String indent) {
-        log.trace(indent + this.toString());
+    public void writeToDebug(String indent) {
+        log.debug(indent + this.toString());
         for(var ch : children) {
-            ch.writeToLog(indent+"   ");
+            ch.writeToDebug(indent+"   ");
         }
     }
     @Override public String toString() {

@@ -24,9 +24,12 @@ final public class ResolveAction implements Event.Listener<ModuleState> {
         try{
             state.getBarrier().acquire();
 
-            new Resolver(state).resolve();
+            log.info("Shutting down at resolve stage");
+            events.shutdown();
 
-            events.fire(eventFactory.parseFile(state));
+            //new Resolver(state).resolve();
+
+            //events.fire(eventFactory.parseFile(state));
 
         }catch(Exception e) {
             events.fire(eventFactory.error(e));

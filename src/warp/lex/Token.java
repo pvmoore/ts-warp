@@ -6,6 +6,7 @@ final public class Token {
         IDENTIFIER,
         NUMBER,
         STRING,
+        TSDIRECTIVE,    // /// <... />
 
         LBR,            // (
         RBR,            // )

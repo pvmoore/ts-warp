@@ -34,9 +34,21 @@ final public class Tokens {
     public boolean eof() {
         return pos >= tokens.size();
     }
-
+    /**
+     * @return true if _tokens_ contains any tokens other than a Kind.TSDIRECTIVE
+     */
+    public boolean containsNonTSDIRECTIVETokens() {
+        for(var t : tokens) {
+            if(t.kind!= Token.Kind.TSDIRECTIVE) return true;
+        }
+        return false;
+    }
     public boolean isValue(String value) {
         return get().value.equals(value);
+    }
+    public boolean isKeyword(String kw) {
+        var t = get();
+        return t.kind==Token.Kind.IDENTIFIER && t.value.equals(kw);
     }
     public boolean isKind(Token.Kind k) {
         return get().kind==k;
@@ -51,10 +63,7 @@ final public class Tokens {
     public void expect(Token.Kind kind) {
         if(get().kind != kind) throw new ParseError("Expecting "+kind);
     }
-    public boolean isKeyword(String kw) {
-        var t = get();
-        return t.kind==Token.Kind.IDENTIFIER && t.value.equals(kw);
-    }
+
     public String toMultilineString() {
         var buf = new StringBuilder("[");
         tokens.forEach((t)-> {

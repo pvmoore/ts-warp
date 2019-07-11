@@ -3,10 +3,9 @@ package warp.ast.decl;
 import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.Statement;
 import warp.misc.Util;
 
-final public class FunctionDecl extends Statement {
+final public class FunctionDecl extends Declaration {
     public String name;
     public Access access = Access.PUBLIC;   /* For class members only */
 

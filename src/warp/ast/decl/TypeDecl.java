@@ -2,10 +2,9 @@ package warp.ast.decl;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.Statement;
 import warp.misc.Util;
 
-final public class TypeDecl extends Statement {
+final public class TypeDecl extends Declaration {
     public String name;
 
     @Override public String toString() {

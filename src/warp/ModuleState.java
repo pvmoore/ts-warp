@@ -23,6 +23,9 @@ final public class ModuleState {
         this.project = project;
     }
 
+    public boolean isDeclarationFile() {
+        return file.getName().toLowerCase().endsWith(".d.ts");
+    }
     public boolean isComplete() {
         if(hasErrors()) return true;
 
@@ -32,6 +35,9 @@ final public class ModuleState {
     }
     public boolean hasErrors() {
         return !errors.isEmpty();
+    }
+    public void addError(String msg) {
+        errors.add(new ErrorNotice(msg, tokens.get()));
     }
     public MemoryBarrier getBarrier() {
         return project.getBarrier();

@@ -38,7 +38,6 @@ final public class TSWarp {
 //                        WarpEventFactory.Kind.PARSE_FILE.ordinal());
 
 
-
         log.debug(events.toString());
 
         var project = new ProjectState(config);

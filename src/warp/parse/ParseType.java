@@ -12,13 +12,14 @@ import static java.util.Map.ofEntries;
 import static warp.types.Type.*;
 
 final public class ParseType {
-    private static Logger log = Logger.getLogger(ParseType.class);
-    private static Map<String,Type> simpleTypes = ofEntries(
+    final private static Logger log = Logger.getLogger(ParseType.class);
+    final private static Map<String,Type> simpleTypes = ofEntries(
         entry("any", new Type(Kind.ANY)),
         entry("number", new Type(Kind.NUMBER)),
         entry("string", new Type(Kind.STRING)),
         entry("boolean", new Type(Kind.BOOLEAN)),
         entry("undefined", new Type(Kind.UNDEFINED)),
+        entry("null", new Type(Kind.NULL)),
         entry("never", new Type(Kind.NEVER))
     );
 

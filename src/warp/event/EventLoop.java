@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 final public class EventLoop {
-    private Logger log = Logger.getLogger(EventLoop.class);
-    private ThreadPoolExecutor executors;
-    private Map<Integer, List<Listener>> listeners = new ConcurrentHashMap<>();
+    final private Logger log = Logger.getLogger(EventLoop.class);
+    final private ThreadPoolExecutor executors;
+    final private Map<Integer, List<Listener>> listeners = new ConcurrentHashMap<>();
 
     public EventLoop() {
         /*
@@ -24,6 +24,7 @@ final public class EventLoop {
         this.executors = new ThreadPoolExecutor(maxThreads, maxThreads,
                                                 0L, TimeUnit.MILLISECONDS,
                                                 new LinkedBlockingQueue<>());
+
         executors.setThreadFactory(r -> {
             var t = Executors.defaultThreadFactory().newThread(r);
             var name = ""+executors.getPoolSize();
@@ -38,6 +39,7 @@ final public class EventLoop {
     }
     @Async
     public EventLoop register(Listener l, int... events) {
+        log.trace("registering listener "+l);
         for(var e : events) {
             listeners.compute(e, (key, oldValue) -> {
                 if(oldValue == null) {
@@ -51,6 +53,7 @@ final public class EventLoop {
     }
     @Async
     public EventLoop unregister(Listener l, int... events) {
+        log.trace("unregistering listener "+l);
         for(var e : events) {
             listeners.computeIfPresent(e, (key, oldValue) -> {
                 oldValue.remove(l);
@@ -61,7 +64,7 @@ final public class EventLoop {
     }
     @Async
     public <T> void fire(Event<T> event) {
-        //log.trace("Fire: "+event.key);
+        log.trace("firing event: "+event);
         var list = listeners.get(event.key);
         if(list==null) return;
 
@@ -74,16 +77,24 @@ final public class EventLoop {
     }
     @Async
     public void shutdown() {
+        shutdown(0);
+    }
+    @Async
+    public void shutdown(long timeoutMillis) {
         log.debug("shutdown called");
-       // try{
-//            executors.shutdown();
-//
-//            if(!executors.awaitTermination(1, TimeUnit.SECONDS)) {
+        try{
+            executors.shutdown();
+
+            if(timeoutMillis!=0) {
+                if(!executors.awaitTermination(1, TimeUnit.SECONDS)) {
+                    executors.shutdownNow();
+                }
+            } else {
                 executors.shutdownNow();
-            //}
-//        }catch(InterruptedException e) {
-//            // ignore
-//        }
+            }
+        }catch(InterruptedException e) {
+            // ignore
+        }
     }
     @Async
     @Override public String toString() {

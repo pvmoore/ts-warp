@@ -3,14 +3,13 @@ package warp.ast.decl;
 import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.Statement;
 import warp.lex.Token;
 import warp.misc.ErrorNotice;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;
 import warp.types.Type;
 
-final public class VariableDecl extends Statement {
+final public class VariableDecl extends Declaration {
     public String name;
     public Type type;
     public Access access = Access.PUBLIC;   /* For class members only */
