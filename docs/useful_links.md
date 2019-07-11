@@ -30,3 +30,6 @@ http://www.typescriptlang.org/docs/handbook/tsconfig-json.html
 
 https://www.typescriptlang.org/play/index.html
 
+## Typesearch
+
+https://microsoft.github.io/TypeSearch/

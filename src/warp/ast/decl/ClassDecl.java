@@ -8,8 +8,9 @@ import warp.misc.Util;
 final public class ClassDecl extends Statement {
     public String name;
 
-    @Override public void parse(ModuleState state, ASTNode parent) {
+    @Override public ClassDecl parse(ModuleState state, ASTNode parent) {
         Util.todo();
+        return this;
     }
 
     @Override public String toString() {

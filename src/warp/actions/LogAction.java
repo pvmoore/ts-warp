@@ -1,15 +1,15 @@
-package warp.event.listeners;
+package warp.actions;
 
 import org.apache.log4j.Logger;
 import warp.event.Event;
 import warp.event.EventLoop;
 import warp.misc.Async;
 
-final public class Log implements Event.Listener<Event> {
-    private static Logger log = Logger.getLogger(Log.class);
-    private EventLoop events;
+final public class LogAction implements Event.Listener<Event> {
+    final private static Logger log = Logger.getLogger(LogAction.class);
+    final private EventLoop events;
 
-    public Log(EventLoop events) {
+    public LogAction(EventLoop events) {
         this.events = events;
     }
 
@@ -17,6 +17,5 @@ final public class Log implements Event.Listener<Event> {
     @Override
     public void trigger(Event<Event> event) {
         log.info("["+event.key+"]");
-
     }
 }

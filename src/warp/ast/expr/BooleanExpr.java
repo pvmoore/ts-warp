@@ -13,10 +13,11 @@ final public class BooleanExpr extends Expression {
     /**
      * true | false
      */
-    @Override public void parse(ModuleState state, ASTNode parent) {
+    @Override public BooleanExpr parse(ModuleState state, ASTNode parent) {
         this.value = state.tokens.value().equals("true");
         state.tokens.next();
 
         parent.add(this);
+        return this;
     }
 }

@@ -15,8 +15,9 @@ final public class FunctionDecl extends Statement {
         return parent instanceof ClassDecl;
     }
 
-    @Override public void parse(ModuleState state, ASTNode parent) {
+    @Override public FunctionDecl parse(ModuleState state, ASTNode parent) {
         Util.todo();
+        return this;
     }
 
     @Override public String toString() {

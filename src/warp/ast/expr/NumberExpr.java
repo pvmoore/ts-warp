@@ -23,7 +23,7 @@ final public class NumberExpr extends Expression {
      *  123e5
      *  123e-5
      */
-    @Override public void parse(ModuleState state, ASTNode parent) {
+    @Override public NumberExpr parse(ModuleState state, ASTNode parent) {
         var s = state.tokens.value().toLowerCase();
         state.tokens.next();
 
@@ -52,5 +52,6 @@ final public class NumberExpr extends Expression {
         if(neg) this.value = -this.value;
 
         parent.add(this);
+        return this;
     }
 }

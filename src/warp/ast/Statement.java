@@ -4,6 +4,6 @@ import warp.ModuleState;
 
 public abstract class Statement extends ASTNode {
 
-    abstract public void parse(ModuleState state, ASTNode parent);
+    abstract public Statement parse(ModuleState state, ASTNode parent);
 
 }

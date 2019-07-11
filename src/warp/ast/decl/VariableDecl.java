@@ -30,7 +30,8 @@ final public class VariableDecl extends Statement {
      *      [ = EXPRESSION ]
      *      [ ; ]
      */
-    public void parse(ModuleState state, ASTNode parent) {
+    @Override
+    public VariableDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);
 
         var tokens = state.tokens;
@@ -60,6 +61,7 @@ final public class VariableDecl extends Statement {
         } else if(isConst) {
             state.errors.add(new ErrorNotice("const declaration must be initialised", tokens.get()));
         }
+        return this;
     }
     public void resolve() {
 

@@ -2,12 +2,9 @@ package warp;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import warp.actions.*;
 import warp.event.EventLoop;
 import warp.event.WarpEventFactory;
-import warp.event.listeners.ErrorListener;
-import warp.event.listeners.LexTrigger;
-import warp.event.listeners.ParseTrigger;
-import warp.event.listeners.ResolveTrigger;
 
 import java.io.File;
 
@@ -29,12 +26,14 @@ final public class TSWarp {
         var eventFactory = new WarpEventFactory();
 
 
-        events.register(new LexTrigger(events, eventFactory), WarpEventFactory.Kind.LEX_FILE.ordinal());
-        events.register(new ParseTrigger(events, eventFactory), WarpEventFactory.Kind.PARSE_FILE.ordinal());
-        events.register(new ResolveTrigger(events), WarpEventFactory.Kind.RESOLVE_FILE.ordinal());
+        events.register(new LexAction(events, eventFactory), WarpEventFactory.Kind.LEX_FILE.ordinal());
+        events.register(new ParseAction(events, eventFactory), WarpEventFactory.Kind.PARSE_FILE.ordinal());
+        events.register(new ResolveAction(events, eventFactory), WarpEventFactory.Kind.RESOLVE_FILE.ordinal());
+        events.register(new EmitAction(events, eventFactory), WarpEventFactory.Kind.EMIT_FILE.ordinal());
 
-        events.register(new ErrorListener(events), WarpEventFactory.Kind.ERROR.ordinal());
-        //        events.register(new Log(events),
+        events.register(new ErrorAction(events), WarpEventFactory.Kind.ERROR.ordinal());
+
+        //        events.register(new LogAction(events),
 //                        WarpEventFactory.Kind.LEX_FILE.ordinal(),
 //                        WarpEventFactory.Kind.PARSE_FILE.ordinal());
 
@@ -42,10 +41,11 @@ final public class TSWarp {
 
         log.debug(events.toString());
 
+        var project = new ProjectState(config);
+
         /* Begin file processing */
         for(File file : config.getFiles()) {
-            var state = new ModuleState();
-            state.config = config;
+            var state = new ModuleState(project);
             state.file = file;
             events.fire(eventFactory.lexFile(state));
         }

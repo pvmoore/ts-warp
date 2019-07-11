@@ -3,6 +3,7 @@ package warp.parse;
 import org.apache.log4j.Logger;
 import warp.ModuleState;
 import warp.ast.ASTNode;
+import warp.ast.Statement;
 import warp.ast.decl.VariableDecl;
 import warp.lex.Token;
 
@@ -26,7 +27,7 @@ final public class ParseStatement {
         }
     }
 
-    private static void parseSingleStatement(ModuleState state, ASTNode parent) {
+    private static Statement parseSingleStatement(ModuleState state, ASTNode parent) {
         log.trace("parseSingleStatement "+state.tokens.get());
         var tokens = state.tokens;
         var t      = tokens.get();
@@ -34,8 +35,7 @@ final public class ParseStatement {
         switch(t.value) {
             case "let":
             case "const":
-                new VariableDecl().parse(state, parent);
-                return;
+                return new VariableDecl().parse(state, parent);
             default:
                 break;
         }

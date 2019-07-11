@@ -17,7 +17,7 @@ final public class StringExpr extends Expression {
     /**
      *  ( "fdsfsdsdf" | 'sdfsdfsdf' | `sdfsdfs ${val} dfdf` )
      */
-    @Override public void parse(ModuleState state, ASTNode parent) {
+    @Override public StringExpr parse(ModuleState state, ASTNode parent) {
         var v = state.tokens.value();
         this.quote = v.charAt(0);
         state.tokens.next();
@@ -28,5 +28,6 @@ final public class StringExpr extends Expression {
         this.value = v.substring(1, v.length()-1);
 
         parent.add(this);
+        return this;
     }
 }

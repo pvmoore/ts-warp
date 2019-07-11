@@ -16,11 +16,11 @@ final public class EventLoop {
 
     public EventLoop() {
         /*
-            Create a pool with one thread per cpu core.
+            Create a pool with one thread per cpu thread.
             Set this number with a property later
         */
         var maxThreads = Runtime.getRuntime().availableProcessors();
-        log.info("Max threads = "+maxThreads);
+        log.debug("Max threads = "+maxThreads);
         this.executors = new ThreadPoolExecutor(maxThreads, maxThreads,
                                                 0L, TimeUnit.MILLISECONDS,
                                                 new LinkedBlockingQueue<>());
@@ -28,7 +28,7 @@ final public class EventLoop {
             var t = Executors.defaultThreadFactory().newThread(r);
             var name = ""+executors.getPoolSize();
             t.setName("PoolThread-"+name);
-            System.out.println("----------->New thread "+name);
+            log.debug("Creating new thread "+name);
             return t;
         });
         executors.setRejectedExecutionHandler((Runnable r, ThreadPoolExecutor executor)-> {

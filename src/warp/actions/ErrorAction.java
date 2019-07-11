@@ -1,15 +1,15 @@
-package warp.event.listeners;
+package warp.actions;
 
 import org.apache.log4j.Logger;
 import warp.event.Event;
 import warp.event.EventLoop;
 import warp.misc.Async;
 
-final public class ErrorListener implements Event.Listener<Throwable> {
-    private static Logger log = Logger.getLogger(ErrorListener.class);
-    private EventLoop events;
+final public class ErrorAction implements Event.Listener<Throwable> {
+    final private static Logger log = Logger.getLogger(ErrorAction.class);
+    final private EventLoop events;
 
-    public ErrorListener(EventLoop events) {
+    public ErrorAction(EventLoop events) {
         this.events = events;
     }
 
