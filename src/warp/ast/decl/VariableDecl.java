@@ -49,7 +49,7 @@ final public class VariableDecl extends Declaration {
         if(tokens.isKind(Token.Kind.COLON)) {
             tokens.next();
 
-            this.type = ParseType.parse(state, parent);
+            this.type = ParseType.parse(state);
         }
 
         /* Optional expression */
@@ -71,6 +71,6 @@ final public class VariableDecl extends Declaration {
 
     @Override public String toString() {
         var c = isConst ? "const " : "";
-        return String.format("[VariableDecl name:%s type:%s%s]", name, c, type);
+        return String.format("[VariableDecl %s:%s%s]", name, c, type);
     }
 }

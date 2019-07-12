@@ -2,61 +2,72 @@ package warp.lex;
 
 final public class Token {
     public enum Kind {
-        EOF,
-        IDENTIFIER,
-        NUMBER,
-        STRING,
-        TSDIRECTIVE,    // /// <... />
+        EOF("EOF"),
+        IDENTIFIER("Identifier"),
+        NUMBER("number"),
+        STRING("string"),
+        TSDIRECTIVE("TSD"),     //  /// <... />
 
-        LBR,            // (
-        RBR,            // )
-        LSQBR,          // [
-        RSQBR,          // ]
-        LCURLY,         // {
-        RCURLY,         // }
-        LANGLE,         // <
-        LANGLE_EQ,      // <=
-        SHL_EQ,         // <<=
-        RANGLE,         // >
-        RANGLE_EQ,      // >=
-        SHR_EQ,         // >>=
-        USHR_EQ,        // >>>=
-        RARROW,         // =>
+        LBR("("),
+        RBR(")"),
+        LSQBR("["),
+        RSQBR("]"),
+        LCURLY("{"),
+        RCURLY("}"),
+        LANGLE("<"),
+        LANGLE_EQ("<="),
+        SHL_EQ("<<="),
+        RANGLE(">"),
+        RANGLE_EQ(">="),
+        SHR_EQ(">>="),
+        USHR_EQ(">>>="),
+        RARROW("=>"),
 
-        COLON,          // :
-        SEMICOLON,      // ;
-        COMMA,          // ,
-        DOT,            // .
+        COLON(":"),
+        SEMICOLON(";"),
+        COMMA(","),
+        DOT("."),
 
-        FWD_SLASH,      // /
-        FWD_SLASH_EQ,   // /=
-        EQUALS,         // =
-        PLUS,           // +
-        PLUS_EQ,        // +=
-        MINUS,          // -
-        MINUS_EQ,       // -=
-        ASTERISK,       // *
-        ASTERISK_EQ,    // *=
-        PERCENT,        // %
-        PERCENT_EQ,     // %=
-        AMPERSAND,      // &
-        AMPERSAND_EQ,   // &=
-        HAT,            // ^
-        HAT_EQ,         // ^=
-        PIPE,           // |
-        PIPE_EQ,        // |=
-        QUESTION,       // ?
+        FWD_SLASH("/"),
+        FWD_SLASH_EQ("/="),
+        EQUALS("="),
+        PLUS("+"),
+        PLUS_EQ("+="),
+        MINUS("-"),
+        MINUS_EQ("-="),
+        ASTERISK("*"),
+        ASTERISK_EQ("*="),
+        PERCENT("%"),
+        PERCENT_EQ("%="),
+        AMPERSAND("&"),
+        AMPERSAND_EQ("&="),
+        HAT("^"),
+        HAT_EQ("^="),
+        PIPE("|"),
+        PIPE_EQ("|="),
+        QUESTION("?"),
 
-        DBL_EQUALS,         // ==
-        TPL_EQUALS,         // ===
-        EXCLAMATION,        // !
-        EXCLAMATION_EQ,     // !=
-        EXCLAMATION_DBL_EQ, // !==
-        DBL_AMPERSAND,      // &&
-        DBL_PIPE,           // ||
+        DBL_EQUALS("=="),
+        TPL_EQUALS("==="),
+        EXCLAMATION("!"),
+        EXCLAMATION_EQ("!="),
+        EXCLAMATION_DBL_EQ("!=="),
+        DBL_AMPERSAND("&&"),
+        DBL_PIPE("||"),
 
+        ;
+
+        final private String value;
+
+        Kind(String value) {
+            this.value = value;
+        }
+
+        @Override public String toString() {
+            return this.value;
+        }
     }
-    public static Token EOF = new Token(Kind.EOF, "", -1, -1);
+    public static final Token EOF = new Token(Kind.EOF, "", -1, -1);
 
     public Token(Kind kind, String value, int line, int column) {
         this.kind = kind;

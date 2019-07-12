@@ -61,6 +61,10 @@ final public class Tokens {
         expect(k);
         next();
     }
+    public void skip(String kw) {
+        expect(kw);
+        next();
+    }
     public void skipIf(Token.Kind k) {
         if(kind()==k) {
             next();
@@ -73,8 +77,15 @@ final public class Tokens {
     public void expect(Token.Kind... kinds) {
         var actual = get().kind;
 
-        if(!Arrays.stream(kinds).anyMatch((k)->k==actual)) {
-            throw new ParseError("Expecting one of "+kinds);
+        if(Arrays.stream(kinds).noneMatch((k)->k==actual)) {
+            if(kinds.length==1)
+                throw new ParseError("Expecting "+kinds[0]);
+            throw new ParseError("Expecting one of "+Arrays.toString(kinds));
+        }
+    }
+    public void expect(String kw) {
+        if(!kw.equals(value())) {
+            throw new ParseError("Expecting "+kw);
         }
     }
 

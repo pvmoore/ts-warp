@@ -7,6 +7,7 @@ import warp.ast.BlockStmt;
 import warp.ast.Statement;
 import warp.ast.TSDirective;
 import warp.ast.decl.Declaration;
+import warp.ast.decl.FunctionDecl;
 import warp.ast.decl.VariableDecl;
 import warp.lex.Token;
 
@@ -65,8 +66,8 @@ final public class ParseStatement {
             case "let":
             case "const":
                 return new VariableDecl().parse(state, parent);
-            default:
-                break;
+            case "function":
+                return new FunctionDecl().parse(state, parent);
         }
 
         throw new ParseError("Parse failed in file ["+state.file+"] @ "+tokens.get());

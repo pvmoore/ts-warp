@@ -161,6 +161,9 @@ final public class Lexer {
                     } else if(peek(1)=='=') {
                         addToken(Token.Kind.DBL_EQUALS, 2);
                         pos++;
+                    } else if(peek(1)=='>') {
+                        addToken(Token.Kind.RARROW, 2);
+                        pos++;
                     } else {
                         addToken(Token.Kind.EQUALS, 1);
                     }

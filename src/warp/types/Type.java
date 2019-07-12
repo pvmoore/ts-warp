@@ -13,6 +13,7 @@ public class Type {
 
 
     public enum Kind {
+        UNKNOWN,
         ANY,            // any
         BOOLEAN,        // boolean
         NUMBER,         // number

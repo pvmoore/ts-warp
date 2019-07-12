@@ -34,4 +34,16 @@ let o2:object = {
     name2:"pete"
 };
 
+let f0:()=>void;
+let f1:(a:number)=>number;
+//let f2:()=>void = function(){};
+//let f3:void = function(){}();
+//let f3 = ()=>{};
+//let f4 = (a:number)=>{};
+//let f5 = (a:number)=> { return 1; };
+//let f6 = (a:number)=> a;
 
+function foo() {}
+function foo2(n:number) {}
+function foo3():void {}
+//let bar = ()=> {};
