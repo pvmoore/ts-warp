@@ -27,6 +27,11 @@ let u0:undefined;
 
 let nl:null = null;
 
-
+let o0:object;
+let o1:object = {};
+let o2:object = {
+    name:3,
+    name2:"pete"
+};
 
 

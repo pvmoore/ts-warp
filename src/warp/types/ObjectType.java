@@ -11,6 +11,6 @@ final public class ObjectType extends Type {
     }
 
     @Override public String toString() {
-        return "[Object]";
+        return "object";
     }
 }

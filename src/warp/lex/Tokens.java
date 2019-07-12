@@ -3,6 +3,7 @@ package warp.lex;
 import warp.parse.ParseError;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,12 +57,25 @@ final public class Tokens {
     public void next() {
         pos++;
     }
+    public void skip(Token.Kind k) {
+        expect(k);
+        next();
+    }
+    public void skipIf(Token.Kind k) {
+        if(kind()==k) {
+            next();
+        }
+    }
     public Token peek(int offset) {
         if(pos+offset>=tokens.size()) return Token.EOF;
         return tokens.get(pos+offset);
     }
-    public void expect(Token.Kind kind) {
-        if(get().kind != kind) throw new ParseError("Expecting "+kind);
+    public void expect(Token.Kind... kinds) {
+        var actual = get().kind;
+
+        if(!Arrays.stream(kinds).anyMatch((k)->k==actual)) {
+            throw new ParseError("Expecting one of "+kinds);
+        }
     }
 
     public String toMultilineString() {

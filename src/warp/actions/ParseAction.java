@@ -49,6 +49,7 @@ final public class ParseAction implements Event.Listener<ModuleState> {
             }
 
         }catch(Throwable e) {
+            e.printStackTrace();
             events.fire(eventFactory.error(e));
         }finally{
             state.getBarrier().release();

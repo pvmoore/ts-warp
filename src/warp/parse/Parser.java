@@ -17,6 +17,6 @@ final public class Parser {
 
         state.module = new ModuleFile(state.file.getName());
 
-        ParseStatement.parse(state, state.module);
+        ParseStatement.parseMultiple(state, state.module);
     }
 }

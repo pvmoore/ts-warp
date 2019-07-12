@@ -77,7 +77,7 @@ final public class TSConfig {
             log.debug("outDir: "+outDir);
 
         }catch(Exception e) {
-            log.error(String.format("Unable to parse json file: '{%s}'", path), e);
+            log.error(String.format("Unable to parseMultiple json file: '{%s}'", path), e);
         }
     }
     private String removeComments(byte[] bytes) {

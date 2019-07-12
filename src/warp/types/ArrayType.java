@@ -1,5 +1,8 @@
 package warp.types;
 
+/**
+ * todo - this is also an object
+ */
 final public class ArrayType extends Type {
     public Type subtype;
 
