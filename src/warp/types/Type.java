@@ -4,6 +4,8 @@ public class Type {
     final public Kind kind;
     public boolean isOptional = false;
 
+    public static final Type UNKNOWN = new Type(Kind.UNKNOWN);
+
     public Type(Kind k) {
         this.kind = k;
     }

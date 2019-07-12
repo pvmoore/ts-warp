@@ -34,7 +34,4 @@ public abstract class ASTNode {
             ch.writeToDebug(indent+"   ");
         }
     }
-    @Override public String toString() {
-        return "[Node]";
-    }
 }

@@ -31,6 +31,8 @@ final public class FunctionType extends Type {
         tokens.skip(Token.Kind.LBR);
 
         while(tokens.kind()!=Token.Kind.RBR) {
+
+            /* Get param - no initialiser allowed */
             parameters.add(ParseType.parseParam(state));
 
             tokens.expect(Token.Kind.COMMA, Token.Kind.RBR);

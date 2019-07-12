@@ -88,6 +88,31 @@ final public class Tokens {
             throw new ParseError("Expecting "+kw);
         }
     }
+    /**
+     * Find offset of closing bracket taking into account scopes.
+     * Assumes we are currently at the opening bracket or before it.
+     *
+     * @return offset of closing bracket or -1 if not found
+     */
+    public int findClosingBr() {
+        int brackets = 0, square = 0, curly = 0, angle = 0;
+        for(var offset=0; pos+offset<tokens.size(); offset++) {
+            var k = peek(offset).kind;
+            switch(peek(offset).kind) {
+                case LSQBR: square++; break;
+                case RSQBR: square--; break;
+                case LCURLY: curly++; break;
+                case RCURLY: curly--; break;
+                case LANGLE: angle++; break;
+                case RANGLE: angle--; break;
+                case LBR: brackets++; break;
+                case RBR:
+                    brackets--;
+                    if(brackets==0 && square==0 && curly==0 && angle==0) return offset;
+            }
+        }
+        return -1;
+    }
 
     public String toMultilineString() {
         var buf = new StringBuilder("[");

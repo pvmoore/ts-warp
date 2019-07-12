@@ -3,8 +3,8 @@ package warp.ast.decl;
 import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
+import warp.ast.BlockStmt;
 import warp.lex.Token;
-import warp.parse.ParseStatement;
 import warp.parse.ParseType;
 import warp.types.FunctionType;
 
@@ -36,7 +36,8 @@ final public class FunctionDecl extends Declaration {
 
         while(tokens.kind() != Token.Kind.RBR) {
 
-            var p = ParseType.parseParam(state);
+            /* Get param and add any initialisers to AST */
+            var p = ParseType.parseParam(state, this);
 
             type.parameters.add(p);
 
@@ -54,7 +55,7 @@ final public class FunctionDecl extends Declaration {
         }
 
         /* BlockStmt */
-        ParseStatement.parseMultiple(state, this);
+        new BlockStmt().parse(state, this);
 
         return this;
     }

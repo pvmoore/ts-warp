@@ -34,16 +34,17 @@ let o2:object = {
     name2:"pete"
 };
 
+/* Function variables */
 let f0:()=>void;
 let f1:(a:number)=>number;
-//let f2:()=>void = function(){};
-//let f3:void = function(){}();
-//let f3 = ()=>{};
-//let f4 = (a:number)=>{};
-//let f5 = (a:number)=> { return 1; };
-//let f6 = (a:number)=> a;
+let f2:()=>void = function(){};
 
+/* Implicit function variables */
+let f3 = ()=>{};
+let f4 = (a:number):void => {};
+let v5 = (a:number)=> 3;
+
+/* Function declarations */
 function foo() {}
 function foo2(n:number) {}
 function foo3():void {}
-//let bar = ()=> {};

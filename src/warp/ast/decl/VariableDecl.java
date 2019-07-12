@@ -11,7 +11,7 @@ import warp.types.Type;
 
 final public class VariableDecl extends Declaration {
     public String name;
-    public Type type;
+    public Type type = Type.UNKNOWN;
     public Access access = Access.PUBLIC;   /* For class members only */
     public boolean isConst;
     public boolean isReadonly;              /* For class members only */
@@ -31,6 +31,7 @@ final public class VariableDecl extends Declaration {
      */
     @Override
     public VariableDecl parse(ModuleState state, ASTNode parent) {
+        log.trace("parse "+state.tokens.get());
         parent.add(this);
 
         var tokens = state.tokens;

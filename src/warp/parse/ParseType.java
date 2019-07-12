@@ -2,6 +2,7 @@ package warp.parse;
 
 import org.apache.log4j.Logger;
 import warp.ModuleState;
+import warp.ast.ASTNode;
 import warp.lex.Token;
 import warp.types.FunctionType;
 import warp.types.ObjectType;
@@ -52,7 +53,6 @@ final public class ParseType {
         }
         throw new ParseError("Unknown type @ "+tokens.get());
     }
-
     /**
      * name [?] ':' Type
      */
@@ -62,16 +62,51 @@ final public class ParseType {
         var name = tokens.value();
         tokens.next();
 
+        boolean optional = tokens.kind() == Token.Kind.QUESTION;
+
+        if(optional) {
+            tokens.next();
+        }
+
         tokens.skip(Token.Kind.COLON);
 
         var type = ParseType.parse(state);
 
-        if(tokens.kind()== Token.Kind.QUESTION) {
-            tokens.next();
+        type.isOptional = optional;
 
-            type.isOptional = true;
+        return new Parameter(name, type, false);
+    }
+    /**
+     * This version allows a default argument which will be added to the AST.
+     *
+     * name [?] ':' Type [ '=' Expression ]
+     */
+    public static Parameter parseParam(ModuleState state, ASTNode parent) {
+        var tokens = state.tokens;
+
+        var name = tokens.value();
+        tokens.next();
+
+        boolean optional = tokens.kind() == Token.Kind.QUESTION;
+
+        if(optional) {
+            tokens.next();
         }
 
-        return new Parameter(name, type);
+        tokens.skip(Token.Kind.COLON);
+
+        var type = ParseType.parse(state);
+
+        type.isOptional = optional;
+
+        if(tokens.kind() == Token.Kind.EQUALS) {
+            tokens.next();
+
+            ParseExpression.parse(state, parent);
+
+            return new Parameter(name, type, true);
+        }
+
+        return new Parameter(name, type, false);
     }
 }
