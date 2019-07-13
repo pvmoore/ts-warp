@@ -2,7 +2,8 @@
 class C {
     prop:number;
     prop2:number;
-    private prop4:number = 4;
+    private prop4:number = 4.234;
+    public readonly prop5:number = 1.1;
 
     constructor(prop:number, prop2:number, private prop3:number=3) {
         //this.prop = prop;

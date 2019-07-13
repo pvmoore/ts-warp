@@ -4,6 +4,7 @@ import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.lex.Token;
+import warp.parse.ParseVariable;
 
 /**
  * CPARAM      ::= [Access] name [?] ':' Type [ '=' Expression ]
@@ -77,7 +78,7 @@ final public class ClassDecl extends Declaration {
         }
 
         /* property */
-        return new VariableDecl().parse(state, this);
+        return ParseVariable.parse(state, this);
 
 
         //throw new ParseError("Parse failed while parsing class "+name+" in file ["+state.file+"] @ "+tokens.get());

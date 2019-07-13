@@ -50,7 +50,5 @@ let f3 = ()=>{};
 let f4 = (a:number):void => {};
 let v5 = (a:number)=> 3;
 
-/* Function declarations */
-function foo() {}
-function foo2(n:number) {}
-function foo3():void {}
+
+

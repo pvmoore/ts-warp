@@ -9,7 +9,6 @@ import warp.ast.TSDirective;
 import warp.ast.decl.ClassDecl;
 import warp.ast.decl.Declaration;
 import warp.ast.decl.FunctionDecl;
-import warp.ast.decl.VariableDecl;
 import warp.ast.stmt.ReturnStmt;
 import warp.lex.Token;
 
@@ -67,7 +66,7 @@ final public class ParseStatement {
         switch(t.value) {
             case "let":
             case "const":
-                return new VariableDecl().parse(state, parent);
+                return ParseVariable.parse(state, parent);
             case "function":
                 return new FunctionDecl().parse(state, parent);
             case "class":

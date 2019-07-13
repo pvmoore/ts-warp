@@ -8,6 +8,6 @@ final public class ModuleFile extends ASTNode {
     }
 
     @Override public String toString() {
-        return String.format("[ModuleFile %s]", name);
+        return String.format("module %s", name);
     }
 }

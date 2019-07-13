@@ -27,6 +27,7 @@ final public class Token {
         SEMICOLON(";"),
         COMMA(","),
         DOT("."),
+        DOT3("..."),
 
         FWD_SLASH("/"),
         FWD_SLASH_EQ("/="),

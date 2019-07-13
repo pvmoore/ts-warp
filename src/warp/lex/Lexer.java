@@ -150,6 +150,10 @@ final public class Lexer {
                 case '.':
                     if(buf.length()>0 && isNumber(buf.charAt(0))) {
                         // this is part of a number
+                        buf.append(ch);
+                    } else if(peek(1)=='.' && peek(2)=='.') {
+                        addToken(Token.Kind.DOT3, 3);
+                        pos+=2;
                     } else {
                         addToken(Token.Kind.DOT, 1);
                     }
