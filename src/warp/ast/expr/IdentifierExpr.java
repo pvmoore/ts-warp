@@ -7,17 +7,17 @@ import warp.ast.Expression;
 final public class IdentifierExpr extends Expression {
     public String name;
 
+    @Override public String toString() {
+        return String.format("%s", name);
+    }
+
     @Override public IdentifierExpr parse(ModuleState state, ASTNode parent) {
+        parent.add(this);
         var tokens = state.tokens;
 
         this.name = tokens.value();
-
         tokens.next();
 
         return this;
-    }
-
-    @Override public String toString() {
-        return String.format("[identifier %s]", name);
     }
 }

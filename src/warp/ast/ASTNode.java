@@ -29,7 +29,7 @@ public abstract class ASTNode {
     }
 
     public void writeToDebug(String indent) {
-        log.debug(indent + this.toString());
+        log.debug(indent + this.toString()+" ");
         for(var ch : children) {
             ch.writeToDebug(indent+"   ");
         }

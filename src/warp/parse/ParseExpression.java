@@ -52,6 +52,11 @@ final public class ParseExpression {
                 return new FunctionExpr().parse(state, parent);
         }
 
+        /* Assume it's an identifier for now */
+        if(t.kind == Token.Kind.IDENTIFIER) {
+            return new IdentifierExpr().parse(state, parent);
+        }
+
         throw new ParseError("Parse failed in file ["+state.file+"] @ "+tokens.get());
     }
 }

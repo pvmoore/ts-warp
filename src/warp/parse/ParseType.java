@@ -1,6 +1,7 @@
 package warp.parse;
 
 import org.apache.log4j.Logger;
+import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.lex.Token;
@@ -74,7 +75,7 @@ final public class ParseType {
 
         type.isOptional = optional;
 
-        return new Parameter(name, type, false);
+        return new Parameter(name, type, Access.NOT_SPECIFIED, false);
     }
     /**
      * This version allows a default argument which will be added to the AST.
@@ -83,6 +84,8 @@ final public class ParseType {
      */
     public static Parameter parseParam(ModuleState state, ASTNode parent) {
         var tokens = state.tokens;
+
+        var access = Access.parse(state);
 
         var name = tokens.value();
         tokens.next();
@@ -104,9 +107,9 @@ final public class ParseType {
 
             ParseExpression.parse(state, parent);
 
-            return new Parameter(name, type, true);
+            return new Parameter(name, type, access, true);
         }
 
-        return new Parameter(name, type, false);
+        return new Parameter(name, type, access, false);
     }
 }

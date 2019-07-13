@@ -1,8 +1,10 @@
 
+/* booleans */
 let b0:boolean;
 let b1:boolean = true;
 let b2:boolean = false;
 
+/* number */
 let n0: number;
 let n1: number = 6;
 let n2: number = 0xf00d;
@@ -19,14 +21,18 @@ let n10: number = -1.3;
 let n11: number = 123e5;
 let n12: number = 123e-5;
 
+/* strings */
 let str1: string = 'hello';
 let str2: string = "hello";
 const str3: string = `hello`;
 
+/* undefined */
 let u0:undefined;
 
+/* null */
 let nl:null = null;
 
+/* objects */
 let o0:object;
 let o1:object = {};
 let o2:object = {
@@ -34,10 +40,10 @@ let o2:object = {
     name2:"pete"
 };
 
-/* Function variables */
+/* Function variable declarations */
 let f0:()=>void;
 let f1:(a:number)=>number;
-let f2:()=>void = function(){};
+let f2:()=>void             = function(){};
 
 /* Implicit function variables */
 let f3 = ()=>{};

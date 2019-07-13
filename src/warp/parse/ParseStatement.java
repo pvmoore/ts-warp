@@ -6,9 +6,11 @@ import warp.ast.ASTNode;
 import warp.ast.BlockStmt;
 import warp.ast.Statement;
 import warp.ast.TSDirective;
+import warp.ast.decl.ClassDecl;
 import warp.ast.decl.Declaration;
 import warp.ast.decl.FunctionDecl;
 import warp.ast.decl.VariableDecl;
+import warp.ast.stmt.ReturnStmt;
 import warp.lex.Token;
 
 /**
@@ -68,19 +70,12 @@ final public class ParseStatement {
                 return new VariableDecl().parse(state, parent);
             case "function":
                 return new FunctionDecl().parse(state, parent);
+            case "class":
+                return new ClassDecl().parse(state, parent);
+            case "return":
+                return new ReturnStmt().parse(state, parent);
         }
 
         throw new ParseError("Parse failed in file ["+state.file+"] @ "+tokens.get());
     }
-//    private static Declaration parseDeclaration(ModuleState state, ASTNode parent) {
-//        log.trace("parseDeclaration "+state.tokens.get());
-//        var tokens = state.tokens;
-//
-//        tokens.setAmbient();
-//        tokens.next();
-//
-//        var t = tokens.get();
-//
-//
-//    }
 }

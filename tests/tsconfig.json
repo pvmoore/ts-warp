@@ -61,8 +61,9 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "files": [
-    "basic-types.ts",
-    "enums.ts"
+    "classes.ts"
+    //"basic-types.ts",
+    //"enums.ts"
   ],
   "include": [],
   "exclude": []

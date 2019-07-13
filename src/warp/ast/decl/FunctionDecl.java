@@ -11,21 +11,40 @@ import warp.types.FunctionType;
 final public class FunctionDecl extends Declaration {
     public String name;
     public FunctionType type;
-    public Access access = Access.PUBLIC;   /* For class members only */
+    public Access access = Access.NOT_SPECIFIED;   /* For class members only */
 
-    boolean isClassMember() {
+    boolean isClassMethod() {
         return parent instanceof ClassDecl;
+    }
+    @Override public String toString() {
+        if(isClassMethod()) {
+            var a = access.toString(); if(a.length()>0) a+=" ";
+            return String.format("%s%s%s]", a, name, type);
+        }
+        return String.format("function %s%s]", name, type);
     }
 
     /**
-     * function name '(' { Parameter [',' Parameter] } ')' [ ':' Type ] BlockStmt
+     * STANDARD  ::= function name '(' { Parameter [',' Parameter] } ')' [ ':' Type ] BlockStmt
+     * METHOD    ::= [Access] name '(' { Parameter [',' Parameter] } ')' [ ':' Type ] BlockStmt
+     *
+     * FUNC_DECL ::= (STANDARD | METHOD)
      */
     @Override public FunctionDecl parse(ModuleState state, ASTNode parent) {
         var tokens = state.tokens;
 
         parent.add(this);
 
-        tokens.skip("function");
+        // todo - use this for error checking
+        boolean isMethod = parent instanceof ClassDecl;
+
+        if(tokens.isKeyword("function")) {
+            /* standard function */
+            tokens.skip("function");
+        } else {
+            /* class method */
+            this.access = Access.parse(state);
+        }
 
         this.name = tokens.value();
         tokens.next();
@@ -60,7 +79,5 @@ final public class FunctionDecl extends Declaration {
         return this;
     }
 
-    @Override public String toString() {
-        return String.format("[FunctionDecl %s%s]", name, type);
-    }
+
 }
