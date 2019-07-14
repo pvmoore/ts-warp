@@ -2,30 +2,21 @@ package warp.ast.decl.var;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.decl.Declaration;
 import warp.lex.Token;
 import warp.misc.ErrorNotice;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;
-import warp.types.Type;
 
 /**
  * Local/global variable declaration.
  */
-public class VariableDecl extends Declaration {
-    public String name;
-    public Type type = Type.UNKNOWN;
-    private boolean isConst;
+public class VariableDecl extends AbsVariableDecl {
+    public boolean isConst;
 
-    public boolean isConst() {
-        return isConst;
-    }
     public boolean isClassProperty() {
         return false;
     }
-    public boolean isInitialised() {
-        return firstChild() != null;
-    }
+
     @Override public String toString() {
         var c = isConst ? "const" : "let";
         return String.format("%s %s:%s", c, name, type);

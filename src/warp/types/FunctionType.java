@@ -2,23 +2,49 @@ package warp.types;
 
 import org.apache.log4j.Logger;
 import warp.ModuleState;
+import warp.ast.decl.var.ParameterDecl;
 import warp.lex.Token;
-import warp.parse.Parameter;
 import warp.parse.ParseType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 final public class FunctionType extends Type {
     final private static Logger log = Logger.getLogger(FunctionType.class);
 
-    final public List<Parameter> parameters = new ArrayList<>();
+    final public List<String> paramNames = new ArrayList<>();
+    final public List<Type> paramTypes = new ArrayList<>();
     public Type returnType = new Type(Kind.UNKNOWN);
 
     public FunctionType() {
         super(Kind.FUNCTION);
     }
+    public FunctionType(List<ParameterDecl> params, Type retType) {
+        this();
+
+        for(var p : params) {
+            paramNames.add(p.name);
+            paramTypes.add(p.type);
+        }
+        this.returnType = retType;
+    }
+
+    @Override public String toString() {
+        assert(paramNames.size() == paramTypes.size());
+
+        var buf = new StringBuilder();
+        for(var i=0; i<paramNames.size(); i++) {
+            if(i>0) buf.append(", ");
+
+            buf.append(paramNames.get(i))
+               .append(paramTypes.get(i).isOptional ? "?" : "")
+               .append(":")
+               .append(paramTypes.get(i));
+        }
+
+        return String.format("(%s)=>%s", buf.toString(), returnType);
+    }
+
     /**
      * PARAM ::= name [?] ':' Type
      * '(' { PARAM [ ',' PARAM ] } ')' '=>' Type
@@ -32,8 +58,22 @@ final public class FunctionType extends Type {
 
         while(tokens.kind()!=Token.Kind.RBR) {
 
-            /* Get param - no initialiser allowed */
-            parameters.add(ParseType.parseParam(state));
+            /* name [ '?' ] ':' Type */
+
+            paramNames.add(tokens.value());
+            tokens.next();
+
+            var isOptional = tokens.kind() == Token.Kind.QUESTION;
+            if(isOptional) {
+                tokens.next();
+            }
+
+            tokens.skip(Token.Kind.COLON);
+
+            var type = ParseType.parse(state);
+            type.isOptional = isOptional;
+
+            paramTypes.add(type);
 
             tokens.expect(Token.Kind.COMMA, Token.Kind.RBR);
             tokens.skipIf(Token.Kind.COMMA);
@@ -45,14 +85,5 @@ final public class FunctionType extends Type {
         this.returnType = ParseType.parse(state);
 
         return this;
-    }
-
-    @Override public String toString() {
-
-        var ps = parameters.stream()
-                           .map(Parameter::toString)
-                           .collect(Collectors.joining("," ));
-
-        return String.format("(%s)=>%s", ps, returnType);
     }
 }

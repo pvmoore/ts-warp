@@ -7,11 +7,10 @@ import warp.lex.Token;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;
 
-final public class PropertyDecl extends VariableDecl {
+final public class PropertyDecl extends AbsVariableDecl {
     public boolean isReadonly;
     public Access access = Access.NOT_SPECIFIED;
 
-    @Override
     public boolean isClassProperty() {
         return true;
     }

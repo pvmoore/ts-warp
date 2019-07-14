@@ -1,9 +1,7 @@
 package warp.parse;
 
 import org.apache.log4j.Logger;
-import warp.Access;
 import warp.ModuleState;
-import warp.ast.ASTNode;
 import warp.lex.Token;
 import warp.misc.Util;
 import warp.types.*;
@@ -42,15 +40,6 @@ final public class ParseType {
             tokens.next();
         }
 
-//        if(type==null) {
-//            switch(value) {
-//                case "object":
-//                    tokens.next();
-//                    type = new ObjectType();
-//                    break;
-//            }
-//        }
-
         if(type==null) {
             switch(tokens.kind()) {
                 case LBR:
@@ -74,70 +63,12 @@ final public class ParseType {
             Util.todo();
         }
 
+        /* array */
         if(tokens.kind() == Token.Kind.LSQBR) {
-            /* array */
             tokens.next();
             tokens.skip(Token.Kind.RSQBR);
             type = new ArrayType(type);
         }
         return type;
-    }
-    /**
-     * name [?] ':' Type
-     */
-    public static Parameter parseParam(ModuleState state) {
-        var tokens = state.tokens;
-
-        var name = tokens.value();
-        tokens.next();
-
-        boolean optional = tokens.kind() == Token.Kind.QUESTION;
-
-        if(optional) {
-            tokens.next();
-        }
-
-        tokens.skip(Token.Kind.COLON);
-
-        var type = ParseType.parse(state);
-
-        type.isOptional = optional;
-
-        return new Parameter(name, type, Access.NOT_SPECIFIED, false);
-    }
-    /**
-     * This version allows a default argument which will be added to the AST.
-     *
-     * name [?] ':' Type [ '=' Expression ]
-     */
-    public static Parameter parseParam(ModuleState state, ASTNode parent) {
-        var tokens = state.tokens;
-
-        var access = Access.parse(state);
-
-        var name = tokens.value();
-        tokens.next();
-
-        boolean optional = tokens.kind() == Token.Kind.QUESTION;
-
-        if(optional) {
-            tokens.next();
-        }
-
-        tokens.skip(Token.Kind.COLON);
-
-        var type = ParseType.parse(state);
-
-        type.isOptional = optional;
-
-        if(tokens.kind() == Token.Kind.EQUALS) {
-            tokens.next();
-
-            ParseExpression.parse(state, parent);
-
-            return new Parameter(name, type, access, true);
-        }
-
-        return new Parameter(name, type, access, false);
     }
 }

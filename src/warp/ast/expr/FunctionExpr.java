@@ -4,10 +4,14 @@ import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.ast.BlockStmt;
 import warp.ast.Expression;
+import warp.ast.decl.var.ParameterDecl;
 import warp.lex.Token;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;
 import warp.types.FunctionType;
+import warp.types.Type;
+
+import java.util.stream.Collectors;
 
 /**
  * FunctionExpr ::= (CLASSIC_FUNC | ARROW_FUNC)
@@ -15,21 +19,36 @@ import warp.types.FunctionType;
  * ARROW_FUNC   ::= '(' Parameters ')' '=>'  [ ':' Type ] (Expression | BlockStmt)
  *
  * Children:
- *      { Parameter initialisers }
+ *      ParameterDecl   (1 per parameter)
  *      (Expression | BlockStmt)
  */
 final public class FunctionExpr extends Expression {
     public boolean isArrowFunction;
-    public FunctionType type;
+    private Type returnType = Type.UNKNOWN;
+
+    public FunctionType getType() {
+        // todo - optimise this later
+        return new FunctionType(children.stream()
+                                        .filter((e)->e instanceof ParameterDecl)
+                                        .map((e)->(ParameterDecl)e)
+                                        .collect(Collectors.toList()),
+                                returnType);
+    }
+    @Override public String toString() {
+        var type = getType();
+        return "FunctionExpr "+type;
+    }
 
     /**
      * let v1 = function(a:number):void      {};
      * let v2 = function(a:number)           {};
+     * let v3 = function(a)                  {}
      *
-     * let v3 =         (a:number):void   => {};
-     * let v4 =         (a:number)        => {};
-     * let v5 =         (a:number):number => 3;
-     * let v6 =         (a:number)        => 3;
+     * let v4 =         (a:number):void   => {};
+     * let v5 =         (a:number)        => {};
+     * let v6 =         (a:number):number => 3;
+     * let v7 =         (a:number)        => 3;
+     * let v8 =         (a)               => 3;
      */
     @Override public FunctionExpr parse(ModuleState state, ASTNode parent) {
         log.trace("parse "+state.tokens.get());
@@ -44,14 +63,11 @@ final public class FunctionExpr extends Expression {
             this.isArrowFunction = true;
         }
 
-        this.type = new FunctionType();
-
         tokens.skip(Token.Kind.LBR);
 
         while(tokens.kind() != Token.Kind.RBR) {
 
-            /* Get param - allow initialisers */
-            type.parameters.add(ParseType.parseParam(state, this));
+            new ParameterDecl().parse(state, this);
 
             tokens.expect(Token.Kind.COMMA, Token.Kind.RBR);
             tokens.skipIf(Token.Kind.COMMA);
@@ -62,7 +78,7 @@ final public class FunctionExpr extends Expression {
         if(tokens.kind() == Token.Kind.COLON) {
             tokens.next();
 
-            type.returnType = ParseType.parse(state);
+            this.returnType = ParseType.parse(state);
         }
 
         if(isArrowFunction) {
@@ -79,9 +95,5 @@ final public class FunctionExpr extends Expression {
         }
 
         return this;
-    }
-
-    @Override public String toString() {
-        return "FunctionExpr "+type;
     }
 }
