@@ -65,7 +65,9 @@
     //"variable-declarations.ts",
     //"variable-destructuring-decls.ts"
     //"function-declarations.ts",
-    "function-expressions.ts",
+    //"type-declarations.ts",
+    "interface-declarations.ts",
+    //"function-expressions.ts",
     //"enums.ts",
     //"tsd.ts"
   ],

@@ -70,3 +70,8 @@ let t0:[number];
 let t1:[number,boolean];
 let t2:[number,boolean,string];
 let t3:[()=>void, (a:string)=>number];
+
+/* bigint */
+let bi0:bigint;
+//let bi1:bigint = BigInt(10);  
+//let bi2:bigint = 100n;
