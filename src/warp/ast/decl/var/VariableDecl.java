@@ -28,7 +28,7 @@ public class VariableDecl extends Declaration {
     }
     @Override public String toString() {
         var c = isConst ? "const" : "let";
-        return String.format("%s %s:%s]", c, name, type);
+        return String.format("%s %s:%s", c, name, type);
     }
 
     /**

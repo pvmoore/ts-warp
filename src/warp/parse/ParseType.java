@@ -5,9 +5,8 @@ import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.lex.Token;
-import warp.types.FunctionType;
-import warp.types.ObjectType;
-import warp.types.Type;
+import warp.misc.Util;
+import warp.types.*;
 
 import java.util.Map;
 
@@ -20,7 +19,7 @@ import static warp.types.Type.Kind;
  */
 final public class ParseType {
     final private static Logger log = Logger.getLogger(ParseType.class);
-    final private static Map<String,Type> simpleTypes = ofEntries(
+    final private static Map<String,Type> primitiveTypes = ofEntries(
         entry("any", new Type(Kind.ANY)),
         entry("number", new Type(Kind.NUMBER)),
         entry("string", new Type(Kind.STRING)),
@@ -28,31 +27,60 @@ final public class ParseType {
         entry("undefined", new Type(Kind.UNDEFINED)),
         entry("null", new Type(Kind.NULL)),
         entry("void", new Type(Kind.VOID)),
-        entry("never", new Type(Kind.NEVER))
+        entry("never", new Type(Kind.NEVER)),
+        entry("bigint", new Type(Kind.BIGINT)),
+        entry("symbol", new Type(Kind.SYMBOL)),
+        entry("object", new ObjectType())
     );
 
     public static Type parse(ModuleState state) {
         var tokens = state.tokens;
         var value = tokens.value();
 
-        var t = simpleTypes.get(value);
-        if(t!=null) {
+        Type type = primitiveTypes.get(value);
+        if(type!=null) {
             tokens.next();
-            return t;
         }
 
-        switch(value) {
-            case "object":
-                tokens.next();
-                return new ObjectType();
+//        if(type==null) {
+//            switch(value) {
+//                case "object":
+//                    tokens.next();
+//                    type = new ObjectType();
+//                    break;
+//            }
+//        }
+
+        if(type==null) {
+            switch(tokens.kind()) {
+                case LBR:
+                    type = new FunctionType().parse(state);
+                    break;
+                case LSQBR:
+                    type = new TupleType().parse(state);
+                    break;
+                case LCURLY:
+                    type = new ObjectType().parse(state);
+            }
         }
 
-        switch(tokens.kind()) {
-            case LBR:
-                return new FunctionType().parse(state);
+        if(type==null) throw new ParseError("Unknown type @ "+tokens.get());
 
+        // todo - handle unions and intersections
+        if(tokens.kind() == Token.Kind.PIPE) {
+            Util.todo();
         }
-        throw new ParseError("Unknown type @ "+tokens.get());
+        if(tokens.kind() == Token.Kind.AMPERSAND) {
+            Util.todo();
+        }
+
+        if(tokens.kind() == Token.Kind.LSQBR) {
+            /* array */
+            tokens.next();
+            tokens.skip(Token.Kind.RSQBR);
+            type = new ArrayType(type);
+        }
+        return type;
     }
     /**
      * name [?] ':' Type

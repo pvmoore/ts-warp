@@ -60,8 +60,22 @@ final public class DestructuringDecl extends Declaration {
 
     @Override
     public String toString() {
-        var c = isConst ? "const" : "let";
-        return String.format("%s %s]", c, String.join(",", names));
+        var c  = isConst ? "const" : "let";
+        String ob = "[", cb = "]";
+        if(kind==Kind.OBJECT) {
+            ob = "{"; cb = "}";
+        }
+        var n = String.join(",", names);
+        if(hasRestArg) {
+            var i = n.lastIndexOf(',');
+            if(i!=-1) {
+                n = n.substring(0,i+1) + "..." + n.substring(i+1);
+            } else {
+                n = "..." + n;
+            }
+        }
+        var p = properties.isEmpty() ? "" : " props: "+String.join(",", properties);
+        return String.format("%s %s%s%s:%s%s", c, ob, n, cb, type, p);
     }
 
     @Override
@@ -110,10 +124,11 @@ final public class DestructuringDecl extends Declaration {
                     tokens.next();
 
                     names.add(tokens.value());
+                    tokens.next();
                 } else {
                     names.add(tokens.value());
+                    tokens.next();
                 }
-                tokens.next();
 
                 tokens.expect(Token.Kind.COMMA, Token.Kind.RSQBR);
                 tokens.skipIf(Token.Kind.COMMA);

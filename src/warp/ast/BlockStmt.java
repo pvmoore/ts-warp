@@ -11,12 +11,17 @@ import warp.parse.ParseStatement;
  */
 final public class BlockStmt extends Statement  {
 
+    @Override public String toString() {
+        return "{}";
+    }
+
     @Override public BlockStmt parse(ModuleState state, ASTNode parent) {
+        parent.add(this);
         var tokens = state.tokens;
 
         tokens.skip(Token.Kind.LCURLY);
 
-        ParseStatement.parseMultiple(state, parent);
+        ParseStatement.parseMultiple(state, this);
 
         tokens.skip(Token.Kind.RCURLY);
 

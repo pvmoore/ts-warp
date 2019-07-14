@@ -24,6 +24,8 @@ public class Type {
         NULL,           // null
         VOID,           // void
         NEVER,          // never (return type)
+        BIGINT,         // bigint
+        SYMBOL,         // symbol
 
         OBJECT,         // {}
         CLASS,          // ?

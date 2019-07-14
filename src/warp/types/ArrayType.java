@@ -6,11 +6,12 @@ package warp.types;
 final public class ArrayType extends Type {
     public Type subtype;
 
-    public ArrayType() {
+    public ArrayType(Type subtype) {
         super(Kind.ARRAY);
+        this.subtype = subtype;
     }
 
     @Override public String toString() {
-        return "[Array of " + kind.toString() + "]";
+        return String.format("%s[]", subtype);
     }
 }

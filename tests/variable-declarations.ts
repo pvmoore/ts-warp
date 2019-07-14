@@ -39,6 +39,15 @@ let o2:object = {
     name:3,
     name2:"pete"
 };
+let o3:{a:number};
+let o4:{};  // empty object
+let o5:{p}; // p:any
+let o6:{p:string p2 p3:number};
+let o7:{p,p2;p3};
+
+/* any */
+let a0:any;
+let a1:any = 1;
 
 /* Function variable declarations */
 let f0:()=>void;
@@ -50,5 +59,14 @@ let f3 = ()=>{};
 let f4 = (a:number):void => {};
 let v5 = (a:number)=> 3;
 
+/* arrays */
+let ar0:number[];
+let ar1:string[];
+let ar2:boolean[];
+let ar3:object[];
 
-
+/* tuples */
+let t0:[number];
+let t1:[number,boolean];
+let t2:[number,boolean,string];
+let t3:[()=>void, (a:string)=>number];
