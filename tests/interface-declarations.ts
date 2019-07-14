@@ -7,6 +7,6 @@ interface C {
     prop
 }
 interface D {
-    p:string,
-    p2:number
+    p?:string,
+    readonly p2:number
 }

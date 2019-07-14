@@ -204,6 +204,9 @@ final public class Lexer {
                 case '}':
                     addToken(Token.Kind.RCURLY, 1);
                     break;
+                case '?':
+                    addToken(Token.Kind.QUESTION, 1);
+                    break;
                 default:
                     buf.append(ch);
                     break;

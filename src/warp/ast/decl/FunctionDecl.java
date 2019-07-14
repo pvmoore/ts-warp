@@ -16,7 +16,7 @@ final public class FunctionDecl extends Declaration {
     public String name;
     public Access access = Access.NOT_SPECIFIED;   /* For class members only */
 
-    private Type returnType = Type.UNKNOWN;
+    private Type returnType = new Type(Type.Kind.UNKNOWN);
 
     public FunctionType getType() {
         // todo - optimise this later
@@ -34,9 +34,9 @@ final public class FunctionDecl extends Declaration {
         var type = getType();
         if(isClassMethod()) {
             var a = access.toString(); if(a.length()>0) a+=" ";
-            return String.format("%s%s%s]", a, name, type);
+            return String.format("%s%s%s", a, name, type);
         }
-        return String.format("function %s%s]", name, type);
+        return String.format("function %s%s", name, type);
     }
 
     /**

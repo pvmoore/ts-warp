@@ -11,7 +11,6 @@ import warp.types.ObjectType;
 
 import java.util.stream.Collectors;
 
-
 final public class ConstructorDecl extends Declaration {
     public Access access;
 

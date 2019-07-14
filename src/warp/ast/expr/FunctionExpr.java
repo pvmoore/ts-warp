@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 final public class FunctionExpr extends Expression {
     public boolean isArrowFunction;
-    private Type returnType = Type.UNKNOWN;
+    private Type returnType = new Type(Type.Kind.UNKNOWN);
 
     public FunctionType getType() {
         // todo - optimise this later

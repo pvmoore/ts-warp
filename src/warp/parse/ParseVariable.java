@@ -6,11 +6,12 @@ import warp.ast.ASTNode;
 import warp.ast.decl.ClassDecl;
 import warp.ast.decl.Declaration;
 import warp.ast.decl.FunctionDecl;
+import warp.ast.decl.InterfaceDecl;
+import warp.ast.decl.var.ClassPropertyDecl;
 import warp.ast.decl.var.DestructuringDecl;
-import warp.ast.decl.var.PropertyDecl;
+import warp.ast.decl.var.InterfacePropertyDecl;
 import warp.ast.decl.var.VariableDecl;
 import warp.lex.Token;
-import warp.misc.Util;
 
 /**
  * https://www.typescriptlang.org/docs/handbook/variable-declarations.html
@@ -36,9 +37,13 @@ final public class ParseVariable {
         log.trace("parse "+state.tokens.get());
         var tokens = state.tokens;
         var isClassProperty = parent instanceof ClassDecl;
+        var isInterfaceProperty = parent instanceof InterfaceDecl;
 
         if(isClassProperty) {
-            return parseProperty(state, parent);
+            return new ClassPropertyDecl().parse(state, parent);
+        }
+        if(isInterfaceProperty) {
+            return new InterfacePropertyDecl().parse(state, parent);
         }
         if(parent instanceof FunctionDecl) {
             // param
@@ -47,45 +52,9 @@ final public class ParseVariable {
         /* Handle destructuring */
         var k = tokens.peek(1).kind;
         if(k== Token.Kind.LSQBR || k== Token.Kind.LCURLY) {
-            return parseDestructuredDecl(state, parent);
+            return new DestructuringDecl().parse(state, parent);
         }
 
-        return parseDecl(state, parent);
-    }
-
-    /**
-     * eg.
-     * let [a,b] = a;
-     * let {a,b} = o;
-     */
-    private static DestructuringDecl parseDestructuredDecl(ModuleState state, ASTNode parent) {
-        log.trace("parseDestructuredDecl "+state.tokens.get());
-        return new DestructuringDecl().parse(state, parent);
-    }
-
-    /**
-     *
-     */
-    private static VariableDecl parseParameter(ModuleState state, ASTNode parent) {
-        Util.todo();
-        return null;
-    }
-    /**
-     * Class property.
-     *
-     * PROPERTY ::= [Access] [readonly] name [ ':' Type ] [ '=' Expression ] [ ';' ]
-     */
-    private static PropertyDecl parseProperty(ModuleState state, ASTNode parent) {
-        log.trace("parseProperty "+state.tokens.get());
-        return new PropertyDecl().parse(state, parent);
-    }
-    /**
-     * Local/global variable declaration.
-     *
-     * DECL ::= (let | const) name [ ':' Type ] [ '=' Expression ] [ ';' ]
-     */
-    private static VariableDecl parseDecl(ModuleState state, ASTNode parent) {
-        log.trace("parseDecl "+state.tokens.get());
         return new VariableDecl().parse(state, parent);
     }
 }

@@ -79,8 +79,5 @@ final public class ClassDecl extends Declaration {
 
         /* property */
         return ParseVariable.parse(state, this);
-
-
-        //throw new ParseError("Parse failed while parsing class "+name+" in file ["+state.file+"] @ "+tokens.get());
     }
 }

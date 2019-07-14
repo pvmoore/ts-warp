@@ -3,37 +3,20 @@ package warp.ast.decl;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.lex.Token;
-import warp.parse.ParseType;
-import warp.types.Type;
-
-import java.util.ArrayList;
-import java.util.List;
+import warp.parse.ParseVariable;
 
 /**
  * https://www.typescriptlang.org/docs/handbook/interfaces.html
  */
 final public class InterfaceDecl extends Declaration {
     public String name;
-    public List<String> names = new ArrayList<>();
-    public List<Type> types = new ArrayList<>();
 
     @Override public String toString() {
-        assert(names.size() == types.size());
-
-        var buf = new StringBuilder("interface ").append(name).append(" {");
-
-        for(var i=0;i<names.size(); i++) {
-            if(i>0) buf.append(", ");
-            buf.append(names.get(i))
-               .append(":")
-               .append(types.get(i));
-        }
-
-        return buf.append("}").toString();
+        return String.format("interface %s", name);
     }
 
     /**
-     * BODY ::= { prop [ ':' Type ] [','|';'] }
+     * BODY ::= { prop ['?'] [ ':' Type ] [','|';'] }
      *
      * 'interface' name '{' BODY '}'
      */
@@ -51,16 +34,7 @@ final public class InterfaceDecl extends Declaration {
 
             /* prop [ ':' Type ] [','|';'] */
 
-            names.add(tokens.value());
-            tokens.next();
-
-            if(tokens.kind() == Token.Kind.COLON) {
-                tokens.next();
-
-                types.add(ParseType.parse(state));
-            } else {
-                types.add(new Type(Type.Kind.ANY));
-            }
+            ParseVariable.parse(state, this);
 
             tokens.skipIf(Token.Kind.COMMA);
             tokens.skipIf(Token.Kind.SEMICOLON);

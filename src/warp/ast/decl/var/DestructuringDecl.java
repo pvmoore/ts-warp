@@ -50,7 +50,7 @@ final public class DestructuringDecl extends Declaration {
     public Kind kind;
     public boolean isConst;
     public boolean hasRestArg;     /* true if '...' is used on last name */
-    public Type type = Type.UNKNOWN; /* object, tuple or array */
+    public Type type = new Type(Type.Kind.UNKNOWN); /* object, tuple or array */
 
     /* The variable names */
     public List<String> names = new ArrayList<>();

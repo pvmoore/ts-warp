@@ -7,23 +7,18 @@ import warp.lex.Token;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;
 
-final public class PropertyDecl extends AbsVariableDecl {
-    public boolean isReadonly;
+final public class ClassPropertyDecl extends AbsPropertyDecl {
     public Access access = Access.NOT_SPECIFIED;
-
-    public boolean isClassProperty() {
-        return true;
-    }
 
     @Override
     public String toString() {
         var a = access.toString(); if(a.length()>0) a += " ";
         var r = isReadonly ? "readonly " : "";
-        return String.format("%s%s%s:%s", a, r, name, type);
+        var opt = type.isOptional ? "?" : "";
+        return String.format("%s%s%s%s:%s", a, r, name, opt, type);
     }
-
     @Override
-    public PropertyDecl parse(ModuleState state, ASTNode parent) {
+    public ClassPropertyDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);
 
         var tokens = state.tokens;
@@ -35,8 +30,11 @@ final public class PropertyDecl extends AbsVariableDecl {
             tokens.next();
         }
 
-        this.name = tokens.get().value;
-        tokens.next();
+        this.name = tokens.value(); tokens.next();
+
+        var isOptional = tokens.kind() == Token.Kind.QUESTION;
+        if(isOptional) tokens.next();
+
 
         /* Optional type */
         if(tokens.isKind(Token.Kind.COLON)) {
@@ -44,6 +42,7 @@ final public class PropertyDecl extends AbsVariableDecl {
 
             this.type = ParseType.parse(state);
         }
+        this.type.isOptional = isOptional;
 
         /* Optional expression */
         if(tokens.isKind(Token.Kind.EQUALS)) {
