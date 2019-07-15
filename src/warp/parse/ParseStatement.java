@@ -65,7 +65,11 @@ final public class ParseStatement {
         switch(t.value) {
             case "let":
             case "const":
-                return ParseVariable.parse(state, parent);
+                if(tokens.peek(1).value.equals("enum")) {
+                    return new EnumDecl().parse(state, parent);
+                } else {
+                    return ParseVariable.parse(state, parent);
+                }
             case "function":
                 return new FunctionDecl().parse(state, parent);
             case "class":
@@ -74,6 +78,8 @@ final public class ParseStatement {
                 return new InterfaceDecl().parse(state, parent);
             case "type":
                 return new TypeAliasDecl().parse(state, parent);
+            case "enum":
+                return new EnumDecl().parse(state, parent);
             case "return":
                 return new ReturnStmt().parse(state, parent);
         }
