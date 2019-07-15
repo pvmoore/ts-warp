@@ -1,7 +1,7 @@
 package warp.ast.decl.func;
 
 import warp.ast.decl.Declaration;
-import warp.ast.decl.var.ParameterDecl;
+import warp.ast.decl.param.ParameterDecl;
 import warp.types.FunctionType;
 import warp.types.Type;
 

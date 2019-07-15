@@ -2,7 +2,7 @@ package warp.types;
 
 import org.apache.log4j.Logger;
 import warp.ModuleState;
-import warp.ast.decl.var.ParameterDecl;
+import warp.ast.decl.param.ParameterDecl;
 import warp.lex.Token;
 import warp.parse.ParseType;
 

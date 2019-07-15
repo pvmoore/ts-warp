@@ -5,8 +5,8 @@ import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.ast.decl.func.ClassMethodDecl;
 import warp.ast.decl.func.ConstructorDecl;
-import warp.ast.decl.var.ClassPropertyDecl;
-import warp.ast.decl.var.IndexablePropertyDecl;
+import warp.ast.decl.prop.ClassPropertyDecl;
+import warp.ast.decl.prop.IndexablePropertyDecl;
 import warp.lex.Token;
 
 /**
@@ -52,19 +52,20 @@ final public class ClassDecl extends Declaration {
 
             if(tokens.peek(i).kind == Token.Kind.LSQBR) {
                 /* indexable property */
-
                 new IndexablePropertyDecl().parse(state, this);
+
             } else if(tokens.peek(i).value.equals("constructor") &&
                       tokens.peek(i+1).kind== Token.Kind.LBR)
             {
                 /* constructor */
-
                 new ConstructorDecl().parse(state, this);
+
             } else if(tokens.peek(i+1).kind == Token.Kind.LBR ||
                       tokens.peek(i+2).kind == Token.Kind.LBR)
             {
                 /* method */
                 new ClassMethodDecl().parse(state, this);
+
             } else {
                 /* property */
                 new ClassPropertyDecl().parse(state, this);

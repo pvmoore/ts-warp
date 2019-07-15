@@ -1,4 +1,4 @@
-package warp.ast.decl.var;
+package warp.ast.decl.prop;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;

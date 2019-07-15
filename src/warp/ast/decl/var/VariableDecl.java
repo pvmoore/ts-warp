@@ -6,16 +6,14 @@ import warp.lex.Token;
 import warp.misc.ErrorNotice;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;
+import warp.types.Type;
 
 /**
  * Local/global variable declaration.
  */
 public class VariableDecl extends AbsVariableDecl {
-    public boolean isConst;
-
-    public boolean isClassProperty() {
-        return false;
-    }
+    public String name;
+    public Type type = new Type(Type.Kind.UNKNOWN);
 
     @Override public String toString() {
         var c = isConst ? "const" : "let";
@@ -23,7 +21,7 @@ public class VariableDecl extends AbsVariableDecl {
     }
 
     /**
-     * DECL ::= (let | const) name [ ':' Type ] [ '=' Expression ] [ ';' ]
+     * DECL ::= (let | const) name [ ':' Type ] [ '=' Expression ]
      */
     @Override
     public VariableDecl parse(ModuleState state, ASTNode parent) {
@@ -56,6 +54,7 @@ public class VariableDecl extends AbsVariableDecl {
         } else if(this.isConst) {
             state.errors.add(new ErrorNotice("const declaration must be initialised", tokens.get()));
         }
+
         return this;
     }
     public void resolve() {

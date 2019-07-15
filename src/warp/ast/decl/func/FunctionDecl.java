@@ -4,8 +4,9 @@ import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.ast.BlockStmt;
 import warp.ast.decl.Declaration;
-import warp.ast.decl.var.ParameterDecl;
+import warp.ast.decl.param.ParameterDecl;
 import warp.lex.Token;
+import warp.parse.ParseParameter;
 import warp.parse.ParseType;
 import warp.types.FunctionType;
 import warp.types.Type;
@@ -47,7 +48,7 @@ final public class FunctionDecl extends Declaration {
 
         while(tokens.kind() != Token.Kind.RBR) {
 
-            new ParameterDecl().parse(state, this);
+            ParseParameter.parse(state, this);
 
             tokens.expect(Token.Kind.COMMA, Token.Kind.RBR);
             tokens.skipIf(Token.Kind.COMMA);

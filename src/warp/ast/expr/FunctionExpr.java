@@ -4,7 +4,7 @@ import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.ast.BlockStmt;
 import warp.ast.Expression;
-import warp.ast.decl.var.ParameterDecl;
+import warp.ast.decl.param.ParameterDecl;
 import warp.lex.Token;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;

@@ -1,10 +1,8 @@
-package warp.ast.decl.var;
+package warp.ast.decl.param;
 
 import warp.ast.decl.Declaration;
 
-abstract public class AbsVariableDecl extends Declaration {
-
-    public boolean isConst;
+public abstract class AbsParameterDecl extends Declaration {
 
     public boolean isInitialised() {
         return firstChild() != null;

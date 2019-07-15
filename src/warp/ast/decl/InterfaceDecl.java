@@ -3,8 +3,8 @@ package warp.ast.decl;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.ast.decl.func.InterfaceMethodDecl;
-import warp.ast.decl.var.IndexablePropertyDecl;
-import warp.ast.decl.var.InterfacePropertyDecl;
+import warp.ast.decl.prop.IndexablePropertyDecl;
+import warp.ast.decl.prop.InterfacePropertyDecl;
 import warp.lex.Token;
 import warp.types.Type;
 
