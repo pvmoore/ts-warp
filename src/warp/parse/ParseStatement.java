@@ -7,6 +7,7 @@ import warp.ast.BlockStmt;
 import warp.ast.Statement;
 import warp.ast.TSDirective;
 import warp.ast.decl.*;
+import warp.ast.decl.func.FunctionDecl;
 import warp.ast.stmt.ReturnStmt;
 import warp.lex.Token;
 

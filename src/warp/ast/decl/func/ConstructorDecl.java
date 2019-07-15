@@ -1,9 +1,10 @@
-package warp.ast.decl;
+package warp.ast.decl.func;
 
 import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.ast.BlockStmt;
+import warp.ast.decl.Declaration;
 import warp.ast.decl.var.ParameterDecl;
 import warp.lex.Token;
 import warp.types.FunctionType;
@@ -30,7 +31,7 @@ final public class ConstructorDecl extends Declaration {
         return String.format("%sconstructor%s", a, type);
     }
     /**
-     * CONSTRUCTOR ::= [Access] constructor '(' { Parameter [',' Parameter] } ')' BlockStmt
+     * [Access] constructor '(' { Parameter [',' Parameter] } ')' BlockStmt
      */
     @Override public ConstructorDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);

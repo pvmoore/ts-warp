@@ -1,9 +1,9 @@
-package warp.ast.decl;
+package warp.ast.decl.func;
 
-import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.ast.BlockStmt;
+import warp.ast.decl.Declaration;
 import warp.ast.decl.var.ParameterDecl;
 import warp.lex.Token;
 import warp.parse.ParseType;
@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 final public class FunctionDecl extends Declaration {
     public String name;
-    public Access access = Access.NOT_SPECIFIED;   /* For class members only */
 
     private Type returnType = new Type(Type.Kind.UNKNOWN);
 
@@ -27,39 +26,19 @@ final public class FunctionDecl extends Declaration {
                                 returnType);
     }
 
-    public boolean isClassMethod() {
-        return parent instanceof ClassDecl;
-    }
     @Override public String toString() {
         var type = getType();
-        if(isClassMethod()) {
-            var a = access.toString(); if(a.length()>0) a+=" ";
-            return String.format("%s%s%s", a, name, type);
-        }
         return String.format("function %s%s", name, type);
     }
 
     /**
-     * STANDARD  ::= function name '(' { Parameter [',' Parameter] } ')' [ ':' Type ] BlockStmt
-     * METHOD    ::= [Access] name '(' { Parameter [',' Parameter] } ')' [ ':' Type ] BlockStmt
-     *
-     * FUNC_DECL ::= (STANDARD | METHOD)
+     * 'function' name '(' parameters } ')' [ ':' Type ] BlockStmt
      */
     @Override public FunctionDecl parse(ModuleState state, ASTNode parent) {
+        parent.add(this);
         var tokens = state.tokens;
 
-        parent.add(this);
-
-        // todo - use this for error checking
-        boolean isMethod = parent instanceof ClassDecl;
-
-        if(tokens.isKeyword("function")) {
-            /* standard function */
-            tokens.skip("function");
-        } else {
-            /* class method */
-            this.access = Access.parse(state);
-        }
+        tokens.skip("function");
 
         this.name = tokens.value();
         tokens.next();

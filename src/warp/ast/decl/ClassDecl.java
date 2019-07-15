@@ -3,8 +3,11 @@ package warp.ast.decl;
 import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
+import warp.ast.decl.func.ClassMethodDecl;
+import warp.ast.decl.func.ConstructorDecl;
+import warp.ast.decl.var.ClassPropertyDecl;
+import warp.ast.decl.var.IndexablePropertyDecl;
 import warp.lex.Token;
-import warp.parse.ParseVariable;
 
 /**
  * CPARAM      ::= [Access] name [?] ':' Type [ '=' Expression ]
@@ -42,42 +45,37 @@ final public class ClassDecl extends Declaration {
 
         while(tokens.kind() != Token.Kind.RCURLY) {
 
-            parseStmt(state);
+            var i = 0;
 
-            /* Semicolon? */
-            if(tokens.kind() == Token.Kind.SEMICOLON) {
-                tokens.next();
+            if(Access.isAccessKeyword(tokens.value())) i++;
+            if(tokens.isKeyword("readonly")) i++;
+
+            if(tokens.peek(i).kind == Token.Kind.LSQBR) {
+                /* indexable property */
+
+                new IndexablePropertyDecl().parse(state, this);
+            } else if(tokens.peek(i).value.equals("constructor") &&
+                      tokens.peek(i+1).kind== Token.Kind.LBR)
+            {
+                /* constructor */
+
+                new ConstructorDecl().parse(state, this);
+            } else if(tokens.peek(i+1).kind == Token.Kind.LBR ||
+                      tokens.peek(i+2).kind == Token.Kind.LBR)
+            {
+                /* method */
+                new ClassMethodDecl().parse(state, this);
             } else {
-                // todo - should be rcurly here
+                /* property */
+                new ClassPropertyDecl().parse(state, this);
             }
+
+            tokens.skipIf(Token.Kind.COMMA);
+            tokens.skipIf(Token.Kind.SEMICOLON);
         }
 
         tokens.skip(Token.Kind.RCURLY);
 
-
         return this;
-    }
-
-    private Declaration parseStmt(ModuleState state) {
-        var tokens = state.tokens;
-
-        var offset = Access.isAccessKeyword(tokens.value()) ? 1 : 0;
-
-        var value = tokens.peek(offset).value;
-
-        /* constructor */
-        if(value.equals("constructor")) {
-            return new ConstructorDecl().parse(state, this);
-        }
-
-        boolean isMethod = tokens.peek(offset+1).kind == Token.Kind.LBR;
-
-        /* method */
-        if(isMethod) {
-            return new FunctionDecl().parse(state, this);
-        }
-
-        /* property */
-        return ParseVariable.parse(state, this);
     }
 }

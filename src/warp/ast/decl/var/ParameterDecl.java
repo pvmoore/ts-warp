@@ -4,6 +4,7 @@ import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.lex.Token;
+import warp.parse.ParseError;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;
 import warp.types.Type;
@@ -21,12 +22,20 @@ final public class ParameterDecl extends AbsVariableDecl {
      * [Access] name [?] [':' Type] [ '=' Expression ]
      *
      * Access is only allowed on constructor parameters.
+     * Initialiser is only allowed on class method parameters.
      */
     @Override public ParameterDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);
         var tokens = state.tokens;
 
         this.access = Access.parse(state);
+
+        if(tokens.kind()== Token.Kind.LSQBR) {
+            throw new ParseError("todo - Handle destructuring params");
+        }
+        if(tokens.kind()== Token.Kind.LCURLY) {
+            throw new ParseError("todo - Handle destructuring params");
+        }
 
         this.name = tokens.value(); tokens.next();
 

@@ -136,11 +136,11 @@ final public class Lexer {
                     }
                     break;
 
-                //                case '\"':
-                //                case '\'':
-                //                case '`':
-                //                    handleString();
-                //                    break;
+                case '\"':
+                case '\'':
+                case '`':
+                    handleString();
+                    break;
                 case ':':
                     addToken(Token.Kind.COLON, 1);
                     break;
@@ -329,26 +329,26 @@ final public class Lexer {
             pos++;
         }
     }
-    //    private void handleString() {
-    //        addToken();
-    //
-    //        var q = peek(0);
-    //        buf.append(q);
-    //        pos++;
-    //
-    //        while(pos<state.source.length()) {
-    //            var ch = peek(0);
-    //            buf.append(ch);
-    //
-    //            if(ch==q && peek(-1)!='\\') {
-    //                addToken();
-    //                return;
-    //            }
-    //            handleNewLine();
-    //            pos++;
-    //        }
-    //        addToken();
-    //    }
+    private void handleString() {
+        addToken();
+
+        var q = peek(0);
+        buf.append(q);
+        pos++;
+
+        while(pos<state.source.length()) {
+            var ch = peek(0);
+            buf.append(ch);
+
+            if(ch==q && peek(-1)!='\\') {
+                addToken();
+                return;
+            }
+            handleNewLine();
+            pos++;
+        }
+        addToken();
+    }
     private boolean isNumber(char ch) {
         return (ch>='0' && ch<='9') || ch=='-';
     }

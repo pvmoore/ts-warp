@@ -2,21 +2,37 @@ package warp.ast.decl;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;
+import warp.ast.decl.func.InterfaceMethodDecl;
+import warp.ast.decl.var.IndexablePropertyDecl;
+import warp.ast.decl.var.InterfacePropertyDecl;
 import warp.lex.Token;
-import warp.parse.ParseVariable;
+import warp.types.Type;
 
 /**
  * https://www.typescriptlang.org/docs/handbook/interfaces.html
+ *
+ * Children:
+ *      InterfacePropertyDecl (0 or more)
+ *
  */
-final public class InterfaceDecl extends Declaration {
+public class InterfaceDecl extends Declaration {
     public String name;
+
+    /* For indexable type interface */
+    public Type indexType;    /* number | string */
+
 
     @Override public String toString() {
         return String.format("interface %s", name);
     }
 
     /**
-     * BODY ::= { prop ['?'] [ ':' Type ] [','|';'] }
+     * PROP         ::=     name ['?'] [ ':' Type ]
+     * METHOD       ::=     name ['?'] '(' [params] ')' '=>' Type
+     * INDEXED_TYPE ::= '[' name ':' (number|string) ']' ':' Type
+     *
+     * BODY         ::= { (PROP | METHOD | INDEXED_TYPE) [','|';'] }
+     *
      *
      * 'interface' name '{' BODY '}'
      */
@@ -32,9 +48,24 @@ final public class InterfaceDecl extends Declaration {
 
         while(tokens.kind() != Token.Kind.RCURLY) {
 
-            /* prop [ ':' Type ] [','|';'] */
+            var i = 0;
 
-            ParseVariable.parse(state, this);
+            if(tokens.isKeyword("readonly")) i++;
+
+            if(tokens.peek(i).kind == Token.Kind.LSQBR) {
+                /* indexable property */
+
+                new IndexablePropertyDecl().parse(state, this);
+
+            } else if(tokens.peek(i+1).kind == Token.Kind.LBR ||
+                      tokens.peek(i+2).kind == Token.Kind.LBR)
+            {
+                /* method */
+                new InterfaceMethodDecl().parse(state, this);
+            } else {
+                /* property */
+                new InterfacePropertyDecl().parse(state, this);
+            }
 
             tokens.skipIf(Token.Kind.COMMA);
             tokens.skipIf(Token.Kind.SEMICOLON);

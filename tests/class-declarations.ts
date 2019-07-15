@@ -14,3 +14,8 @@ class C {
     }
 }
 //let c:C = new C(1,2);
+
+class D {
+    [prop:number]:string;
+    prop:string = "i am prop";
+}

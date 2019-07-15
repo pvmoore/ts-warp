@@ -13,6 +13,9 @@ final public class InterfacePropertyDecl extends AbsPropertyDecl {
         var opt = type.isOptional ? "?" : "";
         return String.format("%s%s%s:%s", r, name, opt, type);
     }
+    /**
+     * ['readonly'] name ['?'] [ ':' Type ] [','|';']
+     */
     @Override
     public InterfacePropertyDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);

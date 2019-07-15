@@ -3,13 +3,8 @@ package warp.parse;
 import org.apache.log4j.Logger;
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.decl.ClassDecl;
 import warp.ast.decl.Declaration;
-import warp.ast.decl.FunctionDecl;
-import warp.ast.decl.InterfaceDecl;
-import warp.ast.decl.var.ClassPropertyDecl;
 import warp.ast.decl.var.DestructuringDecl;
-import warp.ast.decl.var.InterfacePropertyDecl;
 import warp.ast.decl.var.VariableDecl;
 import warp.lex.Token;
 
@@ -36,18 +31,16 @@ final public class ParseVariable {
     public static Declaration parse(ModuleState state, ASTNode parent) {
         log.trace("parse "+state.tokens.get());
         var tokens = state.tokens;
-        var isClassProperty = parent instanceof ClassDecl;
-        var isInterfaceProperty = parent instanceof InterfaceDecl;
 
-        if(isClassProperty) {
-            return new ClassPropertyDecl().parse(state, parent);
-        }
-        if(isInterfaceProperty) {
-            return new InterfacePropertyDecl().parse(state, parent);
-        }
-        if(parent instanceof FunctionDecl) {
-            // param
-        }
+//        var isClassProperty = parent instanceof ClassDecl;
+//        var isInterfaceProperty = parent instanceof InterfaceDecl;
+//
+//        if(isClassProperty) {
+//            return new ClassPropertyDecl().parse(state, parent);
+//        }
+//        if(isInterfaceProperty) {
+//            return new InterfacePropertyDecl().parse(state, parent);
+//        }
 
         /* Handle destructuring */
         var k = tokens.peek(1).kind;

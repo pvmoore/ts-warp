@@ -17,6 +17,10 @@ final public class ClassPropertyDecl extends AbsPropertyDecl {
         var opt = type.isOptional ? "?" : "";
         return String.format("%s%s%s%s:%s", a, r, name, opt, type);
     }
+
+    /**
+     * [Access] ['readonly'] name ['?'] [ ':' Type ] [ '=' Expression ] [','|';']
+     */
     @Override
     public ClassPropertyDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);
