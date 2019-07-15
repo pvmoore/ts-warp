@@ -14,7 +14,7 @@ final public class ClassPropertyDecl extends AbsPropertyDecl {
     public String toString() {
         var a = access.toString(); if(a.length()>0) a += " ";
         var r = isReadonly ? "readonly " : "";
-        var opt = type.isOptional ? "?" : "";
+        var opt = isOptional ? "?" : "";
         return String.format("%s%s%s%s:%s", a, r, name, opt, type);
     }
 
@@ -46,7 +46,7 @@ final public class ClassPropertyDecl extends AbsPropertyDecl {
 
             this.type = ParseType.parse(state);
         }
-        this.type.isOptional = isOptional;
+        this.isOptional = isOptional;
 
         /* Optional expression */
         if(tokens.isKind(Token.Kind.EQUALS)) {

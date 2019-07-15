@@ -2,7 +2,6 @@ package warp.types;
 
 public class Type {
     final public Kind kind;
-    public boolean isOptional = false;
 
     public Type(Kind k) {
         this.kind = k;

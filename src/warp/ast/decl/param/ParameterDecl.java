@@ -14,6 +14,7 @@ final public class ParameterDecl extends AbsParameterDecl {
     public Type type = new Type(Type.Kind.UNKNOWN);
     public Access access = Access.NOT_SPECIFIED;
     public boolean isRest;  /* ...param */
+    public boolean isOptional;
 
     @Override public String toString() {
         var a = access.toString(); if(a.length()>0) a += " ";
@@ -60,7 +61,7 @@ final public class ParameterDecl extends AbsParameterDecl {
             this.type = new Type(Type.Kind.ANY);
         }
 
-        this.type.isOptional = optional;
+        this.isOptional = optional;
 
         if(tokens.kind() == Token.Kind.EQUALS) {
             tokens.next();

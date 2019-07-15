@@ -62,9 +62,9 @@
   },
   "files": [
     //"class-declarations.ts"
-    //"variable-declarations.ts",
+    "variable-declarations.ts",
     //"variable-destructuring-decls.ts"
-    "function-declarations.ts",
+    //"function-declarations.ts",
     //"type-declarations.ts",
     //"interface-declarations.ts",
     //"function-expressions.ts",

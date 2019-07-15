@@ -10,7 +10,7 @@ final public class InterfacePropertyDecl extends AbsPropertyDecl {
     @Override
     public String toString() {
         var r = isReadonly ? "readonly " : "";
-        var opt = type.isOptional ? "?" : "";
+        var opt = isOptional ? "?" : "";
         return String.format("%s%s%s:%s", r, name, opt, type);
     }
     /**
@@ -38,7 +38,7 @@ final public class InterfacePropertyDecl extends AbsPropertyDecl {
 
             this.type = ParseType.parse(state);
         }
-        this.type.isOptional = isOptional;
+        this.isOptional = isOptional;
 
         return this;
     }

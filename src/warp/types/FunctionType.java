@@ -14,6 +14,7 @@ final public class FunctionType extends Type {
 
     final public List<String> paramNames = new ArrayList<>();
     final public List<Type> paramTypes = new ArrayList<>();
+    final List<Boolean> paramIsOptional = new ArrayList<>();
     public Type returnType = new Type(Kind.UNKNOWN);
 
     public FunctionType() {
@@ -25,6 +26,7 @@ final public class FunctionType extends Type {
         for(var p : params) {
             paramNames.add(p.name);
             paramTypes.add(p.type);
+            paramIsOptional.add(p.isOptional);
         }
         this.returnType = retType;
     }
@@ -37,7 +39,7 @@ final public class FunctionType extends Type {
             if(i>0) buf.append(", ");
 
             buf.append(paramNames.get(i))
-               .append(paramTypes.get(i).isOptional ? "?" : "")
+               .append(paramIsOptional.get(i) ? "?" : "")
                .append(":")
                .append(paramTypes.get(i));
         }
@@ -71,7 +73,7 @@ final public class FunctionType extends Type {
             tokens.skip(Token.Kind.COLON);
 
             var type = ParseType.parse(state);
-            type.isOptional = isOptional;
+            paramIsOptional.add(isOptional);
 
             paramTypes.add(type);
 
