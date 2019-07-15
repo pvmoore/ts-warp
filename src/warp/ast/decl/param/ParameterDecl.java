@@ -4,7 +4,6 @@ import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.lex.Token;
-import warp.parse.ParseError;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;
 import warp.types.Type;
@@ -34,14 +33,6 @@ final public class ParameterDecl extends AbsParameterDecl {
 
         this.access = Access.parse(state);
 
-        if(tokens.kind()== Token.Kind.LSQBR) {
-
-            throw new ParseError("todo - Handle destructuring params");
-        }
-        if(tokens.kind()== Token.Kind.LCURLY) {
-
-            throw new ParseError("todo - Handle destructuring params");
-        }
         if(tokens.kind()== Token.Kind.DOT3) {
             /* rest parameter */
             this.isRest = true;
