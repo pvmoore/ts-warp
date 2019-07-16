@@ -15,7 +15,7 @@ import java.util.List;
  *  [first, second]      = [1, 2];
  *  [first, ...rest]     = [1, 2, 3, 4];        // ... must be last
  *  [, second, , fourth] = [1, 2, 3, 4];
- *  // with explicit type
+ *  // with explicit subtype
  *
  *  [a,b] : number[]     = [1,2];
  *
@@ -25,7 +25,7 @@ import java.util.List;
  *  [a, ...bc] = t; // ... must be last
  *  [, b]      = t;
  *
- *  // with explicit type
+ *  // with explicit subtype
  *  [a,b,c]:[number,number,number] = t;
  *
  *****************************************************************************
@@ -34,7 +34,7 @@ import java.util.List;
  *  {a, ...b}               = {a: "foo", b: 12, c: "bar"};  // ... must be last
  *  {a:newname, b:newname}  = {a: "foo", b: 12, c: "bar"};
  *
- *  // with explicit type
+ *  // with explicit subtype
  *  { a, b } : { a: string, b: number } = {a: "foo", b: 12, c: "bar"};
  */
 final public class DestructuringDecl {
@@ -159,7 +159,7 @@ final public class DestructuringDecl {
         }
 
 
-        /* Optional type */
+        /* Optional subtype */
         if(tokens.isKind(Token.Kind.COLON)) {
             tokens.next();
 

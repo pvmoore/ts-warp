@@ -41,7 +41,7 @@ final public class ObjectType extends Type {
 
             /*
             prop [ (, | ; | ) ]
-            prop : type
+            prop : subtype
             */
 
             properties.add(tokens.value());

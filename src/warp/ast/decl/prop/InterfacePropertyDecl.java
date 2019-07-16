@@ -32,7 +32,7 @@ final public class InterfacePropertyDecl extends AbsPropertyDecl {
         var isOptional = tokens.kind() == Token.Kind.QUESTION;
         if(isOptional) tokens.next();
 
-        /* Optional type */
+        /* Optional subtype */
         if(tokens.isKind(Token.Kind.COLON)) {
             tokens.next();
 

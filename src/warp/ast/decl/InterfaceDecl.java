@@ -18,7 +18,7 @@ import warp.types.Type;
 public class InterfaceDecl extends Declaration {
     public String name;
 
-    /* For indexable type interface */
+    /* For indexable subtype interface */
     public Type indexType;    /* number | string */
 
 

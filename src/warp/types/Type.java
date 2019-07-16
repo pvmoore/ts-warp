@@ -20,21 +20,23 @@ public class Type {
         UNDEFINED,      // undefined
         NULL,           // null
         VOID,           // void
-        NEVER,          // never (return type)
+        NEVER,          // never
         BIGINT,         // bigint
         SYMBOL,         // symbol
 
         OBJECT,         // {}
         CLASS,          // ?
 
-        ARRAY,          // type[] or Array<Type>
+        ARRAY,          // subtype[] or Array<Type>
         FUNCTION,
-        TUPLE,          // [type,type]
-        ALIAS,          // type x = y
+        TUPLE,          // [subtype,subtype]
+        ALIAS,          // (type, enum, class or interface name)
         ENUM,           // enum
 
-        UNION,          // type | type
-        INTERSECTION,   // type & type
+        KEYOF,          // keyof Type
+
+        UNION,          // subtype | subtype
+        INTERSECTION,   // subtype & subtype
     }
 
 

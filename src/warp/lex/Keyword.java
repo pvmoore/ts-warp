@@ -68,7 +68,7 @@ number
 set
 string
 symbol
-type
+subtype
 from
 of
          */

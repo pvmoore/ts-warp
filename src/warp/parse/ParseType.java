@@ -54,12 +54,23 @@ final public class ParseType {
             }
         }
         if(type==null) {
-            if(value.equals("typeof")) {
-                type = new TypeofType().parse(state);
+            switch(value) {
+                case "typeof":
+                    type = new TypeofType().parse(state);
+                    break;
+                case "keyof":
+                    type = new KeyofType().parse(state);
+                    break;
+            }
+        }
+        if(type==null) {
+            if(tokens.kind()== Token.Kind.IDENTIFIER) {
+                /* Assume it's a type name eg (type, enum, class or interface name) */
+                type = new AliasType().parse(state);
             }
         }
 
-        if(type==null) throw new ParseError("Unknown type @ "+tokens.get());
+        if(type==null) throw new ParseError("Unknown subtype @ "+tokens.get());
 
         // todo - handle unions and intersections
         if(tokens.kind() == Token.Kind.PIPE) {

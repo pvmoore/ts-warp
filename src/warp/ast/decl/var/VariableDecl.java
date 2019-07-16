@@ -39,7 +39,7 @@ public class VariableDecl extends AbsVariableDecl {
         this.name = tokens.get().value;
         tokens.next();
 
-        /* Optional type */
+        /* Optional subtype */
         if(tokens.isKind(Token.Kind.COLON)) {
             tokens.next();
 

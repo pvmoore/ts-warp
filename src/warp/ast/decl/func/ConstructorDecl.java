@@ -22,7 +22,7 @@ final public class ConstructorDecl extends Declaration {
                                         .filter((e)->e instanceof ParameterDecl)
                                         .map((e)->(ParameterDecl)e)
                                         .collect(Collectors.toList()),
-                                // fixme - should be the type of the class
+                                // fixme - should be the subtype of the class
                                 new ObjectType());
     }
 

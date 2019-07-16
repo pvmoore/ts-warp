@@ -37,7 +37,7 @@ final public class InterfaceMethodDecl extends AbsMethodDecl {
 
         tokens.skip(Token.Kind.RBR);
 
-        /* optional return type */
+        /* optional return subtype */
         if(tokens.kind() == Token.Kind.COLON) {
             tokens.next();
 

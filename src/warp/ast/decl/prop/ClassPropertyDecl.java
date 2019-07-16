@@ -40,7 +40,7 @@ final public class ClassPropertyDecl extends AbsPropertyDecl {
         if(isOptional) tokens.next();
 
 
-        /* Optional type */
+        /* Optional subtype */
         if(tokens.isKind(Token.Kind.COLON)) {
             tokens.next();
 
