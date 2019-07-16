@@ -102,6 +102,12 @@ final public class ParseStatement {
                 return new ReturnStmt().parse(state, parent);
             case "if":
                 return new IfStmt().parse(state, parent);
+            case "break":
+                return new BreakStmt().parse(state, parent);
+            case "continue":
+                return new ContinueStmt().parse(state, parent);
+            case "switch":
+                return new SwitchStmt().parse(state, parent);
         }
 
         /* Assume it's an Expression */

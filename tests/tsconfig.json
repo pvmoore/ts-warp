@@ -72,7 +72,8 @@
     //"typeof.ts",
     //"keyof.ts",
     //"tsd.ts"
-    "ifs.ts",
+    //"if-stmt.ts",
+    "switch-stmt.ts",
   ],
   "include": [],
   "exclude": []
