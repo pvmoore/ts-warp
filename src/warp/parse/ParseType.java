@@ -50,6 +50,12 @@ final public class ParseType {
                     break;
                 case LCURLY:
                     type = new ObjectType().parse(state);
+                    break;
+            }
+        }
+        if(type==null) {
+            if(value.equals("typeof")) {
+                type = new TypeofType().parse(state);
             }
         }
 

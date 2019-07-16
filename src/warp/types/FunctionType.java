@@ -48,7 +48,7 @@ final public class FunctionType extends Type {
     }
 
     /**
-     * PARAM ::= name [?] ':' Type
+     * PARAM ::= identifier [?] ':' Type
      * '(' { PARAM [ ',' PARAM ] } ')' '=>' Type
      */
     public FunctionType parse(ModuleState state) {
@@ -60,7 +60,7 @@ final public class FunctionType extends Type {
 
         while(tokens.kind()!=Token.Kind.RBR) {
 
-            /* name [ '?' ] ':' Type */
+            /* identifier [ '?' ] ':' Type */
 
             paramNames.add(tokens.value());
             tokens.next();

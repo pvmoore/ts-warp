@@ -58,7 +58,7 @@ final public class EnumDecl extends Declaration {
 
         while(tokens.kind() != Token.Kind.RCURLY) {
 
-            /* name [ '=' Expression ] */
+            /* identifier [ '=' Expression ] */
 
             names.add(tokens.value()); tokens.next();
 

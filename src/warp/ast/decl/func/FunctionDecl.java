@@ -33,7 +33,7 @@ final public class FunctionDecl extends Declaration {
     }
 
     /**
-     * 'function' name '(' parameters } ')' [ ':' Type ] BlockStmt
+     * 'function' identifier '(' parameters } ')' [ ':' Type ] BlockStmt
      */
     @Override public FunctionDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);

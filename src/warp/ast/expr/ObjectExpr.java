@@ -17,7 +17,7 @@ import java.util.List;
  * OBJECT_EXPR ::= '{' ENTRIES '}'
  *
  * where _key_ is always a string.
- * ENTRY2 is converted to ENTRY1 --> Identifier.name : Identifier
+ * ENTRY2 is converted to ENTRY1 --> Identifier.identifier : Identifier
  *
  * Children:
  *      One child per entry corresponding to the value expression

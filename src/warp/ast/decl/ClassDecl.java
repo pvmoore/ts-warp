@@ -10,19 +10,19 @@ import warp.ast.decl.prop.IndexablePropertyDecl;
 import warp.lex.Token;
 
 /**
- * CPARAM      ::= [Access] name [?] ':' Type [ '=' Expression ]
+ * CPARAM      ::= [Access] identifier [?] ':' Type [ '=' Expression ]
  * CPARAMS     ::= { CPARAM [ ',' CPARAM ] }
  * CONSTRUCTOR ::= 'constructor' '(' CPARAMS ')' BlockStmt
  *
- * MPARAM      ::= name [?] ':' Type [ '=' Expression ]
+ * MPARAM      ::= identifier [?] ':' Type [ '=' Expression ]
  * MPARAMS     ::= { MPARAM [ ',' MPARAM ] }
- * METHOD      ::= name '(' MPARAMS ')'
+ * METHOD      ::= identifier '(' MPARAMS ')'
  *
- * PROP        ::= name [?] ':' Type [ '=' Expression ] ';'
+ * PROP        ::= identifier [?] ':' Type [ '=' Expression ] ';'
  *
  * BODY        ::= [ CONSTRUCTOR ] { (PROP | METHOD) }
  *
- * CLASS       ::= 'class' name '{' BODY '}'
+ * CLASS       ::= 'class' identifier '{' BODY '}'
  */
 final public class ClassDecl extends Declaration {
     public String name;

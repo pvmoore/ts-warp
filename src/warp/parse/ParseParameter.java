@@ -12,15 +12,15 @@ final public class ParseParameter {
     final private static Logger log = Logger.getLogger(ParseParameter.class);
 
     /**
-     * CONSTRUCTOR_PARAM      ::= [Access] name [?] [':' Type] [ '=' Expression ]
+     * CONSTRUCTOR_PARAM      ::= [Access] identifier [?] [':' Type] [ '=' Expression ]
      *
-     *     CLASS_METHOD_PARAM ::= name [?] [':' Type] [ '=' Expression ]
-     * INTERFACE_METHOD_PARAM ::= name [?] [':' Type]
+     *     CLASS_METHOD_PARAM ::= identifier [?] [':' Type] [ '=' Expression ]
+     * INTERFACE_METHOD_PARAM ::= identifier [?] [':' Type]
      *
      * Destructuring:
      *
      * ARRAY_OR_TUPLE ::= '[' prop { ',' prop } ']' ':' Type
-     * OBJECT         ::= '{' (prop | prop ':' name) { ',' (prop | prop ':' name) } '}' ':' Type
+     * OBJECT         ::= '{' (prop | prop ':' identifier) { ',' (prop | prop ':' identifier) } '}' ':' Type
      *
      * Access is only allowed on constructor parameters.
      * Interface parameters are not allowed to have initialisers.

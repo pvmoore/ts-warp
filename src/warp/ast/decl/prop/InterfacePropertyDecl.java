@@ -14,7 +14,7 @@ final public class InterfacePropertyDecl extends AbsPropertyDecl {
         return String.format("%s%s%s:%s", r, name, opt, type);
     }
     /**
-     * ['readonly'] name ['?'] [ ':' Type ] [','|';']
+     * ['readonly'] identifier ['?'] [ ':' Type ] [','|';']
      */
     @Override
     public InterfacePropertyDecl parse(ModuleState state, ASTNode parent) {

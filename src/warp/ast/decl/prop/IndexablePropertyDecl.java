@@ -16,7 +16,7 @@ final public class IndexablePropertyDecl extends AbsPropertyDecl {
     }
 
     /**
-     * '[' name ':' (number|string) ']' ':' Type
+     * '[' identifier ':' (number|string) ']' ':' Type
      */
     @Override
     public IndexablePropertyDecl parse(ModuleState state, ASTNode parent) {

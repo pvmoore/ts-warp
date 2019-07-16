@@ -21,7 +21,7 @@ public class VariableDecl extends AbsVariableDecl {
     }
 
     /**
-     * DECL ::= (let | const) name [ ':' Type ] [ '=' Expression ]
+     * DECL ::= (let | const) identifier [ ':' Type ] [ '=' Expression ]
      */
     @Override
     public VariableDecl parse(ModuleState state, ASTNode parent) {

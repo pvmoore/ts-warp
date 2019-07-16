@@ -19,7 +19,7 @@ final public class ClassPropertyDecl extends AbsPropertyDecl {
     }
 
     /**
-     * [Access] ['readonly'] name ['?'] [ ':' Type ] [ '=' Expression ] [','|';']
+     * [Access] ['readonly'] identifier ['?'] [ ':' Type ] [ '=' Expression ] [','|';']
      */
     @Override
     public ClassPropertyDecl parse(ModuleState state, ASTNode parent) {

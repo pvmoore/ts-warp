@@ -15,7 +15,7 @@ final public class TypeAliasDecl extends Declaration {
     }
 
     /**
-     * 'type' name '=' Type;
+     * 'type' identifier '=' Type;
      */
     @Override public TypeAliasDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);

@@ -22,7 +22,7 @@ final public class ParameterDecl extends AbsParameterDecl {
     }
 
     /**
-     * [Access] name [?] [':' Type] [ '=' Expression ]
+     * [Access] identifier [?] [':' Type] [ '=' Expression ]
      *
      * Access is only allowed on constructor parameters.
      * Initialiser is only allowed on class method parameters.

@@ -27,14 +27,14 @@ public class InterfaceDecl extends Declaration {
     }
 
     /**
-     * PROP         ::=     name ['?'] [ ':' Type ]
-     * METHOD       ::=     name ['?'] '(' [params] ')' '=>' Type
-     * INDEXED_TYPE ::= '[' name ':' (number|string) ']' ':' Type
+     * PROP         ::=     identifier ['?'] [ ':' Type ]
+     * METHOD       ::=     identifier ['?'] '(' [params] ')' '=>' Type
+     * INDEXED_TYPE ::= '[' identifier ':' (number|string) ']' ':' Type
      *
      * BODY         ::= { (PROP | METHOD | INDEXED_TYPE) [','|';'] }
      *
      *
-     * 'interface' name '{' BODY '}'
+     * 'interface' identifier '{' BODY '}'
      */
     @Override public InterfaceDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);

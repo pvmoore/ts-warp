@@ -68,7 +68,8 @@
     //"type-declarations.ts",
     //"interface-declarations.ts",
     //"function-expressions.ts",
-    "enums.ts"
+    //"enums.ts",
+    "typeof.ts"
     //"tsd.ts"
   ],
   "include": [],

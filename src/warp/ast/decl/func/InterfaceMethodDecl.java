@@ -13,7 +13,7 @@ final public class InterfaceMethodDecl extends AbsMethodDecl {
         return String.format("%s%s", name, type);
     }
     /**
-     * name ['?'] '(' params ')' [ ':' Type ]
+     * identifier ['?'] '(' params ')' [ ':' Type ]
      */
     @Override
     public InterfaceMethodDecl parse(ModuleState state, ASTNode parent) {

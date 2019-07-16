@@ -50,6 +50,8 @@ final public class ParseExpression {
                 return new NullExpr().parse(state, parent);
             case "function":
                 return new FunctionExpr().parse(state, parent);
+            case "typeof":
+                return new TypeofExpr().parse(state, parent);
         }
 
         /* Assume it's an identifier for now */

@@ -47,7 +47,7 @@ final public class DestructuringDecl {
 
     public Kind kind;
     public Type type;
-    public boolean hasRestArg;     /* true if '...' is used on last name */
+    public boolean hasRestArg;     /* true if '...' is used on last identifier */
 
     /* The variable names */
     public List<String> names = new ArrayList<>();

@@ -18,7 +18,7 @@ final public class ClassMethodDecl extends AbsMethodDecl {
     }
 
     /**
-     * [Access] name ['?'] '(' params ')' [ ':' Type ] BlockStmt
+     * [Access] identifier ['?'] '(' params ')' [ ':' Type ] BlockStmt
      */
     @Override
     public ClassMethodDecl parse(ModuleState state, ASTNode parent) {
