@@ -1,6 +1,7 @@
-package warp.ast;
+package warp.ast.stmt;
 
 import warp.ModuleState;
+import warp.ast.ASTNode;
 import warp.lex.Token;
 import warp.parse.ParseStatement;
 
@@ -9,7 +10,7 @@ import warp.parse.ParseStatement;
  *      { Statement }
  * '}'
  */
-final public class BlockStmt extends Statement  {
+final public class BlockStmt extends Statement {
 
     @Override public String toString() {
         return "{}";

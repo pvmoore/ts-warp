@@ -3,7 +3,7 @@ package warp.ast.decl.func;
 import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.BlockStmt;
+import warp.ast.stmt.BlockStmt;
 import warp.ast.decl.Declaration;
 import warp.ast.decl.param.ParameterDecl;
 import warp.lex.Token;

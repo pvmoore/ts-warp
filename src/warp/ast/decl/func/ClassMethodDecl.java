@@ -3,7 +3,7 @@ package warp.ast.decl.func;
 import warp.Access;
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.BlockStmt;
+import warp.ast.stmt.BlockStmt;
 import warp.lex.Token;
 import warp.parse.ParseParameter;
 import warp.parse.ParseType;

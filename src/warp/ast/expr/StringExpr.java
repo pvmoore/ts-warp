@@ -2,7 +2,6 @@ package warp.ast.expr;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.Expression;
 
 final public class StringExpr extends Expression {
     public String value;

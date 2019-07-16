@@ -1,8 +1,9 @@
-package warp.ast;
+package warp.ast.stmt;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import warp.ModuleState;
+import warp.ast.ASTNode;
 import warp.misc.ErrorNotice;
 
 import javax.xml.parsers.DocumentBuilder;

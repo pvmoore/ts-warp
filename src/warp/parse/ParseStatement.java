@@ -3,12 +3,9 @@ package warp.parse;
 import org.apache.log4j.Logger;
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.BlockStmt;
-import warp.ast.Statement;
-import warp.ast.TSDirective;
+import warp.ast.stmt.*;
 import warp.ast.decl.*;
 import warp.ast.decl.func.FunctionDecl;
-import warp.ast.stmt.ReturnStmt;
 import warp.lex.Token;
 
 /**
@@ -17,6 +14,9 @@ import warp.lex.Token;
 final public class ParseStatement {
     final private static Logger log = Logger.getLogger(ParseStatement.class);
 
+    /**
+     * Parse STatements until end of block or file.
+     */
     public static void parseMultiple(ModuleState state, ASTNode parent) {
         log.trace("parseMultiple "+state.tokens.get());
         var tokens = state.tokens;
@@ -30,7 +30,7 @@ final public class ParseStatement {
                 tokens.next();
             }
 
-            var stmt = parseSingle(state, parent);
+            var stmt = doParse(state, parent);
 
             if(isAmbient) {
                 if(!(stmt instanceof Declaration)) {
@@ -49,8 +49,26 @@ final public class ParseStatement {
         }
     }
 
+    /**
+     * Parse a single Statement and return it.
+     */
     public static Statement parseSingle(ModuleState state, ASTNode parent) {
         log.trace("parseSingle "+state.tokens.get());
+        var tokens = state.tokens;
+
+        var stmt = doParse(state, parent);
+
+        /* Semicolon? */
+        if(tokens.kind() == Token.Kind.SEMICOLON) {
+            tokens.next();
+        } else {
+            // todo - should be eof or rcurly here
+        }
+        return stmt;
+    }
+
+    private static Statement doParse(ModuleState state, ASTNode parent) {
+        log.trace("doParse "+state.tokens.get());
         var tokens = state.tokens;
         var t      = tokens.get();
 
@@ -82,8 +100,11 @@ final public class ParseStatement {
                 return new EnumDecl().parse(state, parent);
             case "return":
                 return new ReturnStmt().parse(state, parent);
+            case "if":
+                return new IfStmt().parse(state, parent);
         }
 
-        throw new ParseError("Parse failed in file ["+state.file+"] @ "+tokens.get());
+        /* Assume it's an Expression */
+        return ParseExpression.parse(state, parent);
     }
 }

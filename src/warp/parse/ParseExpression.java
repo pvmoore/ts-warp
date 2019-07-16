@@ -3,7 +3,7 @@ package warp.parse;
 import org.apache.log4j.Logger;
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.Expression;
+import warp.ast.expr.Expression;
 import warp.ast.expr.*;
 import warp.lex.Token;
 

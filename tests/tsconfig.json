@@ -70,8 +70,9 @@
     //"function-expressions.ts",
     //"enums.ts",
     //"typeof.ts",
-    "keyof.ts",
+    //"keyof.ts",
     //"tsd.ts"
+    "ifs.ts",
   ],
   "include": [],
   "exclude": []

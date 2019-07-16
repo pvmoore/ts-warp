@@ -2,7 +2,6 @@ package warp.ast.stmt;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.Statement;
 import warp.lex.Token;
 import warp.parse.ParseExpression;
 

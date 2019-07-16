@@ -2,7 +2,6 @@ package warp.ast.expr;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.Expression;
 import warp.lex.Token;
 import warp.parse.ParseExpression;
 
@@ -11,7 +10,12 @@ import warp.parse.ParseExpression;
  */
 final public class ParensExpr extends Expression {
 
-    @Override public ParensExpr parse(ModuleState state, ASTNode parent) {
+    @Override public String toString() {
+        return "()";
+    }
+
+    @Override
+    public ParensExpr parse(ModuleState state, ASTNode parent) {
         log.trace("parse "+state.tokens.get());
         parent.add(this);
 

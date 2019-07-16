@@ -2,13 +2,12 @@ package warp.ast.expr;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.Expression;
 
 final public class BooleanExpr extends Expression {
     public boolean value;
 
     @Override public String toString() {
-        return String.format("[boolean %s]", value);
+        return String.format("%s", value);
     }
     /**
      * true | false

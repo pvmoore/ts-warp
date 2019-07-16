@@ -2,12 +2,11 @@ package warp.ast.expr;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.Expression;
 import warp.parse.ParseExpression;
 
 /**
  * 'typeof'
- *      Expression
+ *      Identifier
  *
  *  Results in one of:
  *      "undefined"

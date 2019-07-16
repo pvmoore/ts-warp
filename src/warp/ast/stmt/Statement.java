@@ -1,6 +1,7 @@
-package warp.ast;
+package warp.ast.stmt;
 
 import warp.ModuleState;
+import warp.ast.ASTNode;
 
 public abstract class Statement extends ASTNode {
 

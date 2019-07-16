@@ -1,6 +1,6 @@
 package warp.ast.decl;
 
-import warp.ast.Statement;
+import warp.ast.stmt.Statement;
 
 public abstract class Declaration extends Statement {
 
