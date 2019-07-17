@@ -110,6 +110,8 @@ final public class ParseStatement {
                 return new WhileStmt().parse(state, parent);
             case "do":
                 return new DoWhileStmt().parse(state, parent);
+            case "import":
+                return new ImportStmt().parse(state, parent);
         }
 
         /* Assume it's an Expression */

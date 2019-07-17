@@ -76,7 +76,8 @@
     //"if-stmt.ts",
     //"switch-stmt.ts",
     //"for-stmt.ts",
-    "while-stmts.ts",
+    //"while-stmts.ts",
+    "import-stmts.ts",
   ],
   "include": [],
   "exclude": []
