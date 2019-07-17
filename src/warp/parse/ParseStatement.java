@@ -106,6 +106,10 @@ final public class ParseStatement {
                 return new SwitchStmt().parse(state, parent);
             case "for":
                 return ParseFor.parse(state, parent);
+            case "while":
+                return new WhileStmt().parse(state, parent);
+            case "do":
+                return new DoWhileStmt().parse(state, parent);
         }
 
         /* Assume it's an Expression */
