@@ -24,10 +24,11 @@ public class VariableDecl extends AbsVariableDecl {
      */
     @Override
     public VariableDecl parse(ModuleState state, ASTNode parent) {
+        log.trace("parse "+state.tokens.get());
         parent.add(this);
-
         var tokens = state.tokens;
 
+        /* Optional if part of a MultiVariableDecl */
         if(tokens.isValue("const")) {
             this.isConst = true;
             tokens.next();
@@ -48,6 +49,8 @@ public class VariableDecl extends AbsVariableDecl {
         /* Optional expression */
         if(tokens.isKind(Token.Kind.EQ)) {
             tokens.next();
+
+            log.trace("eq "+tokens.get());
 
             ParseExpression.parse(state, this);
         }

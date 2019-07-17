@@ -14,7 +14,7 @@ final public class ParseExpression {
     final private static Logger log = Logger.getLogger(ParseExpression.class);
 
     public static void parse(ModuleState state, ASTNode parent) {
-        log.trace("parseBinary " + state.tokens.get());
+        log.trace("parse " + state.tokens.get());
 
         parseFirst(state, parent);
         parseSecond(state, parent);
@@ -78,6 +78,7 @@ final public class ParseExpression {
         throw new ParseError("Parse failed in file ["+state.file+"] @ "+tokens.get());
     }
     private static void parseSecond(ModuleState state, ASTNode parent) {
+        log.trace("parseSecond "+state.tokens.get());
         var tokens = state.tokens;
 
         while(true) {
@@ -150,14 +151,14 @@ final public class ParseExpression {
             /// Adjust to account for operator precedence
             var prevExpr = (Expression)prev;
 
-            while(prevExpr.parent!=null && newExpr.getPrecedence() <= prevExpr.getPrecedence()) {
+            while(prevExpr.hasParent() && newExpr.getPrecedence() <= prevExpr.getPrecedence()) {
 
-                if(!(prevExpr.parent instanceof Expression)) {
-                    prev = prevExpr.parent;
+                if(!(prevExpr.getParent() instanceof Expression)) {
+                    prev = prevExpr.getParent();
                     break;
                 }
 
-                prevExpr = (Expression)prevExpr.parent;
+                prevExpr = (Expression)prevExpr.getParent();
                 prev     = prevExpr;
             }
         }

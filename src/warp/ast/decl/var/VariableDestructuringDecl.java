@@ -18,6 +18,7 @@ final public class VariableDestructuringDecl extends AbsVariableDecl {
         parent.add(this);
         var tokens = state.tokens;
 
+        /* Optional if part of a MultiVariableDecl */
         if(tokens.isValue("const")) {
             this.isConst = true;
             tokens.next();

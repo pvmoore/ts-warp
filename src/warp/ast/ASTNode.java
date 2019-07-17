@@ -11,10 +11,19 @@ public abstract class ASTNode {
     protected static Logger log = Logger.getLogger(ASTNode.class);
 
     protected List<ASTNode> children = new ArrayList<>();
-    public ASTNode parent = EMPTY_NODE;
+    private ASTNode parent = EMPTY_NODE;
 
     public boolean hasChildren() {
         return !children.isEmpty();
+    }
+    public int numChildren() {
+        return children.size();
+    }
+    public boolean hasParent() {
+        return parent != EMPTY_NODE;
+    }
+    public ASTNode getParent() {
+        return parent;
     }
     public ASTNode firstChild() {
         return hasChildren() ? children.get(0) : null;
@@ -24,14 +33,14 @@ public abstract class ASTNode {
     }
 
     public void add(ASTNode node) {
-        if(node.parent!=null) node.parent.remove(node);
+        if(node.parent.hasParent()) node.parent.remove(node);
 
         children.add(node);
         node.parent = this;
     }
     public void remove(ASTNode node) {
         children.remove(node);
-        node.parent = null;
+        node.parent = EMPTY_NODE;
     }
 
     public void writeToDebug(String indent) {

@@ -50,7 +50,7 @@ final public class ParseStatement {
     }
 
     /**
-     * Parse a single Statement and return it.
+     * Parse a single Statement and return it. Any closing semicolon is left to the caller.
      */
     public static Statement parseSingle(ModuleState state, ASTNode parent) {
         log.trace("parseSingle "+state.tokens.get());
@@ -58,12 +58,6 @@ final public class ParseStatement {
 
         var stmt = doParse(state, parent);
 
-        /* Semicolon? */
-        if(tokens.kind() == Token.Kind.SEMICOLON) {
-            tokens.next();
-        } else {
-            // todo - should be eof or rcurly here
-        }
         return stmt;
     }
 

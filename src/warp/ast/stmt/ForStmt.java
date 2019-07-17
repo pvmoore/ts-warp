@@ -5,6 +5,7 @@ import warp.ast.ASTNode;
 import warp.lex.Token;
 import warp.parse.ParseExpression;
 import warp.parse.ParseStatement;
+import warp.parse.ParseVariable;
 
 /**
  * This is the basic _for_ statement.
@@ -12,9 +13,9 @@ import warp.parse.ParseStatement;
  *  'for' '(' [INIT_STMTS] ';' [COND] ';' [POST_LOOP_EXPRS] ')' Statement
  *
  *  ForStmt
- *      VariableDecl    (0 or more)
- *      Expression      (0 or 1)        (@ condIndex)
- *      Expression      (0 or more)     (@ postLoopIndex)
+ *      VariableDecl | MultiVariableDecl    (0  or 1)
+ *      Expression                          (0 or 1)      (@ condIndex)
+ *      Expression                          (0 or more)   (@ postLoopIndex)
  */
 final public class ForStmt extends Statement {
     private int condIndex = -1;
@@ -27,6 +28,7 @@ final public class ForStmt extends Statement {
 
     @Override
     public Statement parse(ModuleState state, ASTNode parent) {
+        log.trace("parse "+state.tokens.get());
         parent.add(this);
         var tokens = state.tokens;
 
@@ -34,12 +36,9 @@ final public class ForStmt extends Statement {
         tokens.skip(Token.Kind.LBR);
 
         /* Inits */
-        while(tokens.kind() != Token.Kind.SEMICOLON) {
+        if(tokens.kind() != Token.Kind.SEMICOLON) {
 
-            ParseStatement.parseSingle(state, this);
-
-            tokens.expect(Token.Kind.COMMA, Token.Kind.SEMICOLON);
-            tokens.skipIf(Token.Kind.COMMA);
+            ParseVariable.parse(state, this);
         }
         tokens.skip(Token.Kind.SEMICOLON);
 
@@ -63,6 +62,7 @@ final public class ForStmt extends Statement {
         }
         tokens.skip(Token.Kind.RBR);
 
+        /* Body */
         ParseStatement.parseSingle(state, this);
 
         return this;
