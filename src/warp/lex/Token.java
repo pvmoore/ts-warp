@@ -14,13 +14,15 @@ final public class Token {
         RSQBR("]"),
         LCURLY("{"),
         RCURLY("}"),
+
         LANGLE("<"),
         LANGLE_EQ("<="),
-        SHL_EQ("<<="),
+        LANGE2_EQ("<<="),
+
         RANGLE(">"),
         RANGLE_EQ(">="),
-        SHR_EQ(">>="),
-        USHR_EQ(">>>="),
+        RANGLE2_EQ(">>="),
+        RANGLE3_EQ(">>>="),
         RARROW("=>"),
 
         COLON(":"),
@@ -31,10 +33,11 @@ final public class Token {
 
         FWD_SLASH("/"),
         FWD_SLASH_EQ("/="),
-        EQUALS("="),
         PLUS("+"),
+        PLUS2("++"),
         PLUS_EQ("+="),
         MINUS("-"),
+        MINUS2("--"),
         MINUS_EQ("-="),
         ASTERISK("*"),
         ASTERISK_EQ("*="),
@@ -47,14 +50,16 @@ final public class Token {
         PIPE("|"),
         PIPE_EQ("|="),
         QUESTION("?"),
+        TILDE("~"),
 
-        DBL_EQUALS("=="),
-        TPL_EQUALS("==="),
+        EQ("="),
+        EQ2("=="),
+        EQ3("==="),
         EXCLAMATION("!"),
         EXCLAMATION_EQ("!="),
-        EXCLAMATION_DBL_EQ("!=="),
-        DBL_AMPERSAND("&&"),
-        DBL_PIPE("||"),
+        EXCLAMATION_EQ2("!=="),
+        AMPERSAND2("&&"),
+        PIPE2("||"),
 
         ;
 

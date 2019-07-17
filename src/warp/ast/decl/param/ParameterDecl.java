@@ -54,7 +54,7 @@ final public class ParameterDecl extends AbsParameterDecl {
 
         this.isOptional = optional;
 
-        if(tokens.kind() == Token.Kind.EQUALS) {
+        if(tokens.kind() == Token.Kind.EQ) {
             tokens.next();
 
             ParseExpression.parse(state, this);

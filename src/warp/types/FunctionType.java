@@ -52,7 +52,7 @@ final public class FunctionType extends Type {
      * '(' { PARAM [ ',' PARAM ] } ')' '=>' Type
      */
     public FunctionType parse(ModuleState state) {
-        log.trace("parse "+state.tokens.get());
+        log.trace("parseBinary "+state.tokens.get());
 
         var tokens = state.tokens;
 

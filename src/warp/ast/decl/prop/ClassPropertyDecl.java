@@ -49,7 +49,7 @@ final public class ClassPropertyDecl extends AbsPropertyDecl {
         this.isOptional = isOptional;
 
         /* Optional expression */
-        if(tokens.isKind(Token.Kind.EQUALS)) {
+        if(tokens.isKind(Token.Kind.EQ)) {
             tokens.next();
 
             ParseExpression.parse(state, this);

@@ -25,6 +25,10 @@ final public class FunctionExpr extends Expression {
     public boolean isArrowFunction;
     private Type returnType = new Type(Type.Kind.UNKNOWN);
 
+    @Override public int getPrecedence() {
+        return 1;
+    }
+
     public FunctionType getType() {
         // todo - optimise this later
         return new FunctionType(children.stream()
@@ -50,7 +54,7 @@ final public class FunctionExpr extends Expression {
      * let v8 =         (a)               => 3;
      */
     @Override public FunctionExpr parse(ModuleState state, ASTNode parent) {
-        log.trace("parse "+state.tokens.get());
+        log.trace("parseBinary "+state.tokens.get());
 
         parent.add(this);
 

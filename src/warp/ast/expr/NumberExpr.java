@@ -6,7 +6,11 @@ import warp.ast.ASTNode;
 final public class NumberExpr extends Expression {
     public double value;
 
-    @Override public String toString() {
+    @Override public int getPrecedence() {
+        return 1;
+    }
+    @Override
+    public String toString() {
         return String.format("[number %s]", value);
     }
     /**
@@ -22,7 +26,8 @@ final public class NumberExpr extends Expression {
      *  123e5
      *  123e-5
      */
-    @Override public NumberExpr parse(ModuleState state, ASTNode parent) {
+    @Override
+    public NumberExpr parse(ModuleState state, ASTNode parent) {
         var s = state.tokens.value().toLowerCase();
         state.tokens.next();
 

@@ -25,7 +25,7 @@ final public class TypeAliasDecl extends Declaration {
 
         this.name = tokens.value(); tokens.next();
 
-        tokens.skip(Token.Kind.EQUALS);
+        tokens.skip(Token.Kind.EQ);
 
         this.type = ParseType.parse(state);
 

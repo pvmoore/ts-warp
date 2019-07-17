@@ -29,7 +29,7 @@ final public class ParseVariable {
      *  DECL     ::= (VARIABLE | PROPERTY)
      */
     public static Declaration parse(ModuleState state, ASTNode parent) {
-        log.trace("parse "+state.tokens.get());
+        log.trace("parseBinary "+state.tokens.get());
         var tokens = state.tokens;
 
         /* Handle destructuring */

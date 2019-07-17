@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ASTNode {
-    private static ASTNode EMPTY_NODE = new ASTNode() {};
+    private static final ASTNode EMPTY_NODE = new ASTNode() {};
 
     protected static Logger log = Logger.getLogger(ASTNode.class);
 
     protected List<ASTNode> children = new ArrayList<>();
-    protected ASTNode parent = EMPTY_NODE;
+    public ASTNode parent = EMPTY_NODE;
 
     public boolean hasChildren() {
         return !children.isEmpty();
@@ -24,8 +24,14 @@ public abstract class ASTNode {
     }
 
     public void add(ASTNode node) {
+        if(node.parent!=null) node.parent.remove(node);
+
         children.add(node);
         node.parent = this;
+    }
+    public void remove(ASTNode node) {
+        children.remove(node);
+        node.parent = null;
     }
 
     public void writeToDebug(String indent) {

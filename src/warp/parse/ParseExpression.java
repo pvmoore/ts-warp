@@ -13,8 +13,15 @@ import warp.lex.Token;
 final public class ParseExpression {
     final private static Logger log = Logger.getLogger(ParseExpression.class);
 
-    public static Expression parse(ModuleState state, ASTNode parent) {
-        log.trace("parse "+state.tokens.get());
+    public static void parse(ModuleState state, ASTNode parent) {
+        log.trace("parseBinary " + state.tokens.get());
+
+        parseFirst(state, parent);
+        parseSecond(state, parent);
+    }
+
+    private static Expression parseFirst(ModuleState state, ASTNode parent) {
+        log.trace("parseFirst "+state.tokens.get());
 
         var tokens = state.tokens;
         var t = tokens.get();
@@ -40,6 +47,15 @@ final public class ParseExpression {
                     }
                 }
                 return new ParensExpr().parse(state, parent);
+            case PLUS2:
+            case MINUS2:
+                /* pre inc/dec */
+                return new IncDecExpr().parse(state, parent);
+            case PLUS:
+            case MINUS:
+            case TILDE:
+            case EXCLAMATION:
+                return new UnaryExpr().parse(state, parent);
         }
 
         switch(t.value) {
@@ -60,5 +76,104 @@ final public class ParseExpression {
         }
 
         throw new ParseError("Parse failed in file ["+state.file+"] @ "+tokens.get());
+    }
+    private static void parseSecond(ModuleState state, ASTNode parent) {
+        var tokens = state.tokens;
+
+        while(true) {
+            switch(tokens.get().kind) {
+                /* end of expression */
+                case EOF:
+                case SEMICOLON:
+                case LBR:
+                case RBR:
+                case LSQBR:
+                case RSQBR:
+                case LCURLY:
+                case RCURLY:
+                case COMMA:
+                case COLON:
+                    return;
+
+                case PLUS:
+                case MINUS:
+                case ASTERISK:
+                case FWD_SLASH:
+                case PERCENT:
+                case AMPERSAND:
+                case PIPE:
+                case HAT:
+                case LANGLE:
+                case RANGLE:
+                case LANGLE_EQ:
+                case RANGLE_EQ:
+                case AMPERSAND2:
+                case PIPE2:
+
+                case EQ2:
+                case EQ3:
+                case EXCLAMATION_EQ:
+                case EXCLAMATION_EQ2:
+
+                case EQ:
+                case PLUS_EQ:
+                case MINUS_EQ:
+                case ASTERISK_EQ:
+                case FWD_SLASH_EQ:
+                case PERCENT_EQ:
+                case AMPERSAND_EQ:
+                case PIPE_EQ:
+                case HAT_EQ:
+                case LANGE2_EQ:
+                case RANGLE2_EQ:
+                case RANGLE3_EQ:
+                    parent = attachAndRead(state, parent, new BinaryExpr().parse(state, parent));
+                    break;
+                case PLUS2:
+                case MINUS2:
+                    /* post inc/dec */
+                    var expr = new IncDecExpr();
+                    expr.isInc = tokens.get().kind == Token.Kind.PLUS2;
+                    tokens.next();
+                    parent = attach(state, parent, expr);
+                    break;
+
+                default:
+                    throw new ParseError("parseSecond failed: " + tokens.get());
+            }
+        }
+    }
+    private static Expression attach(ModuleState state, ASTNode parent, Expression newExpr) {
+
+        var prev = parent;
+        if(prev instanceof Expression) {
+            /// Adjust to account for operator precedence
+            var prevExpr = (Expression)prev;
+
+            while(prevExpr.parent!=null && newExpr.getPrecedence() <= prevExpr.getPrecedence()) {
+
+                if(!(prevExpr.parent instanceof Expression)) {
+                    prev = prevExpr.parent;
+                    break;
+                }
+
+                prevExpr = (Expression)prevExpr.parent;
+                prev     = prevExpr;
+            }
+        }
+
+        newExpr.add(prev.lastChild());
+        prev.add(newExpr);
+
+        return newExpr;
+    }
+    private static Expression attachAndRead(ModuleState state, ASTNode parent, Expression newExpr) {
+        log.trace("attachAndRead "+state.tokens.get()+" parent:"+parent+" new:"+newExpr);
+
+        attach(state, parent, newExpr);
+
+        parseFirst(state, newExpr);
+
+        return newExpr;
     }
 }

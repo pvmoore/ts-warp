@@ -1,15 +1,18 @@
 package warp.lex;
 
+import org.apache.log4j.Logger;
 import warp.parse.ParseError;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Token storage and iterator.
  */
 final public class Tokens {
+    private static Logger log = Logger.getLogger(Tokens.class);
     private int pos;
     private List<Token> tokens = new ArrayList<>();
 
@@ -125,5 +128,69 @@ final public class Tokens {
         var buf = new StringBuilder();
         buf.append(tokens);
         return buf.toString();
+    }
+    public int scopeIndexOf(String kw, int offset) {
+        log.trace("indexOf");
+
+        int i = 0;
+        for(var t : scopeIterator(offset)) {
+            if(kw.equals(t.value)) return i;
+            i++;
+        }
+        return -1;
+    }
+    /**
+     * @return an Iterable that will iterate over all tokens at the current scope
+     *         level ie. nothing inside any inner bracketed scopes and ending
+     *         when the current scope ends or the end of the file is reached.
+     *
+     *         eg. 10 "hello" [ a ( b ) ] "there"
+     *         --> 10 "hello"             "there"
+     */
+    private Iterable<Token> scopeIterator(int startOffset) {
+        log.trace("scopeIterator");
+        return () -> new Iterator<>() {
+            private int offset = startOffset;
+            private int brackets = 0, square = 0, curly = 0, angle = 0;
+            private Token next;
+
+            private void getNext() {
+                if(next != null) return;
+
+                lp:for( ; pos+offset<tokens.size(); offset++) {
+                    switch(peek(offset).kind) {
+                        case LSQBR: square++; break;
+                        case RSQBR: square--; if(square<0) break lp; break;
+                        case LCURLY: curly++; break;
+                        case RCURLY: curly--; if(curly<0) break lp; break;
+                        case LANGLE: angle++; break;
+                        case RANGLE: angle--; if(angle<0) break lp; break;
+                        case LBR: brackets++; break;
+                        case RBR: brackets--; if(brackets<0) break lp; break;
+                        default:
+                            if(brackets==0 && square==0 && curly==0 && angle==0) {
+                                next = peek(offset);
+                                offset++;
+                                return;
+                            }
+                            break;
+                    }
+                }
+                log.trace("eof");
+                next = Token.EOF;
+            }
+
+            @Override public boolean hasNext() {
+                getNext();
+                return next != Token.EOF;
+            }
+
+            @Override public Token next() {
+                getNext();
+                var n = next;
+                if(next!=Token.EOF) next = null;
+                return n;
+            }
+        };
     }
 }

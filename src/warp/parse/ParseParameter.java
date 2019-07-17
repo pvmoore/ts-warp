@@ -26,7 +26,7 @@ final public class ParseParameter {
      * Interface parameters are not allowed to have initialisers.
      */
     public static Declaration parse(ModuleState state, ASTNode parent) {
-        log.trace("parse "+state.tokens.get());
+        log.trace("parseBinary "+state.tokens.get());
         var tokens = state.tokens;
 
         /* Handle destructuring */

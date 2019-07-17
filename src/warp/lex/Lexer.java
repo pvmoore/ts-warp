@@ -34,7 +34,10 @@ final public class Lexer {
                 handleNewLine();
             } else switch(ch) {
                 case '+':
-                    if(peek(1) == '=') {
+                    if(peek(1)=='+') {
+                        addToken(Token.Kind.PLUS2, 2);
+                        pos++;
+                    } else if(peek(1) == '=') {
                         addToken(Token.Kind.PLUS_EQ, 2);
                         pos++;
                     } else if(!isNumber(ch)) {
@@ -42,10 +45,13 @@ final public class Lexer {
                     }
                     break;
                 case '-':
-                    if(peek(1) == '=') {
+                    if(peek(1)=='-') {
+                        addToken(Token.Kind.MINUS2, 2);
+                        pos++;
+                    } else if(peek(1) == '=') {
                         addToken(Token.Kind.MINUS_EQ, 2);
                         pos++;
-                    } else if(!isNumber(ch)) {
+                    } else if(!isNumber(peek(1))) {
                         addToken(Token.Kind.MINUS, 1);
                     }
                     break;
@@ -80,7 +86,10 @@ final public class Lexer {
                     }
                     break;
                 case '&':
-                    if(peek(1)=='=') {
+                    if(peek(1)=='&') {
+                        addToken(Token.Kind.AMPERSAND2, 2);
+                        pos++;
+                    } else if(peek(1)=='=') {
                         addToken(Token.Kind.AMPERSAND_EQ, 2);
                         pos++;
                     } else {
@@ -88,7 +97,10 @@ final public class Lexer {
                     }
                     break;
                 case '|':
-                    if(peek(1)=='=') {
+                    if(peek(1)=='|') {
+                        addToken(Token.Kind.PIPE2, 2);
+                        pos++;
+                    } else if(peek(1)=='=') {
                         addToken(Token.Kind.PIPE_EQ, 2);
                         pos++;
                     } else {
@@ -103,12 +115,15 @@ final public class Lexer {
                         addToken(Token.Kind.HAT, 1);
                     }
                     break;
+                case '~':
+                    addToken(Token.Kind.TILDE, 1);
+                    break;
                 case '<':
                     // <    /* Keep multiple '<' as individuals for now */
                     // <=
                     // <<=
                     if(peek(1)=='<' && peek(2)=='=') {
-                        addToken(Token.Kind.SHL_EQ, 3);
+                        addToken(Token.Kind.LANGE2_EQ, 3);
                         pos+=2;
                     } else if(peek(1)=='=') {
                         addToken(Token.Kind.LANGLE_EQ, 2);
@@ -123,10 +138,10 @@ final public class Lexer {
                     // >>=
                     // >>>=
                     if(peek(1)=='>' && peek(2)=='>' && peek(3)=='=') {
-                        addToken(Token.Kind.USHR_EQ, 4);
+                        addToken(Token.Kind.RANGLE3_EQ, 4);
                         pos+=3;
                     } else if(peek(1)=='>' && peek(2)=='=') {
-                        addToken(Token.Kind.SHR_EQ, 3);
+                        addToken(Token.Kind.RANGLE2_EQ, 3);
                         pos += 2;
                     } else if(peek(1)=='=') {
                         addToken(Token.Kind.RANGLE_EQ, 2);
@@ -160,21 +175,21 @@ final public class Lexer {
                     break;
                 case '=':
                     if(peek(1)=='=' && peek(2)=='=') {
-                        addToken(Token.Kind.TPL_EQUALS, 3);
+                        addToken(Token.Kind.EQ3, 3);
                         pos+=2;
                     } else if(peek(1)=='=') {
-                        addToken(Token.Kind.DBL_EQUALS, 2);
+                        addToken(Token.Kind.EQ2, 2);
                         pos++;
                     } else if(peek(1)=='>') {
                         addToken(Token.Kind.RARROW, 2);
                         pos++;
                     } else {
-                        addToken(Token.Kind.EQUALS, 1);
+                        addToken(Token.Kind.EQ, 1);
                     }
                     break;
                 case '!':
                     if(peek(1)=='=' && peek(2)=='=') {
-                        addToken(Token.Kind.EXCLAMATION_DBL_EQ, 1);
+                        addToken(Token.Kind.EXCLAMATION_EQ2, 1);
                         pos += 2;
                     } else if(peek(1)=='=') {
                         addToken(Token.Kind.EXCLAMATION_EQ, 1);

@@ -3,7 +3,6 @@ package warp.ast.decl.var;
 import warp.ModuleState;
 import warp.ast.ASTNode;
 import warp.lex.Token;
-import warp.misc.ErrorNotice;
 import warp.parse.ParseExpression;
 import warp.parse.ParseType;
 import warp.types.Type;
@@ -47,12 +46,10 @@ public class VariableDecl extends AbsVariableDecl {
         }
 
         /* Optional expression */
-        if(tokens.isKind(Token.Kind.EQUALS)) {
+        if(tokens.isKind(Token.Kind.EQ)) {
             tokens.next();
 
             ParseExpression.parse(state, this);
-        } else if(this.isConst) {
-            state.errors.add(new ErrorNotice("const declaration must be initialised", tokens.get()));
         }
 
         return this;

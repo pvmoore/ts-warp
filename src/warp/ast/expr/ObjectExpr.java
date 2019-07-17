@@ -24,11 +24,16 @@ import java.util.List;
 final public class ObjectExpr extends Expression {
     public List<String> keys = new ArrayList<>();
 
-    @Override public String toString() {
+    @Override public int getPrecedence() {
+        return 1;
+    }
+    @Override
+    public String toString() {
         return String.format("[ObjectExpr keys:%s]", keys);
     }
 
-    @Override public ObjectExpr parse(ModuleState state, ASTNode parent) {
+    @Override
+    public ObjectExpr parse(ModuleState state, ASTNode parent) {
         var tokens = state.tokens;
 
         parent.add(this);

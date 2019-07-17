@@ -62,7 +62,7 @@ final public class EnumDecl extends Declaration {
 
             names.add(tokens.value()); tokens.next();
 
-            if(tokens.kind() == Token.Kind.EQUALS) {
+            if(tokens.kind() == Token.Kind.EQ) {
                 tokens.next();
                 isInitialised.add(true);
 

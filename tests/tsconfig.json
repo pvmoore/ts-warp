@@ -61,6 +61,7 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting subtype metadata for decorators. */
   },
   "files": [
+    "expressions.ts",
     //"class-declarations.ts"
     //"variable-declarations.ts",
     //"variable-destructuring-decls.ts"
@@ -73,7 +74,8 @@
     //"keyof.ts",
     //"tsd.ts"
     //"if-stmt.ts",
-    "switch-stmt.ts",
+    //"switch-stmt.ts",
+    //"for-stmt.ts",
   ],
   "include": [],
   "exclude": []

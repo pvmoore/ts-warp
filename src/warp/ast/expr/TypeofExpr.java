@@ -19,6 +19,9 @@ import warp.parse.ParseExpression;
  */
 final public class TypeofExpr extends Expression {
 
+    @Override public int getPrecedence() {
+        return 16;
+    }
     @Override
     public String toString() {
         return "typeof";

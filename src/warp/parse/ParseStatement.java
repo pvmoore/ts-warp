@@ -33,7 +33,7 @@ final public class ParseStatement {
             var stmt = doParse(state, parent);
 
             if(isAmbient) {
-                if(!(stmt instanceof Declaration)) {
+                if(stmt==null || !(stmt instanceof Declaration)) {
                     state.addError("Expecting a declaration");
                 } else {
                     ((Declaration)stmt).isAmbient = true;
@@ -78,6 +78,8 @@ final public class ParseStatement {
             case LCURLY:
                 /* must be a block */
                 return new BlockStmt().parse(state, parent);
+            case SEMICOLON:
+                return new NoopStmt().parse(state, parent);
         }
 
         switch(t.value) {
@@ -108,9 +110,13 @@ final public class ParseStatement {
                 return new ContinueStmt().parse(state, parent);
             case "switch":
                 return new SwitchStmt().parse(state, parent);
+            case "for":
+                return ParseFor.parse(state, parent);
         }
 
         /* Assume it's an Expression */
-        return ParseExpression.parse(state, parent);
+        ParseExpression.parse(state, parent);
+
+        return null;
     }
 }

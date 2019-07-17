@@ -8,7 +8,11 @@ final public class StringExpr extends Expression {
     public char quote;      // " ' or `
     boolean isTemplated;    /* `dfdf ${dfd} sdsd` */
 
-    @Override public String toString() {
+    @Override public int getPrecedence() {
+        return 1;
+    }
+    @Override
+    public String toString() {
         var t = isTemplated ? " template" : "";
         var s = quote + value + quote;
         return String.format("[string %s%s]", s, t);
@@ -16,7 +20,8 @@ final public class StringExpr extends Expression {
     /**
      *  ( "fdsfsdsdf" | 'sdfsdfsdf' | `sdfsdfs ${val} dfdf` )
      */
-    @Override public StringExpr parse(ModuleState state, ASTNode parent) {
+    @Override
+    public StringExpr parse(ModuleState state, ASTNode parent) {
         parent.add(this);
 
         var v = state.tokens.value();

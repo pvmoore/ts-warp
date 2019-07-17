@@ -167,7 +167,7 @@ final public class DestructuringDecl {
         }
 
         /* Optional expression */
-        if(tokens.isKind(Token.Kind.EQUALS)) {
+        if(tokens.isKind(Token.Kind.EQ)) {
             tokens.next();
 
             ParseExpression.parse(state, parent);

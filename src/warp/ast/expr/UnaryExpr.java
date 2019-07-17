@@ -1,30 +1,31 @@
 package warp.ast.expr;
 
 import warp.ModuleState;
+import warp.Operator;
 import warp.ast.ASTNode;
 import warp.parse.ParseExpression;
 
 /**
- * TypeExpr
- *      IdentifierExpr
+ * UnaryExpr
+ *      Expression
  */
-final public class TypeExpr extends Expression {
+final public class UnaryExpr extends Expression {
+    public Operator op;
 
     @Override public int getPrecedence() {
-        return 1;
-    }
-    @Override
-    public String toString() {
-        return "type";
+        return op.precedence;
     }
 
-    /**
-     * identifier
-     */
     @Override
-    public TypeExpr parse(ModuleState state, ASTNode parent) {
+    public String toString() {
+        return op.toString();
+    }
+
+    @Override
+    public UnaryExpr parse(ModuleState state, ASTNode parent) {
         parent.add(this);
-        var tokens = state.tokens;
+
+        this.op = Operator.parseUnary(state);
 
         ParseExpression.parse(state, this);
 
