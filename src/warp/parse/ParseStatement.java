@@ -112,6 +112,8 @@ final public class ParseStatement {
                 return new DoWhileStmt().parse(state, parent);
             case "import":
                 return new ImportStmt().parse(state, parent);
+            case "export":
+                return new ExportStmt().parse(state, parent);
         }
 
         /* Assume it's an Expression */
