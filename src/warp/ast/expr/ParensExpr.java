@@ -26,7 +26,13 @@ final public class ParensExpr extends Expression {
 
         tokens.skip(Token.Kind.LBR);
 
-        ParseExpression.parse(state, this);
+        while(tokens.kind() != Token.Kind.RBR) {
+
+            ParseExpression.parse(state, this);
+
+            tokens.expect(Token.Kind.RBR, Token.Kind.COMMA);
+            tokens.skipIf(Token.Kind.COMMA);
+        }
 
         tokens.skip(Token.Kind.RBR);
 

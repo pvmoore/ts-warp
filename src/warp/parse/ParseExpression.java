@@ -68,6 +68,8 @@ final public class ParseExpression {
                 return new FunctionExpr().parse(state, parent);
             case "typeof":
                 return new TypeofExpr().parse(state, parent);
+            case "new":
+                return new NewExpr().parse(state, parent);
         }
 
         /* Assume it's an identifier for now */
@@ -138,6 +140,14 @@ final public class ParseExpression {
                     tokens.next();
                     parent = attach(state, parent, expr);
                     break;
+
+                case IDENTIFIER:
+                    if(tokens.isKeyword("instanceof")) {
+                        parent = attachAndRead(state, parent, new InstanceofExpr().parse(state, parent));
+                        break;
+                    }
+                    /* end of expression */
+                    return;
 
                 default:
                     throw new ParseError("parseSecond failed: " + tokens.get());

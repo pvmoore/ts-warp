@@ -48,9 +48,14 @@ final public class ParseStatement {
                 }
             }
 
-            /* Semicolon? */
-            if(tokens.kind() == Token.Kind.SEMICOLON) {
+            /* comma */
+            if(tokens.kind()== Token.Kind.COMMA) {
                 tokens.next();
+
+                /* Semicolon? */
+            } else if(tokens.kind() == Token.Kind.SEMICOLON) {
+                tokens.next();
+
             } else {
                 // todo - should be eof or rcurly here
             }
@@ -121,6 +126,10 @@ final public class ParseStatement {
                 return new ImportStmt().parse(state, parent);
             case "export":
                 return new ExportStmt().parse(state, parent);
+            case "throw":
+                return new ThrowStmt().parse(state, parent);
+            case "try":
+                return new TryCatchStmt().parse(state, parent);
         }
 
         /* Assume it's an Expression */

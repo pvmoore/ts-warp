@@ -78,7 +78,10 @@
     //"for-stmt.ts",
     //"while-stmts.ts",
     //"import-stmts.ts",
-    "export-stmts.ts",
+    //"export-stmts.ts",
+    //"throw-stmts.ts",
+    //"try-catch-stmts.ts",
+    "instanceof-expr.ts",
   ],
   "include": [],
   "exclude": []
