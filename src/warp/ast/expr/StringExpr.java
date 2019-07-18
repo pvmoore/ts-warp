@@ -13,9 +13,8 @@ final public class StringExpr extends Expression {
     }
     @Override
     public String toString() {
-        var t = isTemplated ? " template" : "";
         var s = quote + value + quote;
-        return String.format("[string %s%s]", s, t);
+        return String.format("%s", s);
     }
     /**
      *  ( "fdsfsdsdf" | 'sdfsdfsdf' | `sdfsdfs ${val} dfdf` )

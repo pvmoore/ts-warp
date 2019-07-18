@@ -3,9 +3,9 @@ package warp.parse;
 import org.apache.log4j.Logger;
 import warp.ModuleState;
 import warp.ast.ASTNode;
-import warp.ast.stmt.*;
 import warp.ast.decl.*;
 import warp.ast.decl.func.FunctionDecl;
+import warp.ast.stmt.*;
 import warp.lex.Token;
 
 /**
@@ -15,7 +15,7 @@ final public class ParseStatement {
     final private static Logger log = Logger.getLogger(ParseStatement.class);
 
     /**
-     * Parse STatements until end of block or file.
+     * Parse Statements until end of block or file.
      */
     public static void parseMultiple(ModuleState state, ASTNode parent) {
         log.trace("parseMultiple "+state.tokens.get());
@@ -24,19 +24,27 @@ final public class ParseStatement {
         /* Parse Statements until end of block|file */
         while(!tokens.eof() && tokens.kind() != Token.Kind.RCURLY) {
 
-            /* Handle 'declare' keyword */
-            boolean isAmbient = tokens.isKeyword("declare");
-            if(isAmbient) {
-                tokens.next();
-            }
+            /* Handle 'export' ['default'] */
+            if(tokens.isKeyword("export")) {
 
-            var stmt = doParse(state, parent);
+                new ExportStmt().parse(state, parent);
 
-            if(isAmbient) {
-                if(stmt==null || !(stmt instanceof Declaration)) {
-                    state.addError("Expecting a declaration");
-                } else {
-                    ((Declaration)stmt).isAmbient = true;
+            } else {
+
+                /* Handle 'declare' keyword */
+                boolean isAmbient = tokens.isKeyword("declare");
+                if(isAmbient) {
+                    tokens.next();
+                }
+
+                var stmt = doParse(state, parent);
+
+                if(isAmbient) {
+                    if(stmt == null || !(stmt instanceof Declaration)) {
+                        state.addError("Expecting a declaration");
+                    } else {
+                        ((Declaration)stmt).isAmbient = true;
+                    }
                 }
             }
 
@@ -53,12 +61,9 @@ final public class ParseStatement {
      * Parse a single Statement and return it. Any closing semicolon is left to the caller.
      */
     public static Statement parseSingle(ModuleState state, ASTNode parent) {
-        log.trace("parseSingle "+state.tokens.get());
-        var tokens = state.tokens;
+        log.trace("parseSingle " + state.tokens.get());
 
-        var stmt = doParse(state, parent);
-
-        return stmt;
+        return doParse(state, parent);
     }
 
     private static Statement doParse(ModuleState state, ASTNode parent) {
@@ -94,6 +99,8 @@ final public class ParseStatement {
                 return new TypeAliasDecl().parse(state, parent);
             case "enum":
                 return new EnumDecl().parse(state, parent);
+
+
             case "return":
                 return new ReturnStmt().parse(state, parent);
             case "if":

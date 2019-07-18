@@ -2,16 +2,25 @@ package warp.ast.stmt;
 
 import warp.ModuleState;
 import warp.ast.ASTNode;
+import warp.ast.decl.Declaration;
 import warp.lex.Token;
+import warp.parse.ParseStatement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * ExportStmt
- *
+ *      Statement   (optional)
  */
 final public class ExportStmt extends Statement {
+    public enum Kind {
+        UNKNOWN,
+        STAR,       // * from "mod"
+        DECLARE,    // [declare] Statement
+        DEFAULT,    // default Statement
+        LIST        // list of Exports
+    }
 
     public static class Export {
         public String name;
@@ -27,21 +36,28 @@ final public class ExportStmt extends Statement {
         }
     }
 
+    public Kind kind = Kind.UNKNOWN;
     public List<Export> exports = new ArrayList<>();
     public String from;
 
+
     @Override public String toString() {
+        if(kind==Kind.STAR) return "export * from "+from;
+
         var f = from!=null ? " from "+from : "";
-        return String.format("export %s%s", exports, f);
+        var e = exports.size()==0 ? "" : exports.toString();
+        var d = kind==Kind.DEFAULT ? "default " : "";
+        return String.format("export %s%s%s", d, e, f);
     }
 
     /**
-     * PATH     ::= ( " path " | ' path ' )
-     * LIST     ::= '{' NAME [ 'as ALIAS ] { ',' NAME ['as' ALIAS] } '}' [ 'from' PATH ]
-     * STAR     ::= '*' 'from' PATH
-     * DEFAULT  ::= 'default' NAME
+     * export * from PATH
+     * export 'default' Statement
+     * export 'declare' Declaration
      *
-     * EXPORT   ::= 'export' (DEFAULT | STAR | LIST)
+     * export '{' NAME as ALIAS { ',' NAME as ALIAS } '}' [ 'from' PATH ]
+     *
+     * export Declaration
      */
     @Override
     public Statement parse(ModuleState state, ASTNode parent) {
@@ -50,23 +66,45 @@ final public class ExportStmt extends Statement {
 
         tokens.skip("export");
 
-        /* default NAME */
-        if(tokens.isKeyword("default")) {
+        /* 'export' '*' 'from' PATH */
+        if(tokens.kind() == Token.Kind.ASTERISK) {
             tokens.next();
-            this.exports.add(new Export(tokens.value(), tokens.value(), true));
-            tokens.next();
+            tokens.skip("from");
+            this.kind = Kind.STAR;
+            this.from = tokens.value(); tokens.next();
             return this;
         }
 
-        /* * from PATH */
-        if(tokens.kind() == Token.Kind.ASTERISK) {
+        /* 'export' 'declare' Declaration */
+        if(tokens.isKeyword("declare")) {
             tokens.next();
-            this.exports.add(new Export("*", "*", false));
+            this.kind = Kind.DECLARE;
+
+            var stmt = ParseStatement.parseSingle(state, this);
+            ((Declaration)stmt).isAmbient = true;
+            return stmt;
         }
 
-        /* { LIST } */
+        /* 'export' 'default' Statement */
+        if(tokens.isKeyword("default")) {
+            tokens.next();
+            this.kind = Kind.DEFAULT;
+
+            /* Statement or Expression allowed here */
+            return ParseStatement.parseSingle(state, this);
+        }
+
+        /* 'export' Declaration */
+        if(tokens.kind() != Token.Kind.LCURLY) {
+            this.kind = Kind.DECLARE;
+
+            return ParseStatement.parseSingle(state, this);
+        }
+
+        /* 'export' '{' LIST '}' */
         if(tokens.kind() == Token.Kind.LCURLY) {
             tokens.next();
+            this.kind = Kind.LIST;
 
             while(tokens.kind() != Token.Kind.RCURLY) {
 
@@ -79,19 +117,19 @@ final public class ExportStmt extends Statement {
                     alias = tokens.value(); tokens.next();
                 }
 
-                this.exports.add(new Export(name, alias, name.equals("default")));
+                this.exports.add(new Export(name, alias, alias.equals("default")));
 
                 tokens.expect(Token.Kind.COMMA, Token.Kind.RCURLY);
                 tokens.skipIf(Token.Kind.COMMA);
             }
 
             tokens.skip(Token.Kind.RCURLY);
-        }
 
-        /* Optional from PATH */
-        if(tokens.isKeyword("from")) {
-            tokens.next();
-            this.from = tokens.value(); tokens.next();
+            /* Optional from PATH */
+            if(tokens.isKeyword("from")) {
+                tokens.next();
+                this.from = tokens.value(); tokens.next();
+            }
         }
 
         return this;
