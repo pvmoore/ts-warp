@@ -13,12 +13,18 @@ interface D {
 }
 
 /* Indexable types */
-
 interface S {
     [prop:string] : string;   
     prop2:string;    
 }
 
-//interface N {
-//    [prop:number] : string;
-//}
+interface PropertyDescriptorMap {
+    [s: string]: PropertyDescriptor;
+}
+
+/* new */
+interface ObjectConstructor {
+    new(value?: any): Object;
+    (): any;
+ //   (value: any): any;
+}

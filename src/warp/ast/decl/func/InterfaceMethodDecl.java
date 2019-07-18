@@ -8,22 +8,36 @@ import warp.parse.ParseType;
 
 final public class InterfaceMethodDecl extends AbsMethodDecl {
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         var type = getType();
-        return String.format("%s%s", name, type);
+        return String.format("%s%s", name!=null?name:"", type);
     }
     /**
-     * identifier ['?'] '(' params ')' [ ':' Type ]
+     *
+     * UNNAMED_METHOD ::=                  '(' params ')' [ ':' Type ]
+     * NAMED_METHOD   ::= identifier ['?'] '(' params ')' [ ':' Type ]
+     *
+     * DECL           ::= (UNNAMED_METHOD | NAMED_METHOD)
      */
     @Override
     public InterfaceMethodDecl parse(ModuleState state, ASTNode parent) {
         parent.add(this);
         var tokens = state.tokens;
 
-        this.name = tokens.value(); tokens.next();
+        if(tokens.kind() == Token.Kind.LBR) {
+            /* This is an unnamed method */
 
-        this.isOptional = tokens.kind() == Token.Kind.QUESTION;
-        if(isOptional) tokens.next();
+            this.name = null;
+
+        } else {
+
+            this.name = tokens.value();
+            tokens.next();
+
+            this.isOptional = tokens.kind() == Token.Kind.QUESTION;
+            if(isOptional) tokens.next();
+        }
 
         tokens.skip(Token.Kind.LBR);
 

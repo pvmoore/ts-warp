@@ -67,7 +67,7 @@
     //"variable-destructuring-decls.ts"
     //"function-declarations.ts",
     //"subtype-declarations.ts",
-    //"interface-declarations.ts",
+    "interface-declarations.ts",
     //"function-expressions.ts",
     //"enums.ts",
     //"typeof.ts",
@@ -81,7 +81,7 @@
     //"export-stmts.ts",
     //"throw-stmts.ts",
     //"try-catch-stmts.ts",
-    "instanceof-expr.ts",
+    //"instanceof-expr.ts",
   ],
   "include": [],
   "exclude": []

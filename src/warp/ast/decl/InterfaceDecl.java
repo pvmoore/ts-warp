@@ -52,7 +52,12 @@ public class InterfaceDecl extends Declaration {
 
             if(tokens.isKeyword("readonly")) i++;
 
-            if(tokens.peek(i).kind == Token.Kind.LSQBR) {
+            if(tokens.peek(i).kind== Token.Kind.LBR) {
+                /* method - making this a function interface */
+
+                new InterfaceMethodDecl().parse(state, this);
+
+            } else if(tokens.peek(i).kind == Token.Kind.LSQBR) {
                 /* indexable property */
 
                 new IndexablePropertyDecl().parse(state, this);
