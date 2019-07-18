@@ -13,6 +13,15 @@ import warp.lex.Token;
 final public class ParseExpression {
     final private static Logger log = Logger.getLogger(ParseExpression.class);
 
+    public static void parseIsolated(ModuleState state, ASTNode parent) {
+        log.trace("parseIsolated " + state.tokens.get());
+
+        var parens = new ParensExpr();
+        parse(state, parens);
+
+        var child = parens.firstChild();
+        parent.add(child);
+    }
     public static void parse(ModuleState state, ASTNode parent) {
         log.trace("parse " + state.tokens.get());
 
@@ -131,6 +140,9 @@ final public class ParseExpression {
                 case RANGLE2_EQ:
                 case RANGLE3_EQ:
                     parent = attachAndRead(state, parent, new BinaryExpr().parse(state, parent));
+                    break;
+                case QUESTION:
+                    parent = attach(state, parent, new TernaryExpr().parse(state, parent));
                     break;
                 case PLUS2:
                 case MINUS2:

@@ -26,5 +26,6 @@ interface PropertyDescriptorMap {
 interface ObjectConstructor {
     new(value?: any): Object;
     (): any;
- //   (value: any): any;
+    (value: any): any;
+    bind(this: Function, thisArg: any, ...argArray: any[]): any;
 }

@@ -65,7 +65,7 @@ final public class ParseType {
         }
         if(type==null) {
             if(tokens.kind()== Token.Kind.IDENTIFIER) {
-                /* Assume it's a type name eg (type, enum, class or interface name) */
+                /* Assume it's a type name eg (type, enum, class or interface name or 'this') */
                 type = new AliasType().parse(state);
             }
         }

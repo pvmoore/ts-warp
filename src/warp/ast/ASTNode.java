@@ -33,7 +33,7 @@ public abstract class ASTNode {
     }
 
     public void add(ASTNode node) {
-        if(node.parent.hasParent()) node.parent.remove(node);
+        if(node.hasParent()) node.parent.remove(node);
 
         children.add(node);
         node.parent = this;
