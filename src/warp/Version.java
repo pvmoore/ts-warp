@@ -9,4 +9,10 @@ final public class Version {
  * History:
  *
  * 0.1.0 - Initial.
+ *
+ *
+ * Todo:
+ *
+ * - Generics
+ * - Resolution phase
  */

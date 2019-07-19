@@ -62,3 +62,33 @@ function foo(p: string | number):string {
   return ""
 }
 ```
+
+## Generics
+```
+function foo<T>(n:T):T {
+    return n
+}
+
+foo<number>(1);
+foo(1);
+
+function bar<T extends any[]>(n:T) {}
+bar<number[]>([2,1]);
+
+//-----
+
+type t<T> = T extends any[] ? T : null;
+
+//-----
+
+class A<T> {
+    prop?:T;
+    bar(n:T) {}
+    baz<K>(k:K, t:T) {}
+}
+
+let c = new A<string>();
+c.prop = "str";
+c.bar("a");
+c.baz<number>(2, "");
+```
