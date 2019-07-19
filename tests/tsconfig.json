@@ -64,6 +64,7 @@
     //"types.ts",
     //"expressions.ts",
     //"class-declarations.ts"
+    "namespace-decls.ts",
     //"variable-declarations.ts",
     //"variable-destructuring-decls.ts"
     //"function-declarations.ts",
@@ -84,7 +85,7 @@
     //"try-catch-stmts.ts",
     //"instanceof-expr.ts",
     //"ternary-expr.ts",
-    "dot-exprs.ts",
+    //"dot-exprs.ts",
   ],
   "include": [],
   "exclude": []

@@ -104,6 +104,8 @@ final public class ParseStatement {
                 return new TypeAliasDecl().parse(state, parent);
             case "enum":
                 return new EnumDecl().parse(state, parent);
+            case "namespace":
+                return new NamespaceDecl().parse(state, parent);
 
 
             case "return":
