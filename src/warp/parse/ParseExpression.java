@@ -44,6 +44,20 @@ final public class ParseExpression {
         var tokens = state.tokens;
         var t = tokens.get();
 
+        switch(t.value) {
+            case "true":
+            case "false":
+                return new BooleanExpr().parse(state, parent);
+            case "null":
+                return new NullExpr().parse(state, parent);
+            case "function":
+                return new FunctionExpr().parse(state, parent);
+            case "typeof":
+                return new TypeofExpr().parse(state, parent);
+            case "new":
+                return new NewExpr().parse(state, parent);
+        }
+
         switch(t.kind) {
             case NUMBER:
                 return new NumberExpr().parse(state, parent);
@@ -74,25 +88,11 @@ final public class ParseExpression {
             case TILDE:
             case EXCLAMATION:
                 return new UnaryExpr().parse(state, parent);
-        }
-
-        switch(t.value) {
-            case "true":
-            case "false":
-                return new BooleanExpr().parse(state, parent);
-            case "null":
-                return new NullExpr().parse(state, parent);
-            case "function":
-                return new FunctionExpr().parse(state, parent);
-            case "typeof":
-                return new TypeofExpr().parse(state, parent);
-            case "new":
-                return new NewExpr().parse(state, parent);
-        }
-
-        /* Assume it's an identifier for now */
-        if(t.kind == Token.Kind.IDENTIFIER) {
-            return new IdentifierExpr().parse(state, parent);
+            case IDENTIFIER:
+                if(tokens.peek(1).kind == Token.Kind.LBR) {
+                    return new CallExpr().parse(state, parent);
+                }
+                return new IdentifierExpr().parse(state, parent);
         }
 
         throw new ParseError("Parse failed in file ["+state.file+"] @ "+tokens.get());
@@ -153,6 +153,11 @@ final public class ParseExpression {
                 case QUESTION:
                     parent = attach(state, parent, new TernaryExpr().parse(state, parent));
                     break;
+
+                case DOT:
+                    parent = attachAndRead(state, parent, new DotExpr().parse(state, parent));
+                    break;
+
                 case PLUS2:
                 case MINUS2:
                     /* post inc/dec */
@@ -167,6 +172,7 @@ final public class ParseExpression {
                         parent = attachAndRead(state, parent, new InstanceofExpr().parse(state, parent));
                         break;
                     }
+
                     /* end of expression */
                     return;
 
