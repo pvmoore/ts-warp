@@ -24,6 +24,8 @@ public class Type {
         BIGINT,         // bigint
         SYMBOL,         // symbol
 
+        EXPRESSION,     // "str" or 10 etc...
+
         OBJECT,         // {}
         CLASS,          // ?
 

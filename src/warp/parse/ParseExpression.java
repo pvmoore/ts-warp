@@ -13,14 +13,22 @@ import warp.lex.Token;
 final public class ParseExpression {
     final private static Logger log = Logger.getLogger(ParseExpression.class);
 
-    public static void parseIsolated(ModuleState state, ASTNode parent) {
+    public static Expression parseIsolated(ModuleState state) {
         log.trace("parseIsolated " + state.tokens.get());
 
         var parens = new ParensExpr();
         parse(state, parens);
 
         var child = parens.firstChild();
-        parent.add(child);
+        parens.remove(child);
+
+        return (Expression)child;
+    }
+    public static Expression parseFirstIsolated(ModuleState state) {
+        var parens = new ParensExpr();
+        var expr = parseFirst(state, parens);
+        parens.remove(expr);
+        return expr;
     }
     public static void parse(ModuleState state, ASTNode parent) {
         log.trace("parse " + state.tokens.get());
@@ -28,6 +36,7 @@ final public class ParseExpression {
         parseFirst(state, parent);
         parseSecond(state, parent);
     }
+
 
     private static Expression parseFirst(ModuleState state, ASTNode parent) {
         log.trace("parseFirst "+state.tokens.get());

@@ -1,19 +1,19 @@
 package warp.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Type | Type
+ * Type '|' Type
  */
 final public class UnionType extends Type {
-    public List<Type> subtypes = new ArrayList<>();
+    public Type left, right;
 
-    public UnionType() {
+    public UnionType(Type left, Type right) {
         super(Kind.UNION);
+
+        this.left = left;
+        this.right = right;
     }
 
     @Override public String toString() {
-        return "[Union "+subtypes+"]";
+        return left.toString() + " | " + right.toString();
     }
 }

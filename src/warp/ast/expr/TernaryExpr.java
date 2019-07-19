@@ -34,11 +34,11 @@ final public class TernaryExpr extends Expression {
 
         tokens.skip(Token.Kind.QUESTION);
 
-        ParseExpression.parseIsolated(state, this);
+        add(ParseExpression.parseIsolated(state));
 
         tokens.skip(Token.Kind.COLON);
 
-        ParseExpression.parseIsolated(state, this);
+        add(ParseExpression.parseIsolated(state));
 
         return this;
     }

@@ -13,6 +13,13 @@ final public class Util {
 
         return name.substring(0,name.length()-3);
     }
+
+    public static <T> boolean in(T t, T... array) {
+        for(var value : array) {
+            if(value.equals(t)) return true;
+        }
+        return false;
+    }
 }
 
 

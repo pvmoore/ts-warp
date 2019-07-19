@@ -46,9 +46,11 @@ final public class ParseType {
                     type = new FunctionType().parse(state);
                     break;
                 case LSQBR:
+                    // todo - could be a LiteralExprType
                     type = new TupleType().parse(state);
                     break;
                 case LCURLY:
+                    // todo - could be a LiteralExprType
                     type = new ObjectType().parse(state);
                     break;
             }
@@ -64,7 +66,16 @@ final public class ParseType {
             }
         }
         if(type==null) {
-            if(tokens.kind()== Token.Kind.IDENTIFIER) {
+            var k = tokens.kind();
+            var v = tokens.value();
+
+            if(Util.in(k, Token.Kind.STRING, Token.Kind.NUMBER,
+                          Token.Kind.LCURLY, Token.Kind.LSQBR) ||
+                v.equals("true") || v.equals("false"))
+            {
+                type = new LiteralExprType().parse(state);
+
+            } else if(k == Token.Kind.IDENTIFIER) {
                 /* Assume it's a type name eg (type, enum, class or interface name or 'this') */
                 type = new AliasType().parse(state);
             }
@@ -72,19 +83,23 @@ final public class ParseType {
 
         if(type==null) throw new ParseError("Unknown subtype @ "+tokens.get());
 
-        // todo - handle unions and intersections
-        if(tokens.kind() == Token.Kind.PIPE) {
-            Util.todo();
-        }
-        if(tokens.kind() == Token.Kind.AMPERSAND) {
-            Util.todo();
-        }
 
         /* array */
         if(tokens.kind() == Token.Kind.LSQBR) {
             tokens.next();
             tokens.skip(Token.Kind.RSQBR);
             type = new ArrayType(type);
+        }
+
+        /* Union */
+        if(tokens.kind() == Token.Kind.PIPE) {
+            tokens.next();
+            type = new UnionType(type, ParseType.parse(state));
+        }
+        /* Intersections */
+        if(tokens.kind() == Token.Kind.AMPERSAND) {
+            tokens.next();
+            type = new IntersectionType(type, ParseType.parse(state));
         }
         return type;
     }

@@ -11,7 +11,7 @@ final public class NumberExpr extends Expression {
     }
     @Override
     public String toString() {
-        return String.format("[number %s]", value);
+        return String.format("%s", value);
     }
     /**
      *  123

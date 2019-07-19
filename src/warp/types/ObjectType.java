@@ -30,7 +30,7 @@ final public class ObjectType extends Type {
     }
 
     /**
-     * '{' { property [ ':' Type ] [ (, | ; | ) ] } '}'
+     * '{' { property [ ':' Type ]  [ (',' | ';') ] } '}'
      */
     public ObjectType parse(ModuleState state) {
         var tokens = state.tokens;

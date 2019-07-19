@@ -1,19 +1,19 @@
 package warp.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Type & Type
+ * Type '&' Type
  */
 final public class IntersectionType extends Type {
-    public List<Type> subtypes = new ArrayList<>();
+    public Type left, right;
 
-    public IntersectionType() {
+    public IntersectionType(Type left, Type right) {
         super(Kind.INTERSECTION);
+
+        this.left = left;
+        this.right = right;
     }
 
     @Override public String toString() {
-        return "[Intersection "+subtypes+"]";
+        return left.toString() + " & " + right.toString();
     }
 }
